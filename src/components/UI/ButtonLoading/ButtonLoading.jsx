@@ -1,0 +1,34 @@
+import { Button, CircularProgress } from '@material-ui/core';
+import React from 'react';
+
+function ButtonLoading({ children, size, onClick, isLoading, ...props }) {
+  const classes = useStyles();
+  return (
+    <>
+      {isLoading && (
+        <Button
+          className={`${classes.root} ${classes.buttonLoading}`}
+          fullWidth
+          size={size}
+          variant="contained"
+          color="primary"
+          startIcon={<CircularProgress size={22} style={{ color: '#fff' }} />}
+        />
+      )}
+      {!isLoading && (
+        <Button
+          className={classes.root}
+          variant="contained"
+          color="primary"
+          fullWidth
+          size={size}
+          onClick={onClick}
+          {...props}>
+          {children}
+        </Button>
+      )}
+    </>
+  );
+}
+
+export default ButtonLoading;
