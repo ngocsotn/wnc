@@ -3,10 +3,7 @@ import { alpha, makeStyles } from '@material-ui/core';
 export default makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
-    background: "url('/images/background.jpg') no-repeat center/cover",
-    backgroundAttachment: 'fixed',
-    paddingTop: '20vh',
-    paddingBottom: '20vh',
+    padding: '100px 0',
     position: 'relative',
     zIndex: 1,
     '&::before': {
@@ -16,7 +13,6 @@ export default makeStyles((theme) => ({
       top: 0,
       width: '100%',
       height: '100%',
-      background: alpha('#000', 0.7),
       zIndex: -1,
     },
   },
@@ -26,7 +22,8 @@ export default makeStyles((theme) => ({
     margin: '0 auto 0',
     padding: theme.spacing(5, 7),
     borderRadius: 10,
-    background: alpha('#000', 0.7),
+    background: '#fff',
+    boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(3, 2),
     },
@@ -34,13 +31,12 @@ export default makeStyles((theme) => ({
   title: {
     marginBottom: theme.spacing(3),
     textAlign: 'center',
-    color: '#fff',
+    color: '#333',
   },
   formControl: {
     marginBottom: theme.spacing(2),
   },
   textField: {
-    background: '#ddd',
     borderRadius: theme.shape.borderRadius,
     '& .MuiFilledInput-underline:after': {
       display: 'none',
@@ -58,7 +54,7 @@ export default makeStyles((theme) => ({
   },
   textHelper: {
     marginTop: theme.spacing(1),
-    color: '#fff',
+    color: '#333',
     '& > a': {
       color: theme.palette.primary.main,
       textDecoration: 'underline',

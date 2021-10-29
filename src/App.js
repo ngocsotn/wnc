@@ -3,6 +3,7 @@ import { routes } from './configs/routes';
 import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { Suspense, useEffect } from 'react';
 import Loading from './components/Loading/Loading';
+import Header from './components/Layouts/Header/Header';
 const theme = createTheme({
   palette: {
     primary: {
@@ -23,6 +24,7 @@ function App() {
     //   <CssBaseline />
     //   <Header />
     <Suspense fallback={<Loading />}>
+      <Header />
       <Switch>
         {routes.map((route, index) => {
           return (

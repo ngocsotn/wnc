@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: theme.palette.secondary.main,
+    background: theme.palette.primary.main,
   },
   balls: {
     width: '6.5em',
