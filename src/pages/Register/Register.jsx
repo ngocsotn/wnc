@@ -6,19 +6,35 @@ import {
   InputLabel,
   InputAdornment,
   IconButton,
+  Box,
   FormHelperText,
 } from '@material-ui/core';
-import useStyles from './Register.style';
+import useStyles from './Register.styles';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
 import { useInput } from '../../hooks/use-input';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 function Register() {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
-  const [isNotMatch, setIsNotMatch] = useState(true);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
-  // const isLoading = useSelector((state) => state.auth.isLoading);
+  const [birthDate, setBirthDate] = useState(new Date());
+  const [birthError, setBirthError] = useState(null);
+  const [isNotMatch, setIsNotMatch] = useState(true);
+
+  const [error, setError] = useState(null);
+  const history = useHistory();
+  const location = useLocation();
+
+  const dispatch = useDispatch();
+  const handleDateChange = (date) => {
+    setBirthError(null);
+    setBirthDate(date);
+  };
+
   const {
     enteredInput: username,
     inputBlurHandler: usernameBlurHandler,
@@ -68,7 +84,6 @@ function Register() {
       setIsNotMatch(false);
     }
   };
-
   const confirmPasswordOnChangeHandler = (e) => {
     confirmpasswordChangeHandler(e);
     if (e.target.value !== password) {
@@ -78,7 +93,12 @@ function Register() {
     }
   };
 
-  const formIsValid = usernameIsvalid && passwordIsvalid === null;
+  const formIsValid =
+    usernameIsvalid &&
+    emailIsvalid &&
+    passwordIsvalid &&
+    confirmpasswordIsvalid &&
+    birthError === null;
 
   const toggleShowPasswordHandler = () => {
     setShowPassword((prevState) => !prevState);
@@ -101,7 +121,11 @@ function Register() {
             Register
           </Typography>
           <div className={classes.formControl}>
-            <FormControl variant="filled" fullWidth className={classes.textField}>
+            <FormControl
+              error={usernameHasError}
+              variant="filled"
+              fullWidth
+              className={classes.textField}>
               <InputLabel htmlFor="username" className={classes.inputLabel}>
                 Username
               </InputLabel>
@@ -113,9 +137,19 @@ function Register() {
                 type="text"
               />
             </FormControl>
+            {usernameHasError && (
+              <FormHelperText className={classes.errorMessage}>
+                {usernameErrorMessage}
+              </FormHelperText>
+            )}
           </div>
+
           <div className={classes.formControl}>
-            <FormControl variant="filled" fullWidth className={classes.textField}>
+            <FormControl
+              error={emailHasError}
+              variant="filled"
+              fullWidth
+              className={classes.textField}>
               <InputLabel htmlFor="email" className={classes.inputLabel}>
                 Email
               </InputLabel>
@@ -127,9 +161,17 @@ function Register() {
                 type="text"
               />
             </FormControl>
+            {emailHasError && (
+              <FormHelperText className={classes.errorMessage}>{emailErrorMessage}</FormHelperText>
+            )}
           </div>
+
           <div className={classes.formControl}>
-            <FormControl className={classes.textField} variant="filled" fullWidth>
+            <FormControl
+              error={passwordHasError}
+              className={classes.textField}
+              variant="filled"
+              fullWidth>
               <InputLabel htmlFor="password" className={classes.inputLabel}>
                 Password
               </InputLabel>
@@ -153,6 +195,12 @@ function Register() {
                 }
               />
             </FormControl>
+
+            {passwordHasError && (
+              <FormHelperText className={classes.errorMessage}>
+                {passwordErrorMessage}
+              </FormHelperText>
+            )}
           </div>
 
           <div className={classes.formControl}>
@@ -196,12 +244,20 @@ function Register() {
               </FormHelperText>
             )}
           </div>
+          {error && <FormHelperText className={classes.resError}>{error}</FormHelperText>}
           <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
             Register
           </ButtonLoading>
+
+          <Box display="flex" justifyContent="flex-end">
+            <Typography variant="body2" className={classes.textHelper}>
+              <Link to="/login">Already have an account?</Link>
+            </Typography>
+          </Box>
         </form>
       </div>
     </div>
   );
 }
+
 export default Register;
