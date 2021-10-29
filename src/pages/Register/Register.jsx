@@ -14,8 +14,6 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
 import { useInput } from '../../hooks/use-input';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 
 function Register() {
   const classes = useStyles();
@@ -28,12 +26,6 @@ function Register() {
   const [error, setError] = useState(null);
   const history = useHistory();
   const location = useLocation();
-
-  const dispatch = useDispatch();
-  const handleDateChange = (date) => {
-    setBirthError(null);
-    setBirthDate(date);
-  };
 
   const {
     enteredInput: username,
@@ -53,6 +45,16 @@ function Register() {
     inputIsValid: emailIsvalid,
     hasError: emailHasError,
     errorMsg: emailErrorMessage,
+  } = useInput();
+
+  const {
+    enteredInput: address,
+    inputBlurHandler: addressBlurHandler,
+    inputChangeHandler: addressChangeHandler,
+    inputReset: addressReset,
+    inputIsValid: addressIsvalid,
+    hasError: addressHasError,
+    errorMsg: addressErrorMessage,
   } = useInput();
 
   const {
@@ -95,6 +97,7 @@ function Register() {
 
   const formIsValid =
     usernameIsvalid &&
+    addressIsvalid &&
     emailIsvalid &&
     passwordIsvalid &&
     confirmpasswordIsvalid &&
@@ -127,7 +130,7 @@ function Register() {
               fullWidth
               className={classes.textField}>
               <InputLabel htmlFor="username" className={classes.inputLabel}>
-                Username
+                FullName
               </InputLabel>
               <FilledInput
                 value={username}
@@ -163,6 +166,30 @@ function Register() {
             </FormControl>
             {emailHasError && (
               <FormHelperText className={classes.errorMessage}>{emailErrorMessage}</FormHelperText>
+            )}
+          </div>
+
+          <div className={classes.formControl}>
+            <FormControl
+              error={addressHasError}
+              variant="filled"
+              fullWidth
+              className={classes.textField}>
+              <InputLabel htmlFor="address" className={classes.inputLabel}>
+                Address
+              </InputLabel>
+              <FilledInput
+                value={address}
+                onBlur={addressBlurHandler}
+                onChange={addressChangeHandler}
+                id="address"
+                type="text"
+              />
+            </FormControl>
+            {addressHasError && (
+              <FormHelperText className={classes.errorMessage}>
+                {addressErrorMessage}
+              </FormHelperText>
             )}
           </div>
 
