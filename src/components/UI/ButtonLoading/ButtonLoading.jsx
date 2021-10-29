@@ -1,5 +1,6 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import React from 'react';
+import useStyles from './ButtonLoading.styles';
 
 function ButtonLoading({ children, size, onClick, isLoading, ...props }) {
   const classes = useStyles();
