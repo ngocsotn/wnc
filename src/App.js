@@ -6,6 +6,8 @@ import Loading from './components/Loading/Loading';
 import Header from './components/Layouts/Header/Header';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import aos from 'aos';
+import 'aos/dist/aos.css';
 const theme = createTheme({
   palette: {
     primary: {
@@ -20,6 +22,12 @@ const theme = createTheme({
 });
 function App() {
   // return <div className="App">Web đấu giá</div>;
+  useEffect(() => {
+    aos.init({
+      offset: 150,
+    });
+    aos.refresh();
+  }, []);
   return (
     // <ThemeProvider theme={theme}>
     //   <ToastContainer />

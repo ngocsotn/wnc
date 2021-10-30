@@ -89,9 +89,12 @@ export default makeStyles((theme) => ({
     fontSize: 12,
     opacity: 0.7,
     marginBottom: theme.spacing(1),
+    display: 'flex',
+    alignItems: 'center',
   },
   info: {
     padding: theme.spacing(2),
+    background: '#fff',
   },
   max: {
     paddingRight: theme.spacing(1),

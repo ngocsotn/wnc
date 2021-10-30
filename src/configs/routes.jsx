@@ -5,6 +5,7 @@ const Register = lazy(() => import('../pages/Register/Register'));
 const Login = lazy(() => import('../pages/Login/Login'));
 const Logout = lazy(() => import('../pages/Logout/Logout'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
+const Detail = lazy(() => import('../pages/Detail/Detail'));
 
 export const routes = [
   {
@@ -36,5 +37,11 @@ export const routes = [
     protected: false,
     exact: true,
     component: ForgotPassword,
+  },
+  {
+    path: '/detail/:id',
+    protected: false,
+    exact: true,
+    component: Detail,
   },
 ];

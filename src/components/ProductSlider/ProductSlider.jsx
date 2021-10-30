@@ -87,6 +87,8 @@ function ProductSlider({ listProduct, slidesToShow, settings }) {
                 timeEnd="01/11/2021 23:01:00"
                 totalBid={10}
                 currentPrice={12000000}
+                currentUser="xizot"
+                currentUserRate={99}
               />
             </div>
           ))}

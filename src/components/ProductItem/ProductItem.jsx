@@ -1,5 +1,5 @@
 import { IconButton, Typography } from '@material-ui/core';
-import { Gavel, PermIdentityRounded } from '@material-ui/icons';
+import { AccessTime, Gavel, PermIdentityRounded } from '@material-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TimeLeft from '../TimeLeft/TimeLeft';
@@ -47,13 +47,13 @@ function ProductItem({
           {title}
         </Typography>
         <Typography variant="body2" className={classes.created}>
-          Ngày đăng: {dateCreated}
+          <AccessTime fontSize="small" style={{ marginRight: 5 }} /> {dateCreated}
         </Typography>
-        <Typography variant="body1" className={classes.currentPrice}>
+        <Typography variant="subtitle2" className={classes.currentPrice}>
           Giá hiện tại : <b>{currentPrice} VND</b>
         </Typography>
         {buyNow ? (
-          <Typography variant="body1" className={classes.buyNow}>
+          <Typography variant="subtitle2" className={classes.buyNow}>
             Mua ngay: <b>{buyNow} VND</b>
           </Typography>
         ) : (
@@ -62,7 +62,7 @@ function ProductItem({
 
         <div className={classes.actions}>
           {currentUser ? (
-            <Typography variant="body1" className={classes.max}>
+            <Typography variant="subtitle2" className={classes.max}>
               Cao nhất:{' '}
               <b>
                 @{currentUser} ({currentUserRate})

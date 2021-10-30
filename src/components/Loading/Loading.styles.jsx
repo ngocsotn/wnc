@@ -23,7 +23,7 @@ export default makeStyles((theme) => ({
       width: '1em',
       height: '1em',
       borderRadius: '50%',
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.secondary.main,
     },
     '& div:nth-of-type(1)': {
       transform: 'translateX(-100%)',

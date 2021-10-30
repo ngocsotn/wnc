@@ -4,12 +4,14 @@ export default makeStyles((theme) => ({
   root: {
     boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
     display: 'flex',
+    justifyContent: 'center',
     borderRadius: 5,
     color: '#606060',
     width: '100%',
-    maxWidth: '100%',
     padding: theme.spacing(1, 2),
     background: '#fff',
+    maxWidth: 500,
+    margin: '0 auto',
   },
   section: {
     textAlign: 'center',
