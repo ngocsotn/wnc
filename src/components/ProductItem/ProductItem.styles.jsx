@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     opacity: 1 + '!important',
     boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
     overflow: 'hidden',
+    border: '1px solid #ddd',
     borderRadius: theme.shape.borderRadius,
     '& p': {
       wordBreak: 'break-word',
@@ -46,6 +47,8 @@ export default makeStyles((theme) => ({
     left: theme.spacing(1),
     background: theme.palette.primary.main,
     padding: theme.spacing(0.5, 1.25),
+    boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
+
     cursor: 'pointer',
     fontSize: 13,
     color: '#fff',
@@ -67,6 +70,8 @@ export default makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     background: '#fff',
     borderRadius: theme.shape.borderRadius,
+    boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
+
     display: 'flex',
     alignItems: 'center',
     '& p': {
@@ -101,5 +106,6 @@ export default makeStyles((theme) => ({
   },
   bid: {
     background: alpha(theme.palette.primary.main, 0.2),
+    boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
   },
 }));

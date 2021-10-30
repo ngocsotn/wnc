@@ -4,6 +4,8 @@ import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { Suspense, useEffect } from 'react';
 import Loading from './components/Loading/Loading';
 import Header from './components/Layouts/Header/Header';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 const theme = createTheme({
   palette: {
     primary: {
