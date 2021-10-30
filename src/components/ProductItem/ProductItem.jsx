@@ -1,7 +1,8 @@
-import { IconButton, Typography } from '@material-ui/core';
-import { AccessTime, Gavel, PermIdentityRounded } from '@material-ui/icons';
+import { Box, IconButton, Typography } from '@material-ui/core';
+import { AccessTime, Add, Gavel, PermIdentityRounded } from '@material-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCreatedTime } from '../../utils/getCreatedTime';
 import TimeLeft from '../TimeLeft/TimeLeft';
 import useStyles from './ProductItem.styles';
 function ProductItem({
@@ -9,14 +10,17 @@ function ProductItem({
   title,
   categoryName,
   categoryId,
+  seller,
+  sellerPoint,
+  status,
   imgSrc,
-  dateCreated,
-  timeEnd,
   totalBid,
+  dateCreated,
+  dateEnd,
   currentPrice,
+  currentBidder,
+  currentBidderPoint,
   buyNow,
-  currentUser,
-  currentUserRate,
 }) {
   const classes = useStyles();
   return (
@@ -32,26 +36,37 @@ function ProductItem({
         ) : (
           <></>
         )}
-        <div className={classes.total}>
-          <PermIdentityRounded />
-          <Typography variant="caption" className={classes.max}>
-            <b>{totalBid || 0}</b>
-          </Typography>
+        <div className={classes.hoverTop}>
+          <IconButton className={classes.addToWashList}>
+            <Add />
+            <Typography variant="caption" component="p">
+              Add To Watch List
+            </Typography>
+          </IconButton>
         </div>
         <div className={classes.time}>
-          <TimeLeft timeEnd={timeEnd} />
+          <TimeLeft timeEnd={dateEnd} />
         </div>
       </div>
       <div className={classes.info}>
-        <Typography variant="body1" className={classes.title}>
+        <Typography variant="body1" className={classes.title} color="primary">
           {title}
         </Typography>
-        <Typography variant="body2" className={classes.created}>
-          <AccessTime fontSize="small" style={{ marginRight: 5 }} /> {dateCreated}
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+          <Typography variant="body2" className={classes.created}>
+            <AccessTime fontSize="small" style={{ marginRight: 5 }} /> {getCreatedTime(dateCreated)}
+          </Typography>
+          <div className={classes.total}>
+            <PermIdentityRounded />
+            <Typography variant="caption" className={classes.max}>
+              <b>{totalBid || 0}</b>
+            </Typography>
+          </div>
+        </Box>
         <Typography variant="subtitle2" className={classes.currentPrice}>
           Giá hiện tại : <b>{currentPrice} VND</b>
         </Typography>
+
         {buyNow ? (
           <Typography variant="subtitle2" className={classes.buyNow}>
             Mua ngay: <b>{buyNow} VND</b>
@@ -61,11 +76,11 @@ function ProductItem({
         )}
 
         <div className={classes.actions}>
-          {currentUser ? (
+          {currentBidder ? (
             <Typography variant="subtitle2" className={classes.max}>
               Cao nhất:{' '}
               <b>
-                @{currentUser} ({currentUserRate})
+                @{currentBidder} ({currentBidderPoint})
               </b>
             </Typography>
           ) : (

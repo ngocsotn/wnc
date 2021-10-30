@@ -12,12 +12,17 @@ function HeaderBottom() {
         <ul className={classes.nav}>
           <li>
             <NavLink to="/" exact activeClassName={classes.active}>
-              Home
+              Trang chủ
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" activeClassName={classes.active}>
-              About
+            <NavLink to="/account" activeClassName={classes.active}>
+              Tài khoản của tôi
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/account/mylist" activeClassName={classes.active}>
+              Xem sau
             </NavLink>
           </li>
         </ul>
@@ -25,7 +30,7 @@ function HeaderBottom() {
       <ul className={classes.nav}>
         <li>
           <NavLink to="/login" activeClassName={classes.active}>
-            Sign In
+            Đăng nhập
           </NavLink>
         </li>
       </ul>

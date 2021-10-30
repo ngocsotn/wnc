@@ -1,5 +1,5 @@
 import { Box, Button, Container, IconButton, TextField, Typography } from '@material-ui/core';
-import { Gavel } from '@material-ui/icons';
+import { AccessTime, Add, Gavel } from '@material-ui/icons';
 import React, { useMemo, useState } from 'react';
 import Slider from 'react-slick';
 import CustomArrowNext from '../../components/CustomArrowNext/CustomArrowNext';
@@ -9,6 +9,7 @@ import TimeLeft from '../../components/TimeLeft/TimeLeft';
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import Section from '../../components/Section/Section';
+import { getCreatedTime } from '../../utils/getCreatedTime';
 
 function Detail() {
   const classes = useStyles();
@@ -92,9 +93,17 @@ function Detail() {
             <Typography variant="subtitle2" className={classes.seller}>
               Người bán: <b>Nguyễn Văn Nhật (99)</b>
             </Typography>
-            <Typography variant="subtitle2" className={classes.created}>
-              Ngày đăng: 20/11/2021 00:00:00
-            </Typography>
+            <div className={classes.created}>
+              <AccessTime fontSize="small" />
+              <Typography variant="subtitle2">{getCreatedTime('30/10/2021 23:00:00')}</Typography>
+            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.addToWatchList}
+              startIcon={<Add />}>
+              Add to watch list
+            </Button>
           </div>
           <div className={classes.bid}>
             <TextField required id="money" label="Tiền đấu giá" defaultValue={10} />
@@ -114,6 +123,7 @@ function Detail() {
             Mua ngay
           </Button>
         </div>
+
         <div className={classes.description}>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque, labore quam impedit
           reiciendis illum doloremque facere incidunt. Iure ab possimus officiis doloribus. Maxime

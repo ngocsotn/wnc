@@ -12,8 +12,9 @@ function NextArrow(props) {
     <IconButton
       onClick={onClick}
       color="primary"
-      className={`${classes.arrow} ${classes.arrowNext}`}>
-      <ArrowForwardIos className={classes.iconArrow} />
+      className={`${classes.arrow} ${classes.arrowNext}`}
+      size="medium">
+      <ArrowForwardIos className={classes.iconArrow} style={{ fontSize: 12 }} />
     </IconButton>
   );
 }
@@ -25,8 +26,12 @@ function PrevArrow(props) {
     <IconButton
       onClick={onClick}
       color="primary"
-      className={`${classes.arrow} ${classes.arrowPrev}`}>
-      <ArrowBackIos className={classes.iconArrow} style={{ transform: 'translateX(3px)' }} />
+      className={`${classes.arrow} ${classes.arrowPrev}`}
+      size="medium">
+      <ArrowBackIos
+        className={classes.iconArrow}
+        style={{ transform: 'translateX(3px)', fontSize: 12 }}
+      />
     </IconButton>
   );
 }

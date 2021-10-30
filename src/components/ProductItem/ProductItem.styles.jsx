@@ -48,7 +48,12 @@ export default makeStyles((theme) => ({
     background: theme.palette.primary.main,
     padding: theme.spacing(0.5, 1.25),
     boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
-
+    maxWidth: 'calc(100% - 70px)',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    display: '-webkit-box',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical',
     cursor: 'pointer',
     fontSize: 13,
     color: '#fff',
@@ -63,15 +68,17 @@ export default makeStyles((theme) => ({
       position: 'absolute',
     },
   },
-  total: {
+  hoverTop: {
     position: 'absolute',
     top: theme.spacing(1),
     right: theme.spacing(1),
-    color: theme.palette.secondary.main,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  total: {
+    color: theme.palette.primary.main,
     background: '#fff',
     borderRadius: theme.shape.borderRadius,
-    boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
-
     display: 'flex',
     alignItems: 'center',
     '& p': {
@@ -88,7 +95,6 @@ export default makeStyles((theme) => ({
   created: {
     fontSize: 12,
     opacity: 0.7,
-    marginBottom: theme.spacing(1),
     display: 'flex',
     alignItems: 'center',
   },
@@ -103,6 +109,9 @@ export default makeStyles((theme) => ({
       transform: 'scale(1) !important',
     },
   },
+  currentPrice: {
+    marginTop: theme.spacing(1),
+  },
   actions: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -110,5 +119,35 @@ export default makeStyles((theme) => ({
   bid: {
     background: alpha(theme.palette.primary.main, 0.2),
     boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
+  },
+  addToWashList: {
+    background: '#fff',
+    boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
+    marginLeft: 'auto',
+    color: '#333',
+    width: 30,
+    height: 30,
+    '&:hover': {
+      background: theme.palette.primary.main,
+      color: '#fff',
+      '& p': {
+        opacity: 1,
+        color: '#333',
+      },
+    },
+    '& p': {
+      position: 'absolute',
+      bottom: -2,
+      right: 0,
+      transform: 'translateY(100%)',
+      background: '#fff',
+      padding: theme.spacing(0.5, 0.75),
+      whiteSpace: 'nowrap',
+      borderRadius: 5,
+      boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
+      opacity: 0,
+      transition: 'all .5s',
+      pointerEvents: 'none',
+    },
   },
 }));

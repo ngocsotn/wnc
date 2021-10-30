@@ -98,6 +98,8 @@ export default makeStyles((theme) => ({
   },
   created: {
     fontStyle: 'italic',
+    display: 'flex',
+    alignItems: 'center',
   },
   bid: {
     display: 'flex',
@@ -118,5 +120,8 @@ export default makeStyles((theme) => ({
   description: {
     fontSize: 18,
     lineHeight: 2,
+  },
+  addToWatchList: {
+    marginTop: theme.spacing(1),
   },
 }));
