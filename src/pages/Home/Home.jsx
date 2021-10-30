@@ -27,7 +27,7 @@ function Home() {
             categoryName="Đồng hồ"
             categoryId={1}
             dateCreated="05/12/2021 15:00:00"
-            timeEnd="05/11/2021 23:01:00"
+            timeEnd="03/11/2021 23:01:00"
             totalBid={10}
             currentPrice={12000000}
           />

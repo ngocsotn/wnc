@@ -18,11 +18,15 @@ function TimeLeft({ timeEnd }) {
 
       var ms = moment(timeEnd, 'DD/MM/YYYY HH:mm:ss').diff(moment(now, 'DD/MM/YYYY HH:mm:ss'));
       var d = moment.duration(ms);
-      const days = d.days();
-      const hours = d.hours();
-      const minutes = d.minutes();
-      const seconds = d.seconds();
+      const days = parseInt(d.asDays());
+      var hours = parseInt(d.asHours());
+      hours = hours - days * 24;
 
+      var minutes = parseInt(d.asMinutes());
+      minutes = minutes - (days * 24 * 60 + hours * 60);
+
+      var seconds = parseInt(d.asSeconds());
+      seconds = seconds - (days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60);
       if (days < 3) {
         setTime(() => {
           const newTime = {
