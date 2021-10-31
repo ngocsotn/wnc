@@ -22,9 +22,8 @@ export default makeStyles((theme) => ({
   },
   middle: {
     display: 'flex',
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(2),
-    borderBottom: '1px solid #737373',
+    padding: theme.spacing(2, 0, 0),
+
     '& img': {
       width: 150,
       height: 'auto',
@@ -68,6 +67,11 @@ export default makeStyles((theme) => ({
     '& button': {
       marginLeft: theme.spacing(1),
     },
+  },
+  bottomContent: {
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    borderTop: '1px solid #ddd',
   },
   xizot: {
     display: 'flex',

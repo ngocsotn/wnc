@@ -6,8 +6,11 @@ import TimeLeft from '../TimeLeft/TimeLeft';
 import useStyles from './ProductItemV2.styles';
 import storeIcon from '../../assets/images/store.svg';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../slices/ui.slice';
 function ProductItemV2({
   who = 'bidder',
+  productId,
   title,
   seller,
   sellerPoint,
@@ -21,6 +24,13 @@ function ProductItemV2({
   currentBidderPoint,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const openModalEditHandler = () => {
+    dispatch(uiActions.openModal('openUpdate'));
+  };
+  const openModalRateHandler = () => {
+    dispatch(uiActions.openModal('openUpdate'));
+  };
   return (
     <div className={classes.root}>
       {who !== 'seller' && (
@@ -35,7 +45,13 @@ function ProductItemV2({
           </Box>
           {who === 'bidder' && (
             <Typography variant="h4" color="primary" className={classes.status}>
-              {status}
+              {status === 'done'
+                ? 'Thành công'
+                : status === 'failed'
+                ? 'Thất bại'
+                : status === 'denied'
+                ? 'Bị từ chối'
+                : 'Đang diễn ra'}
             </Typography>
           )}
         </div>
@@ -44,7 +60,7 @@ function ProductItemV2({
       <div className={classes.middle}>
         <img src={imgSrc} alt={title} />
         <div className={classes.info}>
-          <Link to="/detail/1" className={classes.xizot}>
+          <Link to={`/detail/${productId}`} className={classes.xizot}>
             <Typography variant="h5" className={classes.title}>
               {title}
             </Typography>
@@ -77,31 +93,30 @@ function ProductItemV2({
         </div>
       </div>
       <div className={classes.bottom}>
-        {who === 'bidder' && (
-          <Button variant="contained" color="primary" size="small">
-            Đánh giá
-          </Button>
+        {who === 'bidder' && status === 'done' && (
+          <div className={classes.bottomContent}>
+            <Button variant="contained" color="primary" size="small" onClick={openModalRateHandler}>
+              Đánh giá
+            </Button>
+          </div>
         )}
 
         {who === 'seller' && (
-          <>
+          <div className={classes.bottomContent}>
             <Button variant="contained" color="primary" startIcon={<RemoveRedEye />} size="small">
               Xem kết quả
             </Button>
-            <Button variant="contained" color="primary" size="small">
+            <Button variant="contained" size="small" onClick={openModalEditHandler}>
               <Edit />
             </Button>
-            <Button variant="outlined" color="secondary" size="small">
-              <Delete />
-            </Button>
-          </>
+          </div>
         )}
         {who === 'user-save' && (
-          <>
+          <div className={classes.bottomContent}>
             <Button variant="outlined" color="secondary" size="small" startIcon={<Delete />}>
               Xóa khỏi danh sách
             </Button>
-          </>
+          </div>
         )}
       </div>
     </div>

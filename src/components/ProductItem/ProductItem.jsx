@@ -6,7 +6,7 @@ import { getCreatedTime } from '../../utils/getCreatedTime';
 import TimeLeft from '../TimeLeft/TimeLeft';
 import useStyles from './ProductItem.styles';
 function ProductItem({
-  id,
+  productId,
   title,
   categoryName,
   categoryId,
@@ -24,7 +24,7 @@ function ProductItem({
 }) {
   const classes = useStyles();
   return (
-    <Link to={`/detail/${id}`} className={classes.root}>
+    <Link to={`/detail/${productId}`} className={classes.root}>
       <div className={classes.top}>
         <div className={classes.image}>
           <img src={imgSrc} alt={title} />

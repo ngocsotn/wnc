@@ -1,12 +1,28 @@
+import { Button } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../../slices/ui.slice';
 import PanelTitle from '../../PanelTitle/PanelTitle';
 import ProductItemV2 from '../../ProductItemV2/ProductItemV2';
 import useStyles from './ProductPanel.styles';
 function ProductPanel() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const openModalAddHandler = () => {
+    dispatch(uiActions.openModal('openAdd'));
+  };
   return (
     <div className={classes.root}>
-      <PanelTitle title="Quản lí sản phẩm" />
+      <PanelTitle title="Quản lí sản phẩm">
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<Add />}
+          onClick={openModalAddHandler}>
+          Thêm mới
+        </Button>
+      </PanelTitle>
       <ProductItemV2
         who="seller"
         seller="ngocsotn"

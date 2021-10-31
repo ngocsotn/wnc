@@ -44,6 +44,12 @@ function ProfileSideBar() {
         </NavLink>
       </li>
       <li>
+        <NavLink exact to="/account/rate" className={classes.link} activeClassName={classes.active}>
+          <img src={userIcon} alt="" />
+          Lịch sử đánh giá
+        </NavLink>
+      </li>
+      <li>
         <NavLink
           exact
           to="/account/auction"

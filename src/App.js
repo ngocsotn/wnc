@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import aos from 'aos';
 import 'aos/dist/aos.css';
+import CustomModal from './components/CustomModal/CustomModal';
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,32 +34,36 @@ function App() {
     //   <ToastContainer />
     //   <CssBaseline />
     //   <Header />
-    <Suspense fallback={<Loading />}>
-      <Header />
-      <Switch>
-        {routes.map((route, index) => {
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              render={(props) => {
-                if (route.protected) {
-                  return (
-                    // <ProtectedRoute {...props} currentPath={route.path}>
-                    //   <route.component />
-                    // </ProtectedRoute>
-                    <div className="App">Web đấu giá</div>
-                  );
-                }
-                return <route.component {...route.props} />;
-              }}
-            />
-          );
-        })}
-        <Route path="*">404 NOT FOUND</Route>
-      </Switch>
-    </Suspense>
+    <>
+      <CustomModal />
+
+      <Suspense fallback={<Loading />}>
+        <Header />
+        <Switch>
+          {routes.map((route, index) => {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                render={(props) => {
+                  if (route.protected) {
+                    return (
+                      // <ProtectedRoute {...props} currentPath={route.path}>
+                      //   <route.component />
+                      // </ProtectedRoute>
+                      <div className="App">Web đấu giá</div>
+                    );
+                  }
+                  return <route.component {...route.props} />;
+                }}
+              />
+            );
+          })}
+          <Route path="*">404 NOT FOUND</Route>
+        </Switch>
+      </Suspense>
+    </>
     //   <Footer />
     // </ThemeProvider>
   );

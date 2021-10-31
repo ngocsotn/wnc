@@ -11,7 +11,7 @@ function AuctionPanel() {
         seller="ngocsotn"
         sellerPoint={2}
         title="Macbook pro 2020"
-        status="Đang đấu giá"
+        status="done"
         imgSrc="https://cf.shopee.vn/file/8126085bad03c21779e1b77876fb7316"
         totalBid="5"
         dateCreated="31/10/2021 4:30:00"
@@ -24,7 +24,7 @@ function AuctionPanel() {
         seller="ngocsotn"
         sellerPoint={2}
         title="Macbook pro 2020"
-        status="Đang đấu giá"
+        status="failed"
         imgSrc="https://cf.shopee.vn/file/8126085bad03c21779e1b77876fb7316"
         totalBid="5"
         dateCreated="31/10/2021 4:30:00"
@@ -37,7 +37,20 @@ function AuctionPanel() {
         seller="ngocsotn"
         sellerPoint={2}
         title="Macbook pro 2020"
-        status="Đang đấu giá"
+        status="waiting"
+        imgSrc="https://cf.shopee.vn/file/8126085bad03c21779e1b77876fb7316"
+        totalBid="5"
+        dateCreated="31/10/2021 4:30:00"
+        dateEnd="1/11/2021 12:00:00"
+        currentPrice="5000"
+        currentBidder="xizot"
+        currentBidderPoint={9}
+      />
+      <ProductItemV2
+        seller="ngocsotn"
+        sellerPoint={2}
+        title="Macbook pro 2020"
+        status="failed"
         imgSrc="https://cf.shopee.vn/file/8126085bad03c21779e1b77876fb7316"
         totalBid="5"
         dateCreated="31/10/2021 4:30:00"

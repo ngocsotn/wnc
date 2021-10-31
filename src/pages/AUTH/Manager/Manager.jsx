@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect, useHistory, useParams } from 'react-router';
+import RatePanel from '../../../components/TabPanel/RatePanel/RatePanel';
 import ProfileSideBar from '../../../components/ProfileSideBar/ProfileSideBar';
 import Section from '../../../components/Section/Section';
 import AuctionPanel from '../../../components/TabPanel/AuctionPanel/AuctionPanel';
@@ -9,7 +10,7 @@ import ProductPanel from '../../../components/TabPanel/ProductPanel/ProductPanel
 import ProfilePanel from '../../../components/TabPanel/ProfilePanel/ProfilePanel';
 import useStyles from './Manager.styles';
 function Manager() {
-  const tabs = ['profile', 'password', 'auction', 'notification', 'product', 'mylist'];
+  const tabs = ['profile', 'password', 'auction', 'notification', 'product', 'mylist', 'rate'];
   const classes = useStyles();
   const { slug } = useParams();
 
@@ -30,6 +31,7 @@ function Manager() {
           {slug === 'auction' && <AuctionPanel />}
           {slug === 'product' && <ProductPanel />}
           {slug === 'mylist' && <MyList />}
+          {slug === 'rate' && <RatePanel />}
         </div>
       </div>
     </Section>
