@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import useStyles from './ProfilePanel.styles';
 import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
 import PanelTitle from '../../PanelTitle/PanelTitle';
-
+import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 function ProfilePanel() {
   const classes = useStyles();
   const formSubmitHandler = () => {};
@@ -28,6 +29,19 @@ function ProfilePanel() {
           label="Email"
           fullWidth
         />
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <KeyboardDateTimePicker
+            className={classes.input}
+            fullWidth
+            label="Ngày sinh"
+            onError={console.log}
+            format="DD/MM/yyyy HH:mm:ss"
+            inputVariant="outlined"
+            margin="dense"
+            size="small"
+          />
+        </MuiPickersUtilsProvider>
+
         <TextField
           className={classes.input}
           variant="outlined"
