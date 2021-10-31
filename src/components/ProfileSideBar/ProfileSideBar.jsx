@@ -7,6 +7,7 @@ import auctionIcon from '../../assets/images/diamond.png';
 import productIcon from '../../assets/images/product.png';
 import notiIcon from '../../assets/images/noti.png';
 import passwordIcon from '../../assets/images/shield.svg';
+import heartIcon from '../../assets/images/heart.svg';
 import useStyles from './ProfileSideBar.styles';
 
 function ProfileSideBar() {
@@ -34,19 +35,25 @@ function ProfileSideBar() {
         </NavLink>
       </li>
       <li>
-        <NavLink
-          exact
-          to="/account/product"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={productIcon} alt="" />
-          Quản lí sản phẩm
+        <NavLink exact to="/admin/mylist" className={classes.link} activeClassName={classes.active}>
+          <img src={heartIcon} alt="" />
+          Danh sách xem sau
         </NavLink>
       </li>
       <li>
         <NavLink exact to="/account/rate" className={classes.link} activeClassName={classes.active}>
           <img src={userIcon} alt="" />
           Lịch sử đánh giá
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          exact
+          to="/account/product"
+          className={classes.link}
+          activeClassName={classes.active}>
+          <img src={productIcon} alt="" />
+          Quản lí sản phẩm [Seller]
         </NavLink>
       </li>
       <li>
@@ -62,13 +69,34 @@ function ProfileSideBar() {
       <li>
         <NavLink
           exact
-          to="/account/mylist"
+          to="/admin/user-manager"
+          className={classes.link}
+          activeClassName={classes.active}>
+          <img src={userIcon} alt="" />
+          Quản lí user [Admin]
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          exact
+          to="/admin/product-manager"
+          className={classes.link}
+          activeClassName={classes.active}>
+          <img src={productIcon} alt="" />
+          Quản lí sản phẩm [ADMIN]
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          exact
+          to="/admin/category-manager"
           className={classes.link}
           activeClassName={classes.active}>
           <img src={watchListIcon} alt="" />
-          Danh sách của tôi
+          Quản lí danh mục
         </NavLink>
       </li>
+
       <li>
         <NavLink
           exact
@@ -76,7 +104,7 @@ function ProfileSideBar() {
           className={classes.link}
           activeClassName={classes.active}>
           <img src={notiIcon} alt="" />
-          Thông báo
+          Danh sách yêu cầu
         </NavLink>
       </li>
     </ul>
