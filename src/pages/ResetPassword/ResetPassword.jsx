@@ -17,7 +17,6 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useInput } from '../../hooks/use-input';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { useDispatch } from 'react-redux';
-import { resetPassword } from '../../slices/auth.slice';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 function ResetPassword() {
@@ -80,13 +79,7 @@ function ResetPassword() {
       return;
     }
     try {
-      await dispatch(
-        resetPassword({
-          id: id,
-          recoveryCode: code,
-          password,
-        })
-      ).unwrap();
+      await dispatch().unwrap();
       passwordReset();
       confirmpasswordReset();
 

@@ -93,9 +93,9 @@ export const routes = [
     component: CategoryManager,
     roles: ['admin'],
   },
-	{
-		path: '/search',
+  {
+    path: '/search',
     protected: false,
     component: Search,
-	}
+  },
 ];

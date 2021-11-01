@@ -35,7 +35,11 @@ function ProfileSideBar() {
         </NavLink>
       </li>
       <li>
-        <NavLink exact to="/account/mylist" className={classes.link} activeClassName={classes.active}>
+        <NavLink
+          exact
+          to="/account/mylist"
+          className={classes.link}
+          activeClassName={classes.active}>
           <img src={heartIcon} alt="" />
           Danh sách xem sau
         </NavLink>

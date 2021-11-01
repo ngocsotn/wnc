@@ -18,7 +18,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Delete, Edit } from '@material-ui/icons';
-import { userActions } from '../../../../slices/user.slice';
 function ProductManager() {
   const classes = useStyles();
 
