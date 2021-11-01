@@ -53,7 +53,7 @@ function ProfileSideBar() {
           className={classes.link}
           activeClassName={classes.active}>
           <img src={productIcon} alt="" />
-          Quản lí sản phẩm [Seller]
+          Quản lí sản phẩm [SELLER]
         </NavLink>
       </li>
       <li>
@@ -73,7 +73,7 @@ function ProfileSideBar() {
           className={classes.link}
           activeClassName={classes.active}>
           <img src={userIcon} alt="" />
-          Quản lí user [Admin]
+          Quản lí user [ADMIN]
         </NavLink>
       </li>
       <li>
@@ -93,7 +93,7 @@ function ProfileSideBar() {
           className={classes.link}
           activeClassName={classes.active}>
           <img src={watchListIcon} alt="" />
-          Quản lí danh mục
+          Quản lí danh mục [ADMIN]
         </NavLink>
       </li>
 
@@ -104,7 +104,7 @@ function ProfileSideBar() {
           className={classes.link}
           activeClassName={classes.active}>
           <img src={notiIcon} alt="" />
-          Danh sách yêu cầu
+          Quản lí yêu cầu lên seller [ADMIN]
         </NavLink>
       </li>
     </ul>
