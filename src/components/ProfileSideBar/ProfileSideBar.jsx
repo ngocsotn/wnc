@@ -9,9 +9,11 @@ import notiIcon from '../../assets/images/noti.png';
 import passwordIcon from '../../assets/images/shield.svg';
 import heartIcon from '../../assets/images/heart.svg';
 import useStyles from './ProfileSideBar.styles';
+import { useSelector } from 'react-redux';
 
 function ProfileSideBar() {
   const classes = useStyles();
+  const user = useSelector((state) => state.auth.user);
   return (
     <ul>
       <li>
@@ -50,67 +52,77 @@ function ProfileSideBar() {
           Lịch sử đánh giá
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          exact
-          to="/account/product"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={productIcon} alt="" />
-          Quản lí sản phẩm [SELLER]
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          exact
-          to="/account/auction"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={auctionIcon} alt="" />
-          Quản lí đấu giá
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          exact
-          to="/admin/user-manager"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={userIcon} alt="" />
-          Quản lí user [ADMIN]
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          exact
-          to="/admin/product-manager"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={productIcon} alt="" />
-          Quản lí sản phẩm [ADMIN]
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          exact
-          to="/admin/category-manager"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={watchListIcon} alt="" />
-          Quản lí danh mục [ADMIN]
-        </NavLink>
-      </li>
+      {user?.role === 'seller' && (
+        <li>
+          <NavLink
+            exact
+            to="/account/product"
+            className={classes.link}
+            activeClassName={classes.active}>
+            <img src={productIcon} alt="" />
+            Quản lí sản phẩm [SELLER]
+          </NavLink>
+        </li>
+      )}
 
-      <li>
-        <NavLink
-          exact
-          to="/account/notification"
-          className={classes.link}
-          activeClassName={classes.active}>
-          <img src={notiIcon} alt="" />
-          Quản lí yêu cầu lên seller [ADMIN]
-        </NavLink>
-      </li>
+      {user?.role === 'bidder' && (
+        <li>
+          <NavLink
+            exact
+            to="/account/auction"
+            className={classes.link}
+            activeClassName={classes.active}>
+            <img src={auctionIcon} alt="" />
+            Quản lí đấu giá
+          </NavLink>
+        </li>
+      )}
+
+      {user?.role === 'admin' && (
+        <>
+          <li>
+            <NavLink
+              exact
+              to="/admin/user-manager"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={userIcon} alt="" />
+              Quản lí user
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to="/admin/product-manager"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={productIcon} alt="" />
+              Quản lí sản phẩm
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to="/admin/category-manager"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={watchListIcon} alt="" />
+              Quản lí danh mục
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              exact
+              to="/account/notification"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={notiIcon} alt="" />
+              Quản lí yêu cầu lên seller
+            </NavLink>
+          </li>
+        </>
+      )}
     </ul>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   FormControl,
@@ -15,12 +15,18 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { useInput } from '../../hooks/use-input';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../slices/auth.slice';
 
 function Login() {
   const classes = useStyles();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
   const {
     enteredInput: email,
@@ -51,12 +57,43 @@ function Login() {
     event.preventDefault();
   };
 
+  const formSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (!formIsValid) {
+      return;
+    }
+    setError(null);
+    try {
+      await dispatch(
+        login({
+          email,
+          password,
+        })
+      ).unwrap();
+      emailReset();
+      passwordReset();
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  if (isAuthenticated) {
+    if (user?.banned) {
+      return <div>Banned</div>;
+    }
+
+    // if (!user?.verified) {
+    //   return <Redirect to="/confirm-email" />;
+    // }
+    return <Redirect to={location.state?.from || '/'} />;
+  }
+
   return (
     <div className={classes.root}>
       <div>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={formSubmitHandler}>
           <Typography variant="h6" className={classes.title}>
-            Login form
+            Đăng nhập
           </Typography>
           <div className={classes.formControl}>
             <FormControl
@@ -87,7 +124,7 @@ function Login() {
               variant="filled"
               fullWidth>
               <InputLabel htmlFor="password" className={classes.inputLabel}>
-                Password
+                Mật khẩu
               </InputLabel>
               <FilledInput
                 value={password}
@@ -118,16 +155,16 @@ function Login() {
           </div>
 
           {error && <FormHelperText className={classes.resError}>{error}</FormHelperText>}
-          <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
-            Login
+          <ButtonLoading size="large" type="submit" isLoading={isLoading} disabled={!formIsValid}>
+            Đăng nhập
           </ButtonLoading>
 
           <Box display="flex" flexWrap="wrap" alignItems="center">
             <Typography variant="body2" className={classes.textHelper}>
-              Don't have an account? <Link to="/register">Register</Link>
+              Bạn chưa có tài khoản? <Link to="/register">Đăng kí</Link>
             </Typography>
             <Typography variant="body2" className={classes.textHelper}>
-              <Link to="/forgot-password">Forgot password?</Link>
+              <Link to="/forgot-password">Quên mật khẩu?</Link>
             </Typography>
           </Box>
         </form>

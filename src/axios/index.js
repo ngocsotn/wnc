@@ -8,9 +8,9 @@ axiosInstance.defaults.baseURL = baseURL;
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const access_token = localStorage.access_token;
-    if (access_token) {
-      config.headers['token'] = access_token;
+    const token = localStorage.token;
+    if (token) {
+      config.headers['token'] = token;
     }
     // config.headers['Content-Type'] = 'application/json';
     return config;
@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       (originalRequest._retry || originalRequest.url === `${baseURL}/auth/refresh`)
     ) {
-      localStorage.removeItem('access_token');
+      localStorage.removeItem('token');
       localStorage.removeItem('refresh_token');
       history.push('/logout');
       return Promise.reject(error);
@@ -48,10 +48,10 @@ axiosInstance.interceptors.response.use(
         })
         .then((res) => {
           if (res.status === 200) {
-            const { access_token: new_access_token, refresh_token: new_refresh_token } = res.data;
-            localStorage.setItem('access_token', new_access_token);
+            const { token: new_token, refresh_token: new_refresh_token } = res.data;
+            localStorage.setItem('token', new_token);
             localStorage.setItem('refresh_token', new_refresh_token);
-            axiosInstance.defaults.headers.common['token'] = new_access_token;
+            axiosInstance.defaults.headers.common['token'] = new_token;
             return axiosInstance(originalRequest);
           }
         });

@@ -6,7 +6,6 @@ const VerifyEmail = lazy(() => import('../pages/VerifyEmail/VerifyEmail'));
 const Login = lazy(() => import('../pages/Login/Login'));
 const Logout = lazy(() => import('../pages/Logout/Logout'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
-const ResetPassword = lazy(() => import('../pages/ResetPassword/ResetPassword'));
 const Detail = lazy(() => import('../pages/Detail/Detail'));
 const Manager = lazy(() => import('../pages/AUTH/Manager/Manager'));
 const CategoryManager = lazy(() => import('../pages/AUTH/ADMIN/CategoryManager/CategoryManager'));
@@ -20,76 +19,79 @@ export const routes = [
     protected: false,
     exact: true,
     component: Home,
+    roles: [],
   },
   {
     path: '/register',
     protected: false,
     exact: true,
     component: Register,
+    roles: [],
   },
   {
     path: '/login',
     protected: false,
     exact: true,
     component: Login,
+    roles: [],
   },
   {
     path: '/logout',
     protected: false,
     exact: true,
     component: Logout,
+    roles: [],
   },
   {
     path: '/forgot-password',
     protected: false,
     exact: true,
     component: ForgotPassword,
-  },
-  {
-    path: '/reset-password',
-    protected: false,
-    exact: true,
-    component: ResetPassword,
+    roles: [],
   },
   {
     path: '/confirm-email',
     protected: false,
     exact: true,
     component: VerifyEmail,
+    roles: [],
   },
   {
     path: '/detail/:id',
     protected: false,
     exact: true,
     component: Detail,
+    roles: [],
   },
 
   {
     path: '/account/:slug',
-    protected: false,
+    protected: true,
     exact: true,
     component: Manager,
+    roles: [],
   },
   {
     path: '/account',
-    protected: false,
+    protected: true,
     component: Manager,
+    roles: [],
   },
   {
     path: '/admin/user-manager',
-    protected: false,
+    protected: true,
     component: UserManager,
     roles: ['admin'],
   },
   {
     path: '/admin/product-manager',
-    protected: false,
+    protected: true,
     component: ProductManager,
     roles: ['admin'],
   },
   {
     path: '/admin/category-manager',
-    protected: false,
+    protected: true,
     component: CategoryManager,
     roles: ['admin'],
   },
@@ -97,5 +99,6 @@ export const routes = [
     path: '/search',
     protected: false,
     component: Search,
+    roles: [],
   },
 ];

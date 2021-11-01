@@ -11,7 +11,7 @@ import axiosInstance from '../axios';
 //       if (!error.response) {
 //         throw error;
 //       }
-//       return rejectWithValue(error.response.data.message);
+//       return rejectWithValue(error.response.data.errs?.join(" - "));
 //     }
 //   }
 // );
@@ -25,7 +25,7 @@ import axiosInstance from '../axios';
 //       if (!error.response) {
 //         throw error;
 //       }
-//       return rejectWithValue(error.response.data.message);
+//       return rejectWithValue(error.response.data.errs?.join(" - "));
 //     }
 //   }
 // );
@@ -37,7 +37,7 @@ export const profileGet = createAsyncThunk('profile/get', async (_, { rejectWith
     if (!error.response) {
       throw error;
     }
-    return rejectWithValue(error.response.data.message);
+    return rejectWithValue(error.response.data.errs?.join(' - '));
   }
 });
 export const profileUpdateInfo = createAsyncThunk(
@@ -49,7 +49,7 @@ export const profileUpdateInfo = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -63,7 +63,7 @@ export const profileUpdatePassword = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );

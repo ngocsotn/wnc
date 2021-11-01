@@ -16,7 +16,7 @@ export const login = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -37,7 +37,7 @@ export const register = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -51,7 +51,7 @@ export const sendConfirmEmail = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -65,7 +65,7 @@ export const confirmEmail = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -79,7 +79,7 @@ export const forgotPassword = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -93,7 +93,7 @@ export const recovery = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -102,7 +102,7 @@ const initialState = {
   isLoading: false,
   isAuthenticated: false,
   user: {},
-  access_token: null,
+  token: null,
   refresh_token: null,
 };
 
@@ -110,21 +110,21 @@ const initReducer = (state) => {
   state.isLoading = true;
   state.isAuthenticated = false;
   state.user = {};
-  state.access_token = null;
+  state.token = null;
   state.refresh_token = null;
-  localStorage.removeItem('access_token');
+  localStorage.removeItem('token');
   localStorage.removeItem('refresh_token');
 };
 
 const authSuccess = (state, action) => {
-  const { access_token, refresh_token } = action.payload;
+  const { token, refresh_token } = action.payload;
   state.isAuthenticated = true;
   state.isLoading = false;
-  state.access_token = access_token;
+  state.token = token;
   state.refresh_token = refresh_token;
-  state.user = decodeJwt(access_token);
+  state.user = decodeJwt(token);
 
-  localStorage.setItem('access_token', access_token);
+  localStorage.setItem('token', token);
   localStorage.setItem('refresh_token', refresh_token);
 };
 
@@ -136,10 +136,10 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.isLoading = false;
-      state.access_token = null;
+      state.token = null;
       state.refresh_token = null;
       state.user = {};
-      localStorage.removeItem('access_token');
+      localStorage.removeItem('token');
       localStorage.removeItem('refresh_token');
     },
   },

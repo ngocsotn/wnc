@@ -14,7 +14,7 @@ export const productGetByPage = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -33,7 +33,7 @@ export const productAddImage = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -61,7 +61,7 @@ export const productAddNew = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -78,7 +78,7 @@ export const productDeleteImage = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -92,7 +92,7 @@ export const productUpdate = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -106,7 +106,7 @@ export const productDelete = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );

@@ -9,6 +9,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import aos from 'aos';
 import 'aos/dist/aos.css';
 import CustomModal from './components/CustomModal/CustomModal';
+import ProtectedRoute from './components/Common/ProtectedRoute/ProtectedRoute';
+import { useDispatch } from 'react-redux';
+import { authActions } from './slices/auth.slice';
 const theme = createTheme({
   palette: {
     primary: {
@@ -22,13 +25,25 @@ const theme = createTheme({
   },
 });
 function App() {
-  // return <div className="App">Web đấu giá</div>;
+  const dispatch = useDispatch();
   useEffect(() => {
     aos.init({
       offset: 150,
     });
     aos.refresh();
-  }, []);
+
+    const token = localStorage.getItem('token');
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (token && refresh_token) {
+      dispatch(
+        authActions.verifiedAuth({
+          token,
+          refresh_token,
+        })
+      );
+    }
+  }, [dispatch]);
+
   return (
     // <ThemeProvider theme={theme}>
     //   <ToastContainer />
@@ -49,10 +64,9 @@ function App() {
                 render={(props) => {
                   if (route.protected) {
                     return (
-                      // <ProtectedRoute {...props} currentPath={route.path}>
-                      //   <route.component />
-                      // </ProtectedRoute>
-                      <div className="App">Web đấu giá</div>
+                      <ProtectedRoute {...props} currentPath={route.path} roles={route.roles}>
+                        <route.component />
+                      </ProtectedRoute>
                     );
                   }
                   return <route.component {...route.props} />;

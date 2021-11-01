@@ -10,7 +10,7 @@ export const categoryGetByPage = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -24,7 +24,7 @@ export const categoryUpdate = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -38,7 +38,7 @@ export const categoryAddNew = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -51,7 +51,7 @@ export const categoryDelete = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -65,7 +65,7 @@ export const categoryAddSub = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -78,7 +78,7 @@ export const categoryUpdateSub = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
@@ -92,7 +92,7 @@ export const categoryDeleteSub = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.errs?.join(' - '));
     }
   }
 );
