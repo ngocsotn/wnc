@@ -35,7 +35,7 @@ function ProfilePanel() {
             fullWidth
             label="Ngày sinh"
             onError={console.log}
-            format="DD/MM/yyyy HH:mm:ss"
+            format="DD/MM/yyyy"
             inputVariant="outlined"
             margin="dense"
             size="small"

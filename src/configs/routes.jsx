@@ -11,6 +11,7 @@ const Manager = lazy(() => import('../pages/AUTH/Manager/Manager'));
 const CategoryManager = lazy(() => import('../pages/AUTH/ADMIN/CategoryManager/CategoryManager'));
 const UserManager = lazy(() => import('../pages/AUTH/ADMIN/UserManager/UserManager'));
 const ProductManager = lazy(() => import('../pages/AUTH/ADMIN/ProductManager/ProductManager'));
+const Search = lazy(() => import('../pages/Search/Search'));
 
 export const routes = [
   {
@@ -85,4 +86,9 @@ export const routes = [
     component: CategoryManager,
     roles: ['admin'],
   },
+	{
+		path: '/search',
+    protected: false,
+    component: Search,
+	}
 ];
