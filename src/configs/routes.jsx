@@ -6,6 +6,7 @@ const VerifyEmail = lazy(() => import('../pages/VerifyEmail/VerifyEmail'));
 const Login = lazy(() => import('../pages/Login/Login'));
 const Logout = lazy(() => import('../pages/Logout/Logout'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
+const ResetPassword = lazy(() => import('../pages/ResetPassword/ResetPassword'));
 const Detail = lazy(() => import('../pages/Detail/Detail'));
 const Manager = lazy(() => import('../pages/AUTH/Manager/Manager'));
 const CategoryManager = lazy(() => import('../pages/AUTH/ADMIN/CategoryManager/CategoryManager'));
@@ -42,6 +43,12 @@ export const routes = [
     protected: false,
     exact: true,
     component: ForgotPassword,
+  },
+  {
+    path: '/reset-password',
+    protected: false,
+    exact: true,
+    component: ResetPassword,
   },
   {
     path: '/confirm-email',
