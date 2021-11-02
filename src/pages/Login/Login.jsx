@@ -82,9 +82,9 @@ function Login() {
       return <div>Banned</div>;
     }
 
-    // if (!user?.verified) {
-    //   return <Redirect to="/confirm-email" />;
-    // }
+    if (!user?.active) {
+      return <Redirect to="/confirm-email" />;
+    }
     return <Redirect to={location.state?.from || '/'} />;
   }
 
