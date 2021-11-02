@@ -27,10 +27,10 @@ export const register = createAsyncThunk(
       return (
         await axiosInstance.post('/auth/register', {
           email,
-          name,
+          name: name,
           password,
           address,
-          birth: birth,
+          // birth: birth,
         })
       ).data;
     } catch (error) {
@@ -57,7 +57,7 @@ export const sendConfirmEmail = createAsyncThunk(
 );
 
 export const confirmEmail = createAsyncThunk(
-  'auth/confirmEmail',
+  'auth/verify',
   async ({ code }, { rejectWithValue }) => {
     try {
       return (await axiosInstance.get(`/auth/verify?code=${code}`)).data;
@@ -71,7 +71,7 @@ export const confirmEmail = createAsyncThunk(
 );
 
 export const forgotPassword = createAsyncThunk(
-  'auth/forgotPassword',
+  'auth/forgot',
   async ({ email }, { rejectWithValue }) => {
     try {
       return (await axiosInstance.post('/auth/forgot', { email })).data;

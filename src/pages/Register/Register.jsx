@@ -13,15 +13,20 @@ import useStyles from './Register.styles';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
 import { useInput } from '../../hooks/use-input';
+import { register } from '../../slices/auth.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 
 function Register() {
   const classes = useStyles();
+	const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [birthDate, setBirthDate] = useState(new Date());
   const [birthError, setBirthError] = useState(null);
   const [isNotMatch, setIsNotMatch] = useState(true);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const user = useSelector((state) => state.auth.user);
 
   const [error, setError] = useState(null);
   const history = useHistory();
@@ -116,10 +121,47 @@ function Register() {
     event.preventDefault();
   };
 
+	const formSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (!formIsValid) {
+      return;
+    }
+    setError(null);
+    try {
+      await dispatch(
+        register({
+          email,
+          name: username,
+					password,
+					address,
+					address
+        })
+      ).unwrap();
+      emailReset();
+      passwordReset();
+			usernameReset();
+			confirmpasswordReset();
+			addressReset();
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  if (isAuthenticated) {
+    if (user?.banned) {
+      return <div>Banned</div>;
+    }
+
+    if (!user?.verified) {
+      return <Redirect to="/confirm-email" />;
+    }
+    return <Redirect to={location.state?.from || '/'} />;
+  }
+
   return (
     <div className={classes.root}>
       <div>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={formSubmitHandler}>
           <Typography variant="h6" className={classes.title}>
             Register
           </Typography>
@@ -130,7 +172,7 @@ function Register() {
               fullWidth
               className={classes.textField}>
               <InputLabel htmlFor="username" className={classes.inputLabel}>
-                FullName
+                Tên đầy đủ
               </InputLabel>
               <FilledInput
                 value={username}
@@ -176,7 +218,7 @@ function Register() {
               fullWidth
               className={classes.textField}>
               <InputLabel htmlFor="address" className={classes.inputLabel}>
-                Address
+                Địa chỉ
               </InputLabel>
               <FilledInput
                 value={address}
@@ -200,7 +242,7 @@ function Register() {
               variant="filled"
               fullWidth>
               <InputLabel htmlFor="password" className={classes.inputLabel}>
-                Password
+                Mật khẩu
               </InputLabel>
               <FilledInput
                 value={password}
@@ -237,7 +279,7 @@ function Register() {
               variant="filled"
               fullWidth>
               <InputLabel htmlFor="confirmpassword" className={classes.inputLabel}>
-                Retype password
+								Nhập lại mật khẩu
               </InputLabel>
               <FilledInput
                 value={confirmpassword}
