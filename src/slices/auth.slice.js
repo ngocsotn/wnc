@@ -177,6 +177,15 @@ const authSlice = createSlice({
       state.isLoading = false;
     },
     [recovery.fulfilled]: authSuccess,
+    [recovery.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [recovery.rejected]: (state) => {
+      state.isLoading = false;
+    },
+    [recovery.fulfilled]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 
