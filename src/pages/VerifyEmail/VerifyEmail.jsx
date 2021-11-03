@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Typography,
   FormControl,
@@ -14,12 +14,17 @@ import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { Sync } from '@material-ui/icons';
 import { useHistory, useLocation } from 'react-router';
 import queryString from 'query-string';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { confirmEmail } from '../../slices/auth.slice';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function VerifyEmail() {
   const classes = useStyles();
   const location = useLocation();
-  const { id, code } = queryString.parse(location.search);
+  const { code } = queryString.parse(location.search);
   const history = useHistory();
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  const dispatch = useDispatch();
   const {
     enteredInput: verifyCode,
     inputBlurHandler: verifyCodeBlurHandler,
@@ -28,12 +33,38 @@ function VerifyEmail() {
     inputIsValid: verifyCodeIsvalid,
     hasError: verifyCodeHasError,
     errorMsg: verifyCodeErrorMessage,
-  } = useInput(code || '');
+    setEnteredInput: setVerifyCode,
+  } = useInput();
+
+  const confirmEmailHandler = useCallback(
+    async (code) => {
+      try {
+        await dispatch(confirmEmail({ code })).unwrap();
+        toast.success('Verify successfully!!!');
+        history.push(location.state?.from || '/');
+      } catch (error) {
+        toast.error(error);
+      }
+    },
+    [dispatch, history, location.state]
+  );
+
+  useEffect(() => {
+    if (code) {
+      setVerifyCode(code);
+      confirmEmailHandler(code);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={classes.root}>
       <div>
-        <form className={classes.form}>
+        <form
+          className={classes.form}
+          onSubmit={(e) => {
+            e.preventDefault();
+            confirmEmailHandler(verifyCode);
+          }}>
           <Typography variant="h6" className={classes.title}>
             Account activation
           </Typography>
@@ -68,7 +99,11 @@ function VerifyEmail() {
           </div>
           <Box display="flex" flexWrap="wrap" justifyContent="space-between">
             <Box flex={1} marginRight={1}>
-              <ButtonLoading size="large" type="submit">
+              <ButtonLoading
+                size="large"
+                type="submit"
+                isLoading={isLoading}
+                disabled={!verifyCodeIsvalid}>
                 Active
               </ButtonLoading>
             </Box>
