@@ -4,7 +4,6 @@ import moment from 'moment';
 import {
   Box,
   Container,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -26,7 +25,7 @@ function UserManager() {
       <Container>
         <Box margin="20px 30px">
           <Typography variant="h3" align="center">
-            User Manager
+            Quản lý người dùng
           </Typography>
         </Box>
         <Box boxShadow={6}>
@@ -35,13 +34,12 @@ function UserManager() {
               <TableHead>
                 <TableRow className={classes.tableHead}>
                   <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
-                  <TableCell> Full Name </TableCell>
+                  <TableCell> Tên </TableCell>
                   <TableCell> Email </TableCell>
-                  <TableCell> Birth </TableCell>
-                  <TableCell> Address </TableCell>
-                  <TableCell> Date Created </TableCell>
-                  <TableCell> Type </TableCell>
-                  <TableCell> Options </TableCell>
+                  <TableCell> Ngày sinh </TableCell>
+                  <TableCell> Địa chỉ </TableCell>
+                  <TableCell> Quyền hạn </TableCell>
+                  <TableCell> Tùy chọn </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -55,15 +53,7 @@ function UserManager() {
                   <TableCell>xizot@gmail.com</TableCell>
                   <TableCell>{moment().format('DD/MM/yyyy')}</TableCell>
                   <TableCell>123 Thu Duc</TableCell>
-                  <TableCell>{moment().format('MM/DD/yyyy')}</TableCell>
-                  <TableCell>
-                    <Box width={100}>
-                      <Select native>
-                        <option value={false}>Seller</option>
-                        <option value={true}>Bidder</option>
-                      </Select>
-                    </Box>
-                  </TableCell>
+                  <TableCell>Bidder</TableCell>
                   <TableCell>
                     <Box display="flex">
                       <Edit className={classes.actionIcon} />

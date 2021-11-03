@@ -26,7 +26,7 @@ function ProductManager() {
       <Container>
         <Box margin="20px 30px">
           <Typography variant="h3" align="center">
-            Product Manager
+            Quản lý sản phẩm
           </Typography>
         </Box>
         <Box boxShadow={6}>
@@ -35,18 +35,18 @@ function ProductManager() {
               <TableHead>
                 <TableRow className={classes.tableHead}>
                   <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
-                  <TableCell> Image </TableCell>
-                  <TableCell> Name </TableCell>
-                  <TableCell> Bidder highest price currently </TableCell>
-                  <TableCell> Current price</TableCell>
-                  <TableCell> Create at </TableCell>
-                  <TableCell> Time remaining </TableCell>
-                  <TableCell> Bid </TableCell>
+                  <TableCell> Ảnh </TableCell>
+                  <TableCell> Tên </TableCell>
+                  <TableCell> Người giữ giá hiện tại </TableCell>
+                  <TableCell> Giá hiện tại</TableCell>
+                  <TableCell> Tạo lúc </TableCell>
+                  <TableCell> Thời gian còn lại </TableCell>
+                  <TableCell> Lượt bid </TableCell>
                   {/* <TableCell> Start price </TableCell>
                   <TableCell> Step price </TableCell> */}
-                  <TableCell> Buy price </TableCell>
-                  <TableCell> Options </TableCell>
-                  <TableCell> Expire at </TableCell>
+                  <TableCell> Giá Mua ngay </TableCell>
+                  <TableCell> Tùy chọn </TableCell>
+                  <TableCell> Kết thúc</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -67,7 +67,7 @@ function ProductManager() {
                   <TableCell>Điện thoại iPhone 13 Pro Max 1TB</TableCell>
                   <TableCell>Nguyễn Văn Nhật</TableCell>
                   <TableCell>40.000.000đ</TableCell>
-                  <TableCell>{moment().format('DD/MM/yyyy')}</TableCell>
+                  <TableCell>{moment().format('DD/MM/yyyy HH:mm:ss')}</TableCell>
                   <TableCell>{moment().format('HH: mm: ss')}</TableCell>
                   <TableCell>1000</TableCell>
                   <TableCell>45.000.000đ</TableCell>
@@ -76,7 +76,7 @@ function ProductManager() {
                       <Delete className={classes.actionIcon} />
                     </Box>
                   </TableCell>
-                  <TableCell>{moment().format('DD/MM/yyyy')}</TableCell>
+                  <TableCell>{moment().format('DD/MM/yyyy HH:mm:ss')}</TableCell>
                 </TableRow>
               </TableBody>
               <TableFooter>

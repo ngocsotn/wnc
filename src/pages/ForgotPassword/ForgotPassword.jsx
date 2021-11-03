@@ -76,7 +76,7 @@ function ForgotPassword() {
               <FormHelperText className={classes.errorMessage}>{emailErrorMessage}</FormHelperText>
             )}
           </div>
-
+					{error && <FormHelperText className={classes.errorMessage}>{error}</FormHelperText>}
           <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
             Send
           </ButtonLoading>

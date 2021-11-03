@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useStyles from './CategoryManager.styles';
+import useStyles from './SubCategoryManager.styles';
 
 import {
   Box,
   Container,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -20,7 +21,7 @@ import { toast } from 'react-toastify';
 import { Delete, Edit, Add } from '@material-ui/icons';
 
 
-function CategoryManager() {
+function SubCategoryManager() {
 	const classes = useStyles();
 
 	return (
@@ -28,12 +29,21 @@ function CategoryManager() {
       <Container>
         <Box margin="20px 30px">
           <Typography variant="h3" align="center">
-            Quản lý danh mục
+            Quản lý danh mục Con
           </Typography>
-					<div className={classes.topWrapOptions}>
+					<div className={classes.topWrapOptions}> 
 						<Button variant="outlined" startIcon={<Add />} className={classes.buttonAdd}>
 							Thêm mới
 						</Button>
+						<div className={classes.selectWrap}>
+							<Typography variant="p" style={{ fontWeight: 'bold' }} className={classes.categoryTitle}>
+								Danh mục Cha
+							</Typography>
+							<Select native className={classes.selectCategory}>
+									<option value={false}>Điện tử và thiết bị thông minh</option>
+									<option value={true}>Đồ cổ và đồ quý giá</option>
+							</Select>
+						</div>
 					</div>
         </Box>
         <Box boxShadow={6}>
@@ -42,8 +52,9 @@ function CategoryManager() {
               <TableHead>
                 <TableRow className={classes.tableHead}>
                   <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
-                  <TableCell> Name </TableCell>
-                  <TableCell className={classes.actionHeader}> Options </TableCell>
+                  <TableCell> Tên </TableCell>
+									<TableCell> Danh mục cha </TableCell>
+                  <TableCell className={classes.actionHeader}> Tùy chọn </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -51,7 +62,12 @@ function CategoryManager() {
                   <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
                     1
                   </TableCell>
-                  <TableCell>Đồ điện tử và thiết bị thông minh</TableCell>
+                  <TableCell>
+										Điện thoại di động
+									</TableCell>
+									<TableCell>
+										Điện tử và thiết bị thông minh
+									</TableCell>
                   <TableCell>
                     <Box display="flex" justifyContent="center">
 											<Edit className={classes.actionIcon} />
@@ -78,4 +94,4 @@ function CategoryManager() {
   );
 }
 
-export default CategoryManager;
+export default SubCategoryManager;

@@ -6,9 +6,11 @@ const VerifyEmail = lazy(() => import('../pages/VerifyEmail/VerifyEmail'));
 const Login = lazy(() => import('../pages/Login/Login'));
 const Logout = lazy(() => import('../pages/Logout/Logout'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword/ForgotPassword'));
+const ResetPassword = lazy(() => import('../pages/ResetPassword/ResetPassword'));
 const Detail = lazy(() => import('../pages/Detail/Detail'));
 const Manager = lazy(() => import('../pages/AUTH/Manager/Manager'));
 const CategoryManager = lazy(() => import('../pages/AUTH/ADMIN/CategoryManager/CategoryManager'));
+const SubCategoryManager = lazy(() => import('../pages/AUTH/ADMIN/SubCategoryManager/SubCategoryManager'));
 const UserManager = lazy(() => import('../pages/AUTH/ADMIN/UserManager/UserManager'));
 const ProductManager = lazy(() => import('../pages/AUTH/ADMIN/ProductManager/ProductManager'));
 const Search = lazy(() => import('../pages/Search/Search'));
@@ -47,6 +49,13 @@ export const routes = [
     protected: false,
     exact: true,
     component: ForgotPassword,
+    roles: [],
+  },
+	{
+    path: '/reset-password',
+    protected: false,
+    exact: true,
+    component: ResetPassword,
     roles: [],
   },
   {
@@ -93,6 +102,12 @@ export const routes = [
     path: '/admin/category-manager',
     protected: true,
     component: CategoryManager,
+    roles: ['admin'],
+  },
+	{
+    path: '/admin/subcategory-manager',
+    protected: true,
+    component: SubCategoryManager,
     roles: ['admin'],
   },
   {

@@ -110,6 +110,16 @@ function ProfileSideBar() {
               Quản lí danh mục
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              exact
+              to="/admin/subcategory-manager"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={watchListIcon} alt="" />
+              Quản lí danh mục con
+            </NavLink>
+          </li>
 
           <li>
             <NavLink
