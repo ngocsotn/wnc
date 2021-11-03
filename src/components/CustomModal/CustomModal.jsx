@@ -15,8 +15,6 @@ const CustomModal = () => {
     ui.openUpdate !== false ||
     ui.openRate !== false ||
     ui.openReview !== false;
-
-  console.log(ui);
   const closeHandler = () => {
     dispatch(uiActions.closeModal());
   };

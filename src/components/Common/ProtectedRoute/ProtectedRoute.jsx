@@ -6,7 +6,6 @@ function ProtectedRoute(props) {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
-  console.log(props);
 
   if (!isAuthenticated) {
     return (
@@ -22,7 +21,7 @@ function ProtectedRoute(props) {
   }
 
   if (props.roles?.length > 0) {
-    const isAccept = props.roles.includes((item) => item === user.role);
+    const isAccept = props.roles.includes(user.role);
     if (!isAccept) {
       return (
         <Redirect
