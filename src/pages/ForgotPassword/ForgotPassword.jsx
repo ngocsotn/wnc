@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Typography,
   FormControl,
@@ -9,10 +9,13 @@ import {
 
 import useStyles from './ForgotPassword.styles';
 import { useInput } from '../../hooks/use-input';
+import { forgotPassword } from '../../slices/auth.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 
 function ForgotPassword() {
   const classes = useStyles();
+	const dispatch = useDispatch();
 
   const {
     enteredInput: email,
@@ -25,11 +28,30 @@ function ForgotPassword() {
   } = useInput();
 
   const formIsValid = emailIsvalid;
+	const [error, setError] = useState(null);
+
+	const formSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (!formIsValid) {
+      return;
+    }
+    setError(null);
+    try {
+      await dispatch(
+        forgotPassword({
+          email:email
+        })
+      ).unwrap();
+      emailReset();
+    } catch (error) {
+      setError(error);
+    }
+  };
 
   return (
     <div className={classes.root}>
       <div>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={formSubmitHandler}>
           <Typography variant="h6" className={classes.title}>
             Forgot Password
           </Typography>
