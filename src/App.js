@@ -12,6 +12,7 @@ import CustomModal from './components/CustomModal/CustomModal';
 import ProtectedRoute from './components/Common/ProtectedRoute/ProtectedRoute';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from './slices/auth.slice';
+import { ToastContainer } from 'react-toastify';
 const theme = createTheme({
   palette: {
     primary: {
@@ -28,7 +29,7 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector((state) => state.auth.user);
   useEffect(() => {
     aos.init({
       offset: 150,
@@ -48,7 +49,11 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user?.active === false && !location.pathname.includes('/confirm-email') && !location.pathname.includes("/logout")) {
+    if (
+      user?.active === false &&
+      !location.pathname.includes('/confirm-email') &&
+      !location.pathname.includes('/logout')
+    ) {
       return history.push('/confirm-email');
     }
   }, [user, history, location.pathname]);
@@ -60,7 +65,7 @@ function App() {
     //   <Header />
     <>
       <CustomModal />
-
+      <ToastContainer />
       <Suspense fallback={<Loading />}>
         <Header />
         <Switch>
