@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useStyles from './CategoryManager.styles';
-
+import useStyles from './RequestManager.style';
+import moment from 'moment';
 import {
   Box,
   Container,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,39 +16,22 @@ import {
   Typography,
 	Button,
 } from '@material-ui/core';
-
-import { categoryGetByPage } from '../../../../slices/category.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Delete, Edit, Add } from '@material-ui/icons';
+import { Check, Block} from '@material-ui/icons';
 
 
-function CategoryManager() {
+function SubCategoryManager() {
 	const classes = useStyles();
-	const dispatch = useDispatch();
-	const [data, setData] = useState(null);
-
-	useEffect(() => {
-    try {
-			dispatch(
-        categoryGetByPage({limit:99999999999, page:1})
-      ).unwrap();
-		}catch (error) {
-      console.log(error);
-    }
-  }, []);
 
 	return (
     <div className={classes.root}>
       <Container>
         <Box margin="20px 30px">
           <Typography variant="h3" align="center">
-            Quản lý danh mục
+            Quản lý yêu cầu lên seller
           </Typography>
-					<div className={classes.topWrapOptions}>
-						<Button variant="outlined" startIcon={<Add />} className={classes.buttonAdd}>
-							Thêm mới
-						</Button>
+					<div className={classes.topWrapOptions}> 
 					</div>
         </Box>
         <Box boxShadow={6}>
@@ -56,7 +40,12 @@ function CategoryManager() {
               <TableHead>
                 <TableRow className={classes.tableHead}>
                   <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
-                  <TableCell> Tên </TableCell>
+                  <TableCell> Tên người dùng </TableCell>
+									<TableCell> Email </TableCell>
+									<TableCell> Được tạo lúc</TableCell>
+									<TableCell> Hết hạn lúc </TableCell>
+									<TableCell> Tình trạng yêu cầu </TableCell>
+									<TableCell> Lý do xin </TableCell>
                   <TableCell className={classes.actionHeader}> Tùy chọn </TableCell>
                 </TableRow>
               </TableHead>
@@ -65,11 +54,28 @@ function CategoryManager() {
                   <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
                     1
                   </TableCell>
-                  <TableCell>Đồ điện tử và thiết bị thông minh</TableCell>
+                  <TableCell>
+										ngocsotn xizot inauu
+									</TableCell>
+									<TableCell>
+										abcxyz12345@emgail.com
+									</TableCell>
+									<TableCell>
+										{moment().format('DD/MM/yyyy HH:mm:ss')}
+									</TableCell>
+									<TableCell>
+										{moment().format('DD/MM/yyyy HH:mm:ss')}
+									</TableCell>
+									<TableCell>
+										Đang chờ
+									</TableCell>
+									<TableCell>
+										Chào quản lý, mình đang có rất nhiều đồ cổ cần đấu giá rao bán, mong được duyệt làm seller, cảm ơn.
+									</TableCell>
                   <TableCell>
                     <Box display="flex" justifyContent="center">
-											<Edit className={classes.actionIcon} />
-                      <Delete className={classes.actionIcon} />
+											<Check className={classes.actionIcon} />
+                      <Block className={classes.actionIcon} />
                     </Box>
                   </TableCell>
                 </TableRow>
@@ -92,4 +98,4 @@ function CategoryManager() {
   );
 }
 
-export default CategoryManager;
+export default SubCategoryManager;

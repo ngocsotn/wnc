@@ -10,7 +10,7 @@ import ProductPanel from '../../../components/TabPanel/ProductPanel/ProductPanel
 import ProfilePanel from '../../../components/TabPanel/ProfilePanel/ProfilePanel';
 import useStyles from './Manager.styles';
 function Manager() {
-  const tabs = ['profile', 'password', 'auction', 'notification', 'product', 'mylist', 'rate'];
+  const tabs = ['profile', 'password', 'auction', 'product', 'mylist', 'rate'];
   const classes = useStyles();
   const { slug } = useParams();
 

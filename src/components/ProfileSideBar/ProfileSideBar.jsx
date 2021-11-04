@@ -52,18 +52,6 @@ function ProfileSideBar() {
           Lịch sử đánh giá
         </NavLink>
       </li>
-      {user?.role === 'seller' && (
-        <li>
-          <NavLink
-            exact
-            to="/account/product"
-            className={classes.link}
-            activeClassName={classes.active}>
-            <img src={productIcon} alt="" />
-            Quản lí sản phẩm [SELLER]
-          </NavLink>
-        </li>
-      )}
 
       {user?.role === 'bidder' && (
         <li>
@@ -74,6 +62,19 @@ function ProfileSideBar() {
             activeClassName={classes.active}>
             <img src={auctionIcon} alt="" />
             Quản lí đấu giá
+          </NavLink>
+        </li>
+      )}
+
+			{user?.role === 'seller' && (
+        <li>
+          <NavLink
+            exact
+            to="/account/product-manager"
+            className={classes.link}
+            activeClassName={classes.active}>
+            <img src={productIcon} alt="" />
+            Quản lí sản phẩm [SELLER]
           </NavLink>
         </li>
       )}
@@ -124,7 +125,7 @@ function ProfileSideBar() {
           <li>
             <NavLink
               exact
-              to="/account/notification"
+              to="/admin/request-promotion"
               className={classes.link}
               activeClassName={classes.active}>
               <img src={notiIcon} alt="" />

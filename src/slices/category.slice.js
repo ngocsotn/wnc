@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../axios';
 
 export const categoryGetByPage = createAsyncThunk(
-  'category/categoryGetByPage',
+  'category/',
   async ({ limit, page }, { rejectWithValue }) => {
     try {
       return (await axiosInstance.get(`/category?limit=${limit}&page=${page}`)).data;

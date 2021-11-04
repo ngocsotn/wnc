@@ -11,6 +11,7 @@ const Detail = lazy(() => import('../pages/Detail/Detail'));
 const Manager = lazy(() => import('../pages/AUTH/Manager/Manager'));
 const CategoryManager = lazy(() => import('../pages/AUTH/ADMIN/CategoryManager/CategoryManager'));
 const SubCategoryManager = lazy(() => import('../pages/AUTH/ADMIN/SubCategoryManager/SubCategoryManager'));
+const RequestManager = lazy(() => import('../pages/AUTH/ADMIN/RequestManager/RequestManager'));
 const UserManager = lazy(() => import('../pages/AUTH/ADMIN/UserManager/UserManager'));
 const ProductManager = lazy(() => import('../pages/AUTH/ADMIN/ProductManager/ProductManager'));
 const Search = lazy(() => import('../pages/Search/Search'));
@@ -87,6 +88,12 @@ export const routes = [
     roles: [],
   },
   {
+    path: '/account/product-manager',
+    protected: true,
+    component: Manager, //will be edited
+    roles: ['seller'],
+  },
+  {
     path: '/admin/user-manager',
     protected: true,
     component: UserManager,
@@ -108,6 +115,12 @@ export const routes = [
     path: '/admin/subcategory-manager',
     protected: true,
     component: SubCategoryManager,
+    roles: ['admin'],
+  },
+	{
+    path: '/admin/request-promotion',
+    protected: true,
+    component: RequestManager,
     roles: ['admin'],
   },
   {

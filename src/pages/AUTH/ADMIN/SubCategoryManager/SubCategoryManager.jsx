@@ -29,7 +29,7 @@ function SubCategoryManager() {
       <Container>
         <Box margin="20px 30px">
           <Typography variant="h3" align="center">
-            Quản lý danh mục Con
+            Quản lý danh mục con
           </Typography>
 					<div className={classes.topWrapOptions}> 
 						<Button variant="outlined" startIcon={<Add />} className={classes.buttonAdd}>

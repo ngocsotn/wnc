@@ -21,7 +21,7 @@ function HeaderBottom() {
           {isAuthenticated && (
             <>
               <li>
-                <NavLink to="/account" activeClassName={classes.active}>
+                <NavLink to="/account/profile" activeClassName={classes.active}>
                   Tài khoản của tôi
                 </NavLink>
               </li>
