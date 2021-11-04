@@ -159,9 +159,9 @@ function Login() {
             Đăng nhập
           </ButtonLoading>
 
-          <Box display="flex" flexWrap="wrap" alignItems="center">
+          <Box>
             <Typography variant="body2" className={classes.textHelper}>
-              Bạn chưa có tài khoản? <Link to="/register">Đăng kí</Link>
+              Bạn chưa có tài khoản? <Link to="/register">Đăng ký</Link>
             </Typography>
             <Typography variant="body2" className={classes.textHelper}>
               <Link to="/forgot-password">Quên mật khẩu?</Link>

@@ -94,7 +94,7 @@ function ResetPassword() {
       <div>
         <form className={classes.form} onSubmit={formSubmitHandler}>
           <Typography variant="h6" className={classes.title}>
-            Reset Password
+            Đặt lại mật khẩu
           </Typography>
 
           <div className={classes.formControl}>
@@ -104,7 +104,7 @@ function ResetPassword() {
               variant="filled"
               fullWidth>
               <InputLabel htmlFor="password" className={classes.inputLabel}>
-                Password
+                Mật khẩu mới
               </InputLabel>
               <FilledInput
                 value={password}
@@ -141,7 +141,7 @@ function ResetPassword() {
               variant="filled"
               fullWidth>
               <InputLabel htmlFor="confirmpassword" className={classes.inputLabel}>
-                Retype password
+                Nhập lại mật khẩu mới
               </InputLabel>
               <FilledInput
                 value={confirmpassword}
@@ -176,15 +176,15 @@ function ResetPassword() {
             )}
           </div>
           <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
-            Confirm
+            Xác nhận
           </ButtonLoading>
 
           <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
             <Typography variant="body2" className={classes.textHelper}>
-              <Link to="/forgot-password">Back</Link>
+              <Link to="/forgot-password">Quay lại</Link>
             </Typography>
             <Typography variant="body2" className={classes.textHelper}>
-              <Link to="/login">Login</Link>
+              <Link to="/login">Đăng nhập</Link>
             </Typography>
           </Box>
         </form>

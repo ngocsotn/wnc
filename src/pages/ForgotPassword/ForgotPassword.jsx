@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   FormControl,
@@ -15,7 +15,7 @@ import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 
 function ForgotPassword() {
   const classes = useStyles();
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const {
     enteredInput: email,
@@ -28,9 +28,9 @@ function ForgotPassword() {
   } = useInput();
 
   const formIsValid = emailIsvalid;
-	const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
-	const formSubmitHandler = async (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault();
     if (!formIsValid) {
       return;
@@ -39,7 +39,7 @@ function ForgotPassword() {
     try {
       await dispatch(
         forgotPassword({
-          email:email
+          email: email,
         })
       ).unwrap();
       emailReset();
@@ -53,7 +53,7 @@ function ForgotPassword() {
       <div>
         <form className={classes.form} onSubmit={formSubmitHandler}>
           <Typography variant="h6" className={classes.title}>
-            Forgot Password
+            Khôi phục mật khẩu
           </Typography>
           <div className={classes.formControl}>
             <FormControl
@@ -76,9 +76,9 @@ function ForgotPassword() {
               <FormHelperText className={classes.errorMessage}>{emailErrorMessage}</FormHelperText>
             )}
           </div>
-					{error && <FormHelperText className={classes.errorMessage}>{error}</FormHelperText>}
+          {error && <FormHelperText className={classes.errorMessage}>{error}</FormHelperText>}
           <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
-            Send
+            Gửi email
           </ButtonLoading>
         </form>
       </div>

@@ -53,7 +53,7 @@ export default makeStyles((theme) => ({
     },
   },
   textHelper: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1.5),
     color: '#333',
     '& > a': {
       color: theme.palette.primary.main,

@@ -19,14 +19,14 @@ import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 
 function Register() {
   const classes = useStyles();
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [birthDate, setBirthDate] = useState(new Date());
   const [birthError, setBirthError] = useState(null);
   const [isNotMatch, setIsNotMatch] = useState(true);
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
   const [error, setError] = useState(null);
   const history = useHistory();
@@ -121,7 +121,7 @@ function Register() {
     event.preventDefault();
   };
 
-	const formSubmitHandler = async (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault();
     if (!formIsValid) {
       return;
@@ -132,16 +132,16 @@ function Register() {
         register({
           email,
           name: username,
-					password,
-					address,
-					address
+          password,
+          address,
+          address,
         })
       ).unwrap();
       emailReset();
       passwordReset();
-			usernameReset();
-			confirmpasswordReset();
-			addressReset();
+      usernameReset();
+      confirmpasswordReset();
+      addressReset();
     } catch (error) {
       setError(error);
     }
@@ -163,7 +163,7 @@ function Register() {
       <div>
         <form className={classes.form} onSubmit={formSubmitHandler}>
           <Typography variant="h6" className={classes.title}>
-            Register
+            Đăng ký tài khoản
           </Typography>
           <div className={classes.formControl}>
             <FormControl
@@ -279,7 +279,7 @@ function Register() {
               variant="filled"
               fullWidth>
               <InputLabel htmlFor="confirmpassword" className={classes.inputLabel}>
-								Nhập lại mật khẩu
+                Nhập lại mật khẩu
               </InputLabel>
               <FilledInput
                 value={confirmpassword}
@@ -315,12 +315,12 @@ function Register() {
           </div>
           {error && <FormHelperText className={classes.resError}>{error}</FormHelperText>}
           <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
-            Register
+            Đăng ký
           </ButtonLoading>
 
           <Box display="flex" justifyContent="flex-end">
             <Typography variant="body2" className={classes.textHelper}>
-              <Link to="/login">Already have an account?</Link>
+              <Link to="/login">Bạn đã có tài khoản?</Link>
             </Typography>
           </Box>
         </form>

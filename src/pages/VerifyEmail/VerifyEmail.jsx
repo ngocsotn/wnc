@@ -66,7 +66,7 @@ function VerifyEmail() {
             confirmEmailHandler(verifyCode);
           }}>
           <Typography variant="h6" className={classes.title}>
-            Account activation
+            Kích hoạt tài khoản
           </Typography>
           <div className={classes.formControl}>
             <FormControl
@@ -75,7 +75,7 @@ function VerifyEmail() {
               fullWidth
               className={classes.textField}>
               <InputLabel htmlFor="verifyCode" className={classes.inputLabel}>
-                Activation code
+                Mã kích hoạt
               </InputLabel>
               <FilledInput
                 value={verifyCode}
@@ -93,7 +93,7 @@ function VerifyEmail() {
             )) ||
               (verifyCode.length === 0 && (
                 <FormHelperText style={{ color: '#333', paddingLeft: 8 }}>
-                  Active code in your email
+                  Mã kích hoạt được gửi vào email của bạn
                 </FormHelperText>
               ))}
           </div>
@@ -104,7 +104,7 @@ function VerifyEmail() {
                 type="submit"
                 isLoading={isLoading}
                 disabled={!verifyCodeIsvalid}>
-                Active
+                Xác nhận
               </ButtonLoading>
             </Box>
 
