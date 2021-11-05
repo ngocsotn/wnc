@@ -10,6 +10,7 @@ import { quillConfig } from '../../../utils/quillConfig';
 function EditProductModalPanel({ onClose }) {
   const classes = useStyles();
   const [description, setDescription] = useState('');
+  console.log(description);
 
   return (
     <Container className={classes.root}>

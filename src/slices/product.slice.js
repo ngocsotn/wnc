@@ -1,6 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../axios';
 
+export const productGetById = createAsyncThunk(
+  'product/productGetById',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      return (await axiosInstance.get(`/product/${id}`)).data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data.errs?.join(' - '));
+    }
+  }
+);
+
 export const productGetByPage = createAsyncThunk(
   'product/productGetByPage',
   async ({ sub_category_id, order_by, order_type, keyword, limit, page }, { rejectWithValue }) => {

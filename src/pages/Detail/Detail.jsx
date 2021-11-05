@@ -1,6 +1,6 @@
 import { Box, Button, Container, IconButton, TextField, Typography } from '@material-ui/core';
 import { AccessTime, Add, Gavel } from '@material-ui/icons';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import Slider from 'react-slick';
 import CustomArrowNext from '../../components/CustomArrowNext/CustomArrowNext';
 import CustomArrowPrev from '../../components/CustomArrowPrev/CustomArrowPrev';
@@ -10,9 +10,18 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import Section from '../../components/Section/Section';
 import { getCreatedTime } from '../../utils/getCreatedTime';
+import { useParams } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { productGetById } from '../../slices/product.slice';
+import { toast } from 'react-toastify';
 
-function Detail() {
+function Detail({}) {
+  const { id } = useParams();
+
   const classes = useStyles();
+  const dispatch = useDispatch();
+  console.log(useParams());
+  const description = ':';
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
   const [listImage, setListImage] = useState([
@@ -48,6 +57,20 @@ function Detail() {
     [listImage]
   );
 
+  const getProductByIdHandler = useCallback(async (id) => {
+    try {
+      const response = await dispatch(productGetById(id)).unwrap();
+      console.log(response);
+    } catch (error) {
+      toast(error);
+    }
+  }, []);
+  useEffect(() => {
+    getProductByIdHandler(id);
+  }, [id, getProductByIdHandler]);
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [dispatch]);
   return (
     <div className={classes.root}>
       <Section>
@@ -125,18 +148,7 @@ function Detail() {
         </div>
 
         <div className={classes.description}>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque, labore quam impedit
-          reiciendis illum doloremque facere incidunt. Iure ab possimus officiis doloribus. Maxime
-          accusantium impedit soluta assumenda. Nemo dolores iusto facere commodi corrupti doloribus
-          hic, aut voluptatem, culpa provident reprehenderit, temporibus veniam cumque vitae.
-          Tempora quis nostrum non quae inventore, ut tempore distinctio dolores totam error.
-          Voluptate cupiditate eos quaerat inventore provident ad quisquam soluta molestias deserunt
-          ut fuga excepturi tempora iste, recusandae nulla, voluptatem quae ipsam libero vel natus,
-          impedit asperiores repudiandae animi nam? Sunt ducimus, dolorum, explicabo ratione quasi
-          minus illo quisquam voluptatem atque, debitis beatae! Ut repellat eveniet beatae
-          exercitationem, placeat sit autem vitae delectus. Aut quidem alias, exercitationem quo
-          magni aliquam repudiandae ducimus consequatur laboriosam doloribus quaerat esse fugiat
-          totam voluptas ex, quibusdam vero facilis. Dolorem exercitationem
+          <div dangerouslySetInnerHTML={{ __html: description }} />
         </div>
       </Section>
 

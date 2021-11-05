@@ -61,20 +61,20 @@ function ProfileSideBar() {
             className={classes.link}
             activeClassName={classes.active}>
             <img src={auctionIcon} alt="" />
-            Quản lí đấu giá
+            Lịch sử đấu giá
           </NavLink>
         </li>
       )}
 
-			{user?.role === 'seller' && (
+      {user?.role === 'seller' && (
         <li>
           <NavLink
             exact
-            to="/account/product-manager"
+            to="/account/product"
             className={classes.link}
             activeClassName={classes.active}>
             <img src={productIcon} alt="" />
-            Quản lí sản phẩm [SELLER]
+            Quản lí sản phẩm
           </NavLink>
         </li>
       )}
