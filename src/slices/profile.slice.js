@@ -40,6 +40,7 @@ export const profileGet = createAsyncThunk('profile/get', async (_, { rejectWith
     return rejectWithValue(error.response.data.errs?.join(' - '));
   }
 });
+
 export const profileUpdateInfo = createAsyncThunk(
   'profile/profileUpdateInfo',
   async ({ name, email, address, birth }, { rejectWithValue }) => {

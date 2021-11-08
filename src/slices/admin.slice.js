@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../axios';
 
 // admin
-export const getAllUser = createAsyncThunk(
-  'user/',
+// admin lấy danh sách user
+export const adminGetAllUser = createAsyncThunk(
+  'user/all',
   async ({ page, limit }, { rejectWithValue }) => {
     try {
       return (await axiosInstance.get(`/user?page=${page}&limit=${limit}`)).data;
@@ -16,8 +17,9 @@ export const getAllUser = createAsyncThunk(
   }
 );
 
-export const getUserDetail = createAsyncThunk(
-  'user/',
+//admin lấy thông tin chi tiết 1 user
+export const adminGetUserDetail = createAsyncThunk(
+  'user/detail',
   async ({ user_id }, { rejectWithValue }) => {
     try {
       return (await axiosInstance.get(`/user/${user_id}`)).data;
@@ -30,17 +32,18 @@ export const getUserDetail = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  'user/',
+// admin update vài thông tin cơ bản của user nào đó
+export const adminUpdateUser = createAsyncThunk(
+  'user/update',
   async ({ user_id, birth, name, address, email}, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.put(`/user/`), {
+      return (await axiosInstance.put(`/user`, {
 				user_id,
 				birth,
 				name,
 				address,
 				email
-			}).data;
+			})).data;
     } catch (error) {
       if (!error.response) {
         throw error;
