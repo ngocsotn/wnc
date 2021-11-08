@@ -80,4 +80,11 @@ export default makeStyles((theme) => ({
     fontWeight: 'normal',
     marginBottom: theme.spacing(1),
   },
+	
+	reCaptchaV2: {
+		display: 'flex',
+		justifyContent: 'center',
+		paddingBottom: theme.spacing(2)
+	}
+
 }));

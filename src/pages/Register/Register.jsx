@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
+import axios from 'axios';
+import ReCAPTCHA from "react-google-recaptcha";
 import {
   Typography,
   FormControl,
@@ -18,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 
 function Register() {
+	const reCaptchaRef = useRef(null);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -122,6 +125,19 @@ function Register() {
   };
 
   const formSubmitHandler = async (e) => {
+		// const captchaToken = await reCaptchaRef.current.executeAsync();
+    // reCaptchaRef.current.reset();
+    // console.log("captchaToken", captchaToken);
+    // // Pass this token response to your server for validation...
+    
+    // // Sample
+    // const res = await axios.post(
+    //   'http://localhost:3000/recaptcha',
+    //   { 
+    //     response: captchaToken
+    //   }
+    // );
+
     e.preventDefault();
     if (!formIsValid) {
       return;
@@ -314,6 +330,15 @@ function Register() {
             )}
           </div>
           {error && <FormHelperText className={classes.resError}>{error}</FormHelperText>}
+
+					<div className={classes.reCaptchaV2}>
+						<ReCAPTCHA
+						ref={reCaptchaRef}
+						sitekey={'6LdINR8dAAAAAC5zCvW9XwgHBAjDFej4_dIPe8bb'}
+						size="normal"
+						/>
+					</div>
+
           <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
             Đăng ký
           </ButtonLoading>
