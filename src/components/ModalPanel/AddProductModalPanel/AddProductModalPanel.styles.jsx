@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(2, 4),
     margin: '100px auto 70px',
+    maxWidth: '90%',
   },
   input: {},
   description: {

@@ -1,8 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../axios';
 
+export const categoryGetAll = createAsyncThunk(
+  'category/categoryGetAll',
+  async (_, { rejectWithValue }) => {
+    try {
+      return (await axiosInstance.get(`/category/all`)).data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data.errs?.join(' - '));
+    }
+  }
+);
 export const categoryGetByPage = createAsyncThunk(
-  'category/',
+  'category/categoryGetByPage',
   async ({ limit, page }, { rejectWithValue }) => {
     try {
       return (await axiosInstance.get(`/category?limit=${limit}&page=${page}`)).data;

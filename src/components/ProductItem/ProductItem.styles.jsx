@@ -7,6 +7,7 @@ export default makeStyles((theme) => ({
     boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
     overflow: 'hidden',
     border: '1px solid #ddd',
+    position: 'relative',
     borderRadius: theme.shape.borderRadius,
     '& p': {
       wordBreak: 'break-word',
@@ -57,7 +58,7 @@ export default makeStyles((theme) => ({
     cursor: 'pointer',
     fontSize: 13,
     color: '#fff',
-    zIndex: 1,
+    zIndex: 10,
     '&:after': {
       content: '""',
       top: 0,

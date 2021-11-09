@@ -6,14 +6,13 @@ function ProtectedRoute(props) {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
-
   if (!isAuthenticated) {
     return (
       <Redirect
         to={{
           pathname: '/login',
           state: {
-            from: props.currentPath,
+            from: props.location.pathname,
           },
         }}
       />

@@ -80,8 +80,8 @@ function ProductSlider({ listProduct, slidesToShow, settings }) {
     <Box className={classes.root}>
       <Slider {...newSettings} className={classes.slider}>
         {listProduct &&
-          listProduct.map((movie, index) => (
-            <div className={classes.productItem}>
+          listProduct.map((product, index) => (
+            <div className={classes.productItem} key={index}>
               <ProductItem
                 productId={1}
                 title="Đồng hồ Rolex"

@@ -10,7 +10,9 @@ const ResetPassword = lazy(() => import('../pages/ResetPassword/ResetPassword'))
 const Detail = lazy(() => import('../pages/Detail/Detail'));
 const Manager = lazy(() => import('../pages/AUTH/Manager/Manager'));
 const CategoryManager = lazy(() => import('../pages/AUTH/ADMIN/CategoryManager/CategoryManager'));
-const SubCategoryManager = lazy(() => import('../pages/AUTH/ADMIN/SubCategoryManager/SubCategoryManager'));
+const SubCategoryManager = lazy(() =>
+  import('../pages/AUTH/ADMIN/SubCategoryManager/SubCategoryManager')
+);
 const RequestManager = lazy(() => import('../pages/AUTH/ADMIN/RequestManager/RequestManager'));
 const UserManager = lazy(() => import('../pages/AUTH/ADMIN/UserManager/UserManager'));
 const ProductManager = lazy(() => import('../pages/AUTH/ADMIN/ProductManager/ProductManager'));
@@ -52,7 +54,7 @@ export const routes = [
     component: ForgotPassword,
     roles: [],
   },
-	{
+  {
     path: '/reset-password',
     protected: false,
     exact: true,
@@ -111,13 +113,13 @@ export const routes = [
     component: CategoryManager,
     roles: ['admin'],
   },
-	{
+  {
     path: '/admin/subcategory-manager',
     protected: true,
     component: SubCategoryManager,
     roles: ['admin'],
   },
-	{
+  {
     path: '/admin/request-promotion',
     protected: true,
     component: RequestManager,

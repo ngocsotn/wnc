@@ -1,5 +1,15 @@
-import { Checkbox, Container, FormControl, FormControlLabel, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import {
+  Checkbox,
+  Container,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@material-ui/core';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ModalTitle from '../../ModalTitle/ModalTitle';
 import useStyles from './AddProductModalPanel.styles';
 import ReactQuill from 'react-quill';
@@ -8,70 +18,198 @@ import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
 import { quillConfig } from '../../../utils/quillConfig';
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
+import { useInput } from '../../../hooks/use-input';
+import { text, number } from '../../../schemas/common.schema';
+import FormData from 'form-data';
+import { useDispatch } from 'react-redux';
+import { categoryGetAll } from '../../../slices/category.slice';
+
 function AddProductModalPanel({ onClose }) {
   const classes = useStyles();
   const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
   const [isExtension, setIsExtension] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
+  const [images, setImages] = useState(null);
+  const dispatch = useDispatch();
+
+  const {
+    enteredInput: title,
+    inputChangeHandler: titleChangeHandler,
+    inputBlurHandler: titleBlurHandler,
+    inputReset: titleReset,
+    inputIsValid: titleIsValid,
+    hasError: titleHasError,
+    errorMsg: titleErrorMsg,
+  } = useInput(text);
+  const {
+    enteredInput: price,
+    inputChangeHandler: priceChangeHandler,
+    inputBlurHandler: priceBlurHandler,
+    inputReset: priceReset,
+    inputIsValid: priceIsValid,
+    hasError: priceHasError,
+    errorMsg: priceErrorMsg,
+  } = useInput(number, 10000);
+  const {
+    enteredInput: stepPrice,
+    inputChangeHandler: stepPriceChangeHandler,
+    inputBlurHandler: stepPriceBlurHandler,
+    inputReset: stepPriceReset,
+    inputIsValid: stepPriceIsValid,
+    hasError: stepPriceHasError,
+    errorMsg: stepPriceErrorMsg,
+  } = useInput(number, 10000);
+
+  const {
+    enteredInput: buyNow,
+    inputChangeHandler: buyNowChangeHandler,
+    inputBlurHandler: buyNowBlurHandler,
+    inputReset: buyNowReset,
+    inputIsValid: buyNowIsValid,
+    hasError: buyNowHasError,
+    errorMsg: buyNowErrorMsg,
+  } = useInput();
+
+  const inputRef = useRef();
+
+  const categoryGetAllHandler = useCallback(async () => {
+    try {
+      const reponse = await dispatch(categoryGetAll()).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+  const fileInputHandler = (e) => {
+    const files = e.target.files;
+
+    if (files) {
+      setImages(files);
+      console.log(files);
+    }
+  };
 
   const isExentsionHandler = (e) => {
     setIsExtension(e.target.checked);
   };
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (images) {
+      formData.append('image', images);
+    }
+    formData.append('product_id', 12);
+    console.log(images);
+    console.log(formData);
+  };
+
+  useEffect(() => {
+    categoryGetAllHandler();
+  }, [categoryGetAllHandler]);
   return (
     <Container className={classes.root}>
-      <form action="">
+      <form action="" onSubmit={formSubmitHandler}>
         <ModalTitle title="Thêm sản phẩm đấu giá" onClose={onClose} />
         <div>
-          <TextField
-            className={classes.input}
-            fullWidth
-            required
-            margin="dense"
-            variant="outlined"
-            label="Tên sản phẩm"
-          />
-          <TextField
-            className={classes.input}
-            fullWidth
-            required
-            margin="dense"
-            variant="outlined"
-            type="number"
-            label="Giá khởi điểm (VND)"
-          />
-          <TextField
-            className={classes.input}
-            fullWidth
-            required
-            margin="dense"
-            variant="outlined"
-            type="number"
-            label="Bước giá (VND)"
-          />
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <KeyboardDateTimePicker
-              fullWidth
-              minDate={new Date()}
-              label="Ngày kết thúc"
-              value={endDate}
-              onChange={setEndDate}
-              onError={console.log}
-              format="DD/MM/yyyy HH:mm:ss"
-              inputVariant="outlined"
-              margin="dense"
-              size="small"
-            />
-          </MuiPickersUtilsProvider>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                className={classes.input}
+                size="small"
+                fullWidth
+                required
+                variant="outlined"
+                label="Tên sản phẩm"
+                helperText={(titleHasError && titleErrorMsg) || ''}
+                error={titleHasError}
+                onBlur={titleBlurHandler}
+                onChange={titleChangeHandler}
+                value={title}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                fullWidth
+                size="small">
+                <InputLabel id="category">Category</InputLabel>
+                <Select
+                  required
+                  labelId="category"
+                  id="demo-simple-select-outlined"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  label="category">
+                  <MenuItem value=""></MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
 
-          <TextField
-            className={classes.input}
-            fullWidth
-            required
-            margin="dense"
-            variant="outlined"
-            type="number"
-            label="Giá mua ngay (VND - không bắt buộc)"
-          />
+            <Grid item xs={12} md={6}>
+              <TextField
+                className={classes.input}
+                fullWidth
+                required
+                size="small"
+                variant="outlined"
+                type="number"
+                label="Giá khởi điểm (VND)"
+                helperText={(priceHasError && priceErrorMsg) || ''}
+                error={priceHasError}
+                onBlur={priceBlurHandler}
+                onChange={priceChangeHandler}
+                value={price}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                className={classes.input}
+                fullWidth
+                required
+                size="small"
+                variant="outlined"
+                type="number"
+                label="Bước giá (VND)"
+                helperText={(stepPriceHasError && stepPriceErrorMsg) || ''}
+                error={stepPriceHasError}
+                onBlur={stepPriceBlurHandler}
+                onChange={stepPriceChangeHandler}
+                value={stepPrice}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                className={classes.input}
+                fullWidth
+                size="small"
+                variant="outlined"
+                type="number"
+                label="Giá mua ngay (VND - không bắt buộc)"
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <KeyboardDateTimePicker
+                  fullWidth
+                  minDate={new Date()}
+                  label="Ngày kết thúc"
+                  value={endDate}
+                  onChange={setEndDate}
+                  onError={console.log}
+                  format="DD/MM/yyyy HH:mm:ss"
+                  inputVariant="outlined"
+                  size="small"
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
+          </Grid>
 
           <ReactQuill
             id="description"
@@ -93,6 +231,9 @@ function AddProductModalPanel({ onClose }) {
             multiple
             accept="image/png, image/gif, image/jpeg"
             placeholder="Chọn ảnh"
+            ref={inputRef}
+            onChange={fileInputHandler}
+            onClick={(e) => e.target.value === null}
           />
         </div>
         <FormControl color="primary">
@@ -108,7 +249,7 @@ function AddProductModalPanel({ onClose }) {
             label="Tự động gia hạn"
           />
         </FormControl>
-        <ButtonLoading fullWidth={false} style={{ marginTop: 10 }}>
+        <ButtonLoading fullWidth={false} style={{ marginTop: 10 }} type="submit">
           Lưu
         </ButtonLoading>
       </form>
