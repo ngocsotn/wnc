@@ -39,7 +39,7 @@ export const productAddImage = createAsyncThunk(
     //formData: image, product_id
     try {
       return (
-        await axiosInstance.post(`/product`, formData, {
+        await axiosInstance.post(`/image`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
       ).data;
@@ -127,9 +127,42 @@ export const productDelete = createAsyncThunk(
 
 const productSlice = createSlice({
   name: 'productSlice',
-  initialState: {},
+  initialState: {
+    allData: [],
+    count: 0,
+    data: [],
+    page: 0,
+    total_page: 0,
+    loading: false,
+  },
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [productGetByPage.fulfilled]: (state, action) => {
+      const { count, page, total_page, data } = action.payload;
+      state.count = count;
+      state.data = data;
+      state.page = page;
+      state.total_page = total_page;
+    },
+    [productAddNew.pending]: (state) => {
+      state.loading = true;
+    },
+    [productAddNew.rejected]: (state) => {
+      state.loading = false;
+    },
+    [productAddNew.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [productAddImage.pending]: (state) => {
+      state.loading = true;
+    },
+    [productAddImage.rejected]: (state) => {
+      state.loading = false;
+    },
+    [productAddImage.fulfilled]: (state) => {
+      state.loading = false;
+    },
+  },
 });
 
 export const productActions = productSlice.actions;

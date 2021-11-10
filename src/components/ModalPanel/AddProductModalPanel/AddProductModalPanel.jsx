@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   Grid,
   InputLabel,
-  MenuItem,
+  option,
   Select,
   TextField,
 } from '@material-ui/core';
@@ -23,6 +23,10 @@ import { text, number } from '../../../schemas/common.schema';
 import FormData from 'form-data';
 import { useDispatch } from 'react-redux';
 import { categoryGetAll } from '../../../slices/category.slice';
+import { productAddImage, productAddNew } from '../../../slices/product.slice';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 function AddProductModalPanel({ onClose }) {
   const classes = useStyles();
@@ -32,6 +36,8 @@ function AddProductModalPanel({ onClose }) {
   const [endDate, setEndDate] = useState(new Date());
   const [images, setImages] = useState(null);
   const dispatch = useDispatch();
+  const listCategory = useSelector((state) => state.category.allData);
+  const loading = useSelector((state) => state.product.loading);
 
   const {
     enteredInput: title,
@@ -62,24 +68,25 @@ function AddProductModalPanel({ onClose }) {
   } = useInput(number, 10000);
 
   const {
-    enteredInput: buyNow,
-    inputChangeHandler: buyNowChangeHandler,
-    inputBlurHandler: buyNowBlurHandler,
-    inputReset: buyNowReset,
-    inputIsValid: buyNowIsValid,
-    hasError: buyNowHasError,
-    errorMsg: buyNowErrorMsg,
+    enteredInput: buyPrice,
+    inputChangeHandler: buyPriceChangeHandler,
+    inputBlurHandler: buyPriceBlurHandler,
+    inputReset: buyPriceReset,
+    inputIsValid: buyPriceIsValid,
+    hasError: buyPriceHasError,
+    errorMsg: buyPriceErrorMsg,
   } = useInput();
 
   const inputRef = useRef();
 
   const categoryGetAllHandler = useCallback(async () => {
     try {
-      const reponse = await dispatch(categoryGetAll()).unwrap();
+      await dispatch(categoryGetAll()).unwrap();
     } catch (error) {
       console.log(error);
     }
   }, [dispatch]);
+
   const fileInputHandler = (e) => {
     const files = e.target.files;
 
@@ -93,15 +100,42 @@ function AddProductModalPanel({ onClose }) {
     setIsExtension(e.target.checked);
   };
 
-  const formSubmitHandler = (e) => {
+  const formIsValid =
+    titleIsValid && priceIsValid && stepPriceIsValid && description?.length > 10 && images;
+
+  const formSubmitHandler = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
-    if (images) {
-      formData.append('image', images);
+
+    if (!formIsValid) return;
+
+    try {
+      [...images].forEach((item) => {
+        console.log(item);
+        formData.append('image', item);
+      });
+
+      const response = await dispatch(
+        productAddNew({
+          sub_category_id: +category,
+          name: title,
+          auto_extend: isExtension,
+          detail: description,
+          start_price: +price,
+          step_price: +stepPrice,
+          buy_price: +buyPrice,
+          expire_at: moment(endDate).format('DD/MM/yyyy HH:mm:ss'),
+        })
+      ).unwrap();
+
+      formData.append('product_id', response.product_id);
+
+      await dispatch(productAddImage(formData)).unwrap();
+      toast.success('Thêm sản phẩm đấu giá thành công');
+    } catch (error) {
+      toast.error(error);
     }
-    formData.append('product_id', 12);
-    console.log(images);
-    console.log(formData);
   };
 
   useEffect(() => {
@@ -136,16 +170,25 @@ function AddProductModalPanel({ onClose }) {
                 size="small">
                 <InputLabel id="category">Category</InputLabel>
                 <Select
+                  native
                   required
                   labelId="category"
                   id="demo-simple-select-outlined"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   label="category">
-                  <MenuItem value=""></MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <option value=""></option>
+                  {listCategory?.length > 0 &&
+                    listCategory.map((cat, index) => (
+                      <optgroup label={cat.name} key={cat.category_id}>
+                        {cat?.data?.length > 0 &&
+                          cat.data.map((subCat, index) => (
+                            <option value={subCat.sub_category_id} key={subCat.sub_category_id}>
+                              {subCat.name}
+                            </option>
+                          ))}
+                      </optgroup>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -191,6 +234,11 @@ function AddProductModalPanel({ onClose }) {
                 variant="outlined"
                 type="number"
                 label="Giá mua ngay (VND - không bắt buộc)"
+                helperText={(buyPriceHasError && buyPriceErrorMsg) || ''}
+                error={buyPriceHasError}
+                onBlur={buyPriceBlurHandler}
+                onChange={buyPriceChangeHandler}
+                value={buyPrice}
               />
             </Grid>
 
@@ -249,8 +297,13 @@ function AddProductModalPanel({ onClose }) {
             label="Tự động gia hạn"
           />
         </FormControl>
-        <ButtonLoading fullWidth={false} style={{ marginTop: 10 }} type="submit">
-          Lưu
+        <ButtonLoading
+          fullWidth={false}
+          style={{ marginTop: 10 }}
+          type="submit"
+          disabled={!formIsValid}
+          isLoading={loading}>
+          Thêm sản phẩm đấu giá
         </ButtonLoading>
       </form>
     </Container>

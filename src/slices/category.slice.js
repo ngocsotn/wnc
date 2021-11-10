@@ -112,9 +112,29 @@ export const categoryDeleteSub = createAsyncThunk(
 
 const categorySlice = createSlice({
   name: 'categorySlice',
-  initialState: {},
+  initialState: {
+    allData: [],
+    count: 0,
+    data: [],
+    page: 0,
+    total_page: 0,
+  },
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [categoryGetByPage.fulfilled]: (state, action) => {
+      const { count, page, total_page, data } = action.payload;
+      state.count = count;
+      state.data = data;
+      state.page = page;
+      state.total_page = total_page;
+    },
+    [categoryGetAll.pending]: (state) => {
+      console.log('here');
+    },
+    [categoryGetAll.fulfilled]: (state, action) => {
+      state.allData = action.payload.data;
+    },
+  },
 });
 
 export const categoryActions = categorySlice.actions;

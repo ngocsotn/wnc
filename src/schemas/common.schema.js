@@ -8,5 +8,5 @@ export const text = {
   }),
 };
 export const number = {
-  value: Joi.number().min(10000),
+  value: Joi.number().min(2000),
 };

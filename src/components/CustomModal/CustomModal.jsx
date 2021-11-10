@@ -18,8 +18,6 @@ const CustomModal = () => {
   const closeHandler = () => {
     dispatch(uiActions.closeModal());
   };
-
-  console.log(isOpen);
   return (
     <Modal
       open={isOpen}

@@ -2,12 +2,12 @@ import { alpha, makeStyles } from '@material-ui/core';
 
 export default makeStyles((theme) => ({
   root: {
+    position: 'relative',
     display: 'block',
     opacity: 1 + '!important',
     boxShadow: '0px 2px 8px rgba(0,0,0,.4)',
     overflow: 'hidden',
     border: '1px solid #ddd',
-    position: 'relative',
     borderRadius: theme.shape.borderRadius,
     '& p': {
       wordBreak: 'break-word',

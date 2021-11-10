@@ -11,5 +11,6 @@ export default makeStyles((theme) => ({
   buttonLoading: {
     opacity: ' 0.7 !important',
     minHeight: 42,
+    minWidth: 150,
   },
 }));

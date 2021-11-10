@@ -12,6 +12,7 @@ import CustomModal from './components/CustomModal/CustomModal';
 import ProtectedRoute from './components/Common/ProtectedRoute/ProtectedRoute';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from './slices/auth.slice';
+import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 const theme = createTheme({
   palette: {
