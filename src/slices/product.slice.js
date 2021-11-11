@@ -136,7 +136,11 @@ const productSlice = createSlice({
     loading: false,
     getLoading: false,
   },
-  reducers: {},
+  reducers: {
+    removeProductById: (state, action) => {
+      state.data = state.data.filter((item) => item.product_id !== action.payload);
+    },
+  },
   extraReducers: {
     [productGetByPage.pending]: (state) => {
       state.loading = true;

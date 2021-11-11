@@ -119,7 +119,11 @@ const categorySlice = createSlice({
     page: 0,
     total_page: 0,
   },
-  reducers: {},
+  reducers: {
+    removeCategoryById: (state, action) => {
+      state.data = state.data.filter((item) => item.category_id !== action.payload);
+    },
+  },
   extraReducers: {
     [categoryGetByPage.fulfilled]: (state, action) => {
       const { count, page, total_page, data } = action.payload;

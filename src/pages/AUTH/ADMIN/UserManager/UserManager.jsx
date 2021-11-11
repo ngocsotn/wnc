@@ -26,7 +26,7 @@ function UserManager() {
             Quản lý người dùng
           </Typography>
         </Box>
-        <Box boxShadow={6}>
+        <Box boxShadow={6} marginBottom={3}>
           <TableContainer>
             <Table>
               <TableHead>
@@ -55,7 +55,6 @@ function UserManager() {
                   <TableCell>
                     <Box display="flex">
                       <Edit className={classes.actionIcon} />
-                      <Delete className={classes.actionIcon} />
                     </Box>
                   </TableCell>
                 </TableRow>

@@ -22,10 +22,13 @@ import { toast } from 'react-toastify';
 import { Delete, Edit } from '@material-ui/icons';
 import { productGetByPage } from '../../../../slices/product.slice';
 import { categoryGetAll } from '../../../../slices/category.slice';
+import { uiActions } from '../../../../slices/ui.slice';
+import RequestLoading from '../../../../components/UI/RequestLoading/RequestLoading';
 function ProductManager() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listCategory = useSelector((state) => state.category.allData);
+  const loading = useSelector((state) => state.product.loading);
   const [category, setCategory] = useState('');
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -66,6 +69,15 @@ function ProductManager() {
     }
   }, [dispatch]);
 
+  const openModalDeleteHandler = (id) => {
+    dispatch(
+      uiActions.setDelete({
+        type: 'product',
+        id: +id,
+      })
+    );
+    dispatch(uiActions.openModal('openDelete'));
+  };
   useEffect(() => {
     categoryGetAllHandler();
   }, [categoryGetAllHandler]);
@@ -105,7 +117,7 @@ function ProductManager() {
           </FormControl>
         </Box>
 
-        <Box boxShadow={6}>
+        <Box boxShadow={6} marginBottom={3}>
           <TableContainer>
             <Table>
               <TableHead>
@@ -125,7 +137,10 @@ function ProductManager() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data?.length > 0 &&
+                {loading ? (
+                  <RequestLoading />
+                ) : (
+                  data?.length > 0 &&
                   data.map((item, index) => (
                     <TableRow className={classes.tableRow} key={index}>
                       <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
@@ -147,12 +162,16 @@ function ProductManager() {
                       <TableCell>{item.bid_count} </TableCell>
                       <TableCell>{item.buy_price}đ</TableCell>
                       <TableCell>
-                        <Box display="flex" justifyContent="center">
+                        <Box
+                          display="flex"
+                          justifyContent="center"
+                          onClick={() => openModalDeleteHandler(item.product_id)}>
                           <Delete className={classes.actionIcon} />
                         </Box>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))
+                )}
               </TableBody>
               <TableFooter>
                 <TableRow>
