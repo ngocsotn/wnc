@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {
   Typography,
@@ -13,7 +12,7 @@ import {
 } from '@material-ui/core';
 import useStyles from './Register.styles';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Link, useHistory, Redirect, useLocation } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useInput } from '../../hooks/use-input';
 import { register } from '../../slices/auth.slice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,24 +24,25 @@ function Register() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
-  const [birthDate, setBirthDate] = useState(new Date());
-  const [birthError, setBirthError] = useState(null);
+  const loading = useSelector((state) => state.auth.loading);
+  // const [birthDate, setBirthDate] = useState(new Date());
+  // const [birthError, setBirthError] = useState(null);
   const [isNotMatch, setIsNotMatch] = useState(true);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
   const [error, setError] = useState(null);
-  const history = useHistory();
+
   const location = useLocation();
 
   const {
-    enteredInput: username,
-    inputBlurHandler: usernameBlurHandler,
-    inputChangeHandler: usernameChangeHandler,
-    inputReset: usernameReset,
-    inputIsValid: usernameIsvalid,
-    hasError: usernameHasError,
-    errorMsg: usernameErrorMessage,
+    enteredInput: fullName,
+    inputBlurHandler: fullNameBlurHandler,
+    inputChangeHandler: fullNameChangeHandler,
+    inputReset: fullNameReset,
+    inputIsValid: fullNameIsvalid,
+    hasError: fullNameHasError,
+    errorMsg: fullNameErrorMessage,
   } = useInput();
 
   const {
@@ -104,12 +104,12 @@ function Register() {
   };
 
   const formIsValid =
-    usernameIsvalid &&
+    fullNameIsvalid &&
     addressIsvalid &&
     emailIsvalid &&
     passwordIsvalid &&
     confirmpasswordIsvalid &&
-    birthError === null;
+    !isNotMatch;
 
   const toggleShowPasswordHandler = () => {
     setShowPassword((prevState) => !prevState);
@@ -142,20 +142,20 @@ function Register() {
     if (!formIsValid) {
       return;
     }
+
     setError(null);
     try {
       await dispatch(
         register({
           email,
-          name: username,
+          name: fullName,
           password,
-          address,
           address,
         })
       ).unwrap();
       emailReset();
       passwordReset();
-      usernameReset();
+      fullNameReset();
       confirmpasswordReset();
       addressReset();
     } catch (error) {
@@ -183,24 +183,24 @@ function Register() {
           </Typography>
           <div className={classes.formControl}>
             <FormControl
-              error={usernameHasError}
+              error={fullNameHasError}
               variant="filled"
               fullWidth
               className={classes.textField}>
-              <InputLabel htmlFor="username" className={classes.inputLabel}>
+              <InputLabel htmlFor="fullName" className={classes.inputLabel}>
                 Tên đầy đủ
               </InputLabel>
               <FilledInput
-                value={username}
-                onBlur={usernameBlurHandler}
-                onChange={usernameChangeHandler}
-                id="username"
+                value={fullName}
+                onBlur={fullNameBlurHandler}
+                onChange={fullNameChangeHandler}
+                id="fullName"
                 type="text"
               />
             </FormControl>
-            {usernameHasError && (
+            {fullNameHasError && (
               <FormHelperText className={classes.errorMessage}>
-                {usernameErrorMessage}
+                {fullNameErrorMessage}
               </FormHelperText>
             )}
           </div>
@@ -339,7 +339,7 @@ function Register() {
             />
           </div>
 
-          <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
+          <ButtonLoading size="large" type="submit" disabled={!formIsValid} isLoading={loading}>
             Đăng ký
           </ButtonLoading>
 

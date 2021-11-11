@@ -77,7 +77,7 @@ export const forgotPassword = createAsyncThunk(
     try {
       return (
         await axiosInstance.post('/auth/forgot', {
-          email:email
+          email: email,
         })
       ).data;
     } catch (error) {
@@ -104,7 +104,7 @@ export const recovery = createAsyncThunk(
 );
 
 const initialState = {
-  isLoading: false,
+  loading: false,
   isAuthenticated: false,
   user: {},
   token: null,
@@ -112,7 +112,7 @@ const initialState = {
 };
 
 const initReducer = (state) => {
-  state.isLoading = true;
+  state.loading = true;
   state.isAuthenticated = false;
   state.user = {};
   state.token = null;
@@ -124,7 +124,7 @@ const initReducer = (state) => {
 const authSuccess = (state, action) => {
   const { token, refresh_token } = action.payload;
   state.isAuthenticated = true;
-  state.isLoading = false;
+  state.loading = false;
   state.token = token;
   state.refresh_token = refresh_token;
   state.user = decodeJwt(token);
@@ -140,7 +140,7 @@ const authSlice = createSlice({
     verifiedAuth: authSuccess,
     logout: (state) => {
       state.isAuthenticated = false;
-      state.isLoading = false;
+      state.loading = false;
       state.token = null;
       state.refresh_token = null;
       state.user = {};
@@ -151,45 +151,45 @@ const authSlice = createSlice({
   extraReducers: {
     [login.pending]: initReducer,
     [login.rejected]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [login.fulfilled]: authSuccess,
     [register.pending]: initReducer,
     [register.rejected]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [register.fulfilled]: authSuccess,
     [confirmEmail.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [confirmEmail.rejected]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [confirmEmail.fulfilled]: authSuccess,
     [forgotPassword.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [forgotPassword.rejected]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [forgotPassword.fulfilled]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [recovery.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [recovery.rejected]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [recovery.fulfilled]: authSuccess,
     [recovery.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [recovery.rejected]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
     [recovery.fulfilled]: (state) => {
-      state.isLoading = false;
+      state.loading = false;
     },
   },
 });

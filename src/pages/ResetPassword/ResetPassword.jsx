@@ -24,6 +24,7 @@ function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [isNotMatch, setIsNotMatch] = useState(true);
+  const loading = useSelector((state) => state.auth.loading);
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -171,11 +172,11 @@ function ResetPassword() {
             )}
             {isNotMatch && isTouched && !confirmpasswordHasError && (
               <FormHelperText className={classes.errorMessage}>
-                <>ValidationError: Retype password does not match password</>
+                <>ValidationError: Mật khẩu không trùng khớp</>
               </FormHelperText>
             )}
           </div>
-          <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
+          <ButtonLoading size="large" type="submit" disabled={!formIsValid} isLoading={loading}>
             Xác nhận
           </ButtonLoading>
 

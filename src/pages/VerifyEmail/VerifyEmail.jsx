@@ -23,13 +23,12 @@ function VerifyEmail() {
   const location = useLocation();
   const { code } = queryString.parse(location.search);
   const history = useHistory();
-  const isLoading = useSelector((state) => state.auth.isLoading);
+  const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
   const {
     enteredInput: verifyCode,
     inputBlurHandler: verifyCodeBlurHandler,
     inputChangeHandler: verifyCodeChangeHandler,
-    inputReset: verifyCodeReset,
     inputIsValid: verifyCodeIsvalid,
     hasError: verifyCodeHasError,
     errorMsg: verifyCodeErrorMessage,
@@ -102,7 +101,7 @@ function VerifyEmail() {
               <ButtonLoading
                 size="large"
                 type="submit"
-                isLoading={isLoading}
+                isLoading={loading}
                 disabled={!verifyCodeIsvalid}>
                 Xác nhận
               </ButtonLoading>

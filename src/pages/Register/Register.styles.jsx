@@ -68,6 +68,8 @@ export default makeStyles((theme) => ({
     fontSize: 11,
     color: 'red',
     fontWeight: 'normal',
+    marginBottom: theme.spacing(1),
+    display: 'block',
   },
   datePicker: {
     '& .MuiInputBase-adornedEnd': {
@@ -80,11 +82,10 @@ export default makeStyles((theme) => ({
     fontWeight: 'normal',
     marginBottom: theme.spacing(1),
   },
-	
-	reCaptchaV2: {
-		display: 'flex',
-		justifyContent: 'center',
-		paddingBottom: theme.spacing(2)
-	}
 
+  reCaptchaV2: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingBottom: theme.spacing(2),
+  },
 }));

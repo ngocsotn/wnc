@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   FormControl,
@@ -24,7 +24,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.auth.isLoading);
+  const loading = useSelector((state) => state.auth.loading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
@@ -155,7 +155,7 @@ function Login() {
           </div>
 
           {error && <FormHelperText className={classes.resError}>{error}</FormHelperText>}
-          <ButtonLoading size="large" type="submit" isLoading={isLoading} disabled={!formIsValid}>
+          <ButtonLoading size="large" type="submit" isLoading={loading} disabled={!formIsValid}>
             Đăng nhập
           </ButtonLoading>
 

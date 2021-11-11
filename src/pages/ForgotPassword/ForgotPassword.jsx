@@ -16,6 +16,7 @@ import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 function ForgotPassword() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
 
   const {
     enteredInput: email,
@@ -39,7 +40,7 @@ function ForgotPassword() {
     try {
       await dispatch(
         forgotPassword({
-          email: email,
+          email,
         })
       ).unwrap();
       emailReset();
@@ -77,7 +78,7 @@ function ForgotPassword() {
             )}
           </div>
           {error && <FormHelperText className={classes.errorMessage}>{error}</FormHelperText>}
-          <ButtonLoading size="large" type="submit" disabled={!formIsValid}>
+          <ButtonLoading size="large" type="submit" disabled={!formIsValid} isLoading={loading}>
             Gửi email
           </ButtonLoading>
         </form>
