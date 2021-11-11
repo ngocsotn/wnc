@@ -92,7 +92,7 @@ function ProductManager() {
         </Box>
         <Box marginBottom={3}>
           <FormControl variant="outlined" size="small" style={{ minWidth: 250 }}>
-            <InputLabel id="category">Category</InputLabel>
+            <InputLabel id="category">Chọn danh mục</InputLabel>
             <Select
               native
               required

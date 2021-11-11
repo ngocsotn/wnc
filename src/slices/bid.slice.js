@@ -7,7 +7,7 @@ export const bidHistoryPaging = createAsyncThunk(
   'bid/history',
   async ({ page, limit, product_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.get(`/bid/${product_id}?page=${page}&limit=${limit}`)).data;
+      return (await axiosInstance.get(`/bid/history/${product_id}?page=${page}&limit=${limit}`)).data;
     } catch (error) {
       if (!error.response) {
         throw error;

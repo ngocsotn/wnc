@@ -15,12 +15,14 @@ import {
   TableRow,
   Typography,
   Button,
+  FormControl,
+  InputLabel,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Delete, Edit, Add } from '@material-ui/icons';
 
-import { categoryGetByPage, subCategoryGetByPage } from '../../../../slices/category.slice';
+import { categoryGetByPage, subCategoryGetByPage } from '../../../../slices/subCategory.slice';
 
 function SubCategoryManager() {
   const rowsPerPageChangeHandler = (event) => {
@@ -35,17 +37,21 @@ function SubCategoryManager() {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [category, setCategory] = useState('');
-  const count = useSelector((state) => state.category.count);
-  const data = useSelector((state) => state.category.data);
-  const listSubCategory = useSelector((state) => state.category.allData);
+  const count = useSelector((state) => state.subCategory.count);
+  const data = useSelector((state) => state.subCategory.data);
+  const listSubCategory = useSelector((state) => state.subCategory.allData);
 
   const categoryGetAllHandler = useCallback(async () => {
     try {
-      await dispatch(categoryGetByPage({ limit: 1000, page: 1 })).unwrap();
+      await dispatch(categoryGetByPage({ limit: 99999999, page: 1 })).unwrap();
     } catch (error) {
       console.log(error);
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    categoryGetAllHandler();
+  }, [categoryGetAllHandler]);
 
   useEffect(() => {
     try {
@@ -62,11 +68,6 @@ function SubCategoryManager() {
     }
   }, [limit, page, category, dispatch]);
 
-  useEffect(() => {
-    categoryGetAllHandler();
-  }, [categoryGetAllHandler]);
-
-
   return (
     <div className={classes.root}>
       <Container>
@@ -74,37 +75,35 @@ function SubCategoryManager() {
           <Typography variant="h3" align="center">
             Quản lý danh mục con
           </Typography>
-          <div className={classes.topWrapOptions}>
+        </Box>
+
+        <Box marginBottom={2} marginLeft="auto" >
+          <FormControl variant="outlined" size="small" style={{ minWidth: 250 }}>
+            <InputLabel id="category">Chọn danh mục</InputLabel>
+            <Select
+              native
+              className={classes.selectCategory}
+              required
+              labelId="category"
+              id="demo-simple-select-outlined"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}>
+              <option value=""></option>
+              {listSubCategory?.length > 0 &&
+                listSubCategory.map((item, index) => (
+                  <option value={item.category_id} key={item.category_id}>
+                    {item.name}
+                  </option>
+                ))}
+            </Select>
+          </FormControl >
+          <FormControl variant="outlined" size="small" style={{float: 'right'}}>
             <Button variant="outlined" startIcon={<Add />} className={classes.buttonAdd}>
               Thêm mới
             </Button>
-            <div className={classes.selectWrap}>
-              <Typography
-                variant="p"
-                style={{ fontWeight: 'bold' }}
-                className={classes.categoryTitle}>
-                Danh mục Cha
-              </Typography>
-
-              <Select
-                native
-                className={classes.selectCategory}
-                required
-                labelId="category"
-                id="demo-simple-select-outlined"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}>
-                {listSubCategory?.length > 0 &&
-                  listSubCategory.map((item, index) => (
-                    <option value={item.category_id} key={item.category_id}>
-                      {item.name}
-                    </option>
-                  ))}
-
-              </Select>
-            </div>
-          </div>
+          </FormControl>
         </Box>
+
         <Box boxShadow={6} marginBottom={3}>
           <TableContainer>
             <Table>
@@ -112,12 +111,11 @@ function SubCategoryManager() {
                 <TableRow className={classes.tableHead}>
                   <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
                   <TableCell> Tên </TableCell>
-                  <TableCell> Danh mục cha </TableCell>
+                  <TableCell> ID Danh mục cha </TableCell>
                   <TableCell className={classes.actionHeader}> Tùy chọn </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-
                 {data?.length > 0 &&
                   data.map((item, index) => (
                     <TableRow className={classes.tableRow} key={index}>
@@ -134,7 +132,6 @@ function SubCategoryManager() {
                       </TableCell>
                     </TableRow>
                   ))}
-
               </TableBody>
               <TableFooter>
                 <TableRow>
