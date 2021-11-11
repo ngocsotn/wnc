@@ -20,7 +20,7 @@ export const historySelfPaging = createAsyncThunk(
 );
 
 const historySlice = createSlice({
-  name: 'productSlice',
+  name: 'historySlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

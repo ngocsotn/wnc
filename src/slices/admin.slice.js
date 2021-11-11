@@ -35,15 +35,17 @@ export const adminGetUserDetail = createAsyncThunk(
 // admin update vài thông tin cơ bản của user nào đó
 export const adminUpdateUser = createAsyncThunk(
   'user/update',
-  async ({ user_id, birth, name, address, email}, { rejectWithValue }) => {
+  async ({ user_id, birth, name, address, email }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.put(`/user`, {
-				user_id,
-				birth,
-				name,
-				address,
-				email
-			})).data;
+      return (
+        await axiosInstance.put(`/user`, {
+          user_id,
+          birth,
+          name,
+          address,
+          email,
+        })
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -54,7 +56,7 @@ export const adminUpdateUser = createAsyncThunk(
 );
 
 const adminSlice = createSlice({
-  name: 'productSlice',
+  name: 'adminSlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

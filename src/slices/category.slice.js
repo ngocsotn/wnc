@@ -14,6 +14,7 @@ export const categoryGetAll = createAsyncThunk(
     }
   }
 );
+
 export const categoryGetByPage = createAsyncThunk(
   'category/categoryGetByPage',
   async ({ limit, page }, { rejectWithValue }) => {
@@ -69,6 +70,25 @@ export const categoryDelete = createAsyncThunk(
   }
 );
 
+// lấy danh sách danh mục con theo id danh mục cha
+export const subCategoryGetByPage = createAsyncThunk(
+  'category/categoryGetSub',
+  async ({ limit, page, category_id }, { rejectWithValue }) => {
+    try {
+      return (
+        await axiosInstance.get(
+          `/sub-category?limit=${limit}&page=${page}&category_id=${category_id}`
+        )
+      ).data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data.errs?.join(' - '));
+    }
+  }
+);
+
 export const categoryAddSub = createAsyncThunk(
   'category/categoryAddSub',
   async ({ category_id, name }, { rejectWithValue }) => {
@@ -86,7 +106,8 @@ export const categoryUpdateSub = createAsyncThunk(
   'category/categoryUpdateSub',
   async ({ name, sub_category_id, category_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.put(`/category`, { name, sub_category_id, category_id })).data;
+      return (await axiosInstance.put(`/sub-category`, { name, sub_category_id, category_id }))
+        .data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -132,8 +153,19 @@ const categorySlice = createSlice({
       state.page = page;
       state.total_page = total_page;
     },
+    [subCategoryGetByPage.fulfilled]: (state, action) => {
+      const { count, page, total_page, data } = action.payload;
+      state.count = count;
+      state.data = data;
+      state.page = page;
+      state.total_page = total_page;
+    },
     [categoryGetAll.pending]: (state) => {},
     [categoryGetAll.fulfilled]: (state, action) => {
+      state.allData = action.payload.data;
+    },
+		[categoryGetByPage.pending]: (state) => {},
+		[categoryGetByPage.fulfilled] :(state, action) => {
       state.allData = action.payload.data;
     },
   },

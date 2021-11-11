@@ -57,7 +57,7 @@ export const rateCreateNew = createAsyncThunk(
 
 
 const rateSlice = createSlice({
-  name: 'productSlice',
+  name: 'rateSlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

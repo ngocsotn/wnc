@@ -15,6 +15,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useInput } from '../../hooks/use-input';
 import { register } from '../../slices/auth.slice';
+import { postReCaptcha } from '../../slices/recatpcha.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 
@@ -125,25 +126,27 @@ function Register() {
   };
 
   const formSubmitHandler = async (e) => {
+    setError(null);
+
     // const captchaToken = await reCaptchaRef.current.executeAsync();
     // reCaptchaRef.current.reset();
-    // console.log("captchaToken", captchaToken);
+    // console.log('captchaToken', captchaToken);
     // // Pass this token response to your server for validation...
-
-    // // Sample
-    // const res = await axios.post(
-    //   'http://localhost:3000/recaptcha',
-    //   {
-    //     response: captchaToken
-    //   }
-    // );
+    // try {
+    //   await dispatch(
+    //     postReCaptcha({
+    //       response: captchaToken,
+    //     })
+    //   ).unwrap();
+    // } catch (error) {
+    //   setError(error);
+    // }
 
     e.preventDefault();
     if (!formIsValid) {
       return;
     }
 
-    setError(null);
     try {
       await dispatch(
         register({

@@ -86,7 +86,7 @@ export const requestAdminUpdateStatus = createAsyncThunk(
 );
 
 const requestSlice = createSlice({
-  name: 'productSlice',
+  name: 'requestSlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

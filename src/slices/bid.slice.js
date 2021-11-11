@@ -74,7 +74,7 @@ export const bidBlockUser = createAsyncThunk(
 
 
 const bidSlice = createSlice({
-  name: 'productSlice',
+  name: 'bidSlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

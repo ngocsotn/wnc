@@ -20,8 +20,52 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Delete, Edit, Add } from '@material-ui/icons';
 
+import { categoryGetByPage, subCategoryGetByPage } from '../../../../slices/category.slice';
+
 function SubCategoryManager() {
+  const rowsPerPageChangeHandler = (event) => {
+    setLimit(+event.target.value);
+    setPage(0);
+  };
+  const pageChangeHandler = (event, value) => {
+    setPage(value);
+  };
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const [category, setCategory] = useState('');
+  const count = useSelector((state) => state.category.count);
+  const data = useSelector((state) => state.category.data);
+  const listSubCategory = useSelector((state) => state.category.allData);
+
+  const categoryGetAllHandler = useCallback(async () => {
+    try {
+      await dispatch(categoryGetByPage({ limit: 1000, page: 1 })).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    try {
+      dispatch(
+        subCategoryGetByPage({
+          category_id: +category,
+          limit,
+          page: page + 1,
+        })
+      ).unwrap();
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+    }
+  }, [limit, page, category, dispatch]);
+
+  useEffect(() => {
+    categoryGetAllHandler();
+  }, [categoryGetAllHandler]);
+
 
   return (
     <div className={classes.root}>
@@ -41,9 +85,22 @@ function SubCategoryManager() {
                 className={classes.categoryTitle}>
                 Danh mục Cha
               </Typography>
-              <Select native className={classes.selectCategory}>
-                <option value={false}>Điện tử và thiết bị thông minh</option>
-                <option value={true}>Đồ cổ và đồ quý giá</option>
+
+              <Select
+                native
+                className={classes.selectCategory}
+                required
+                labelId="category"
+                id="demo-simple-select-outlined"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}>
+                {listSubCategory?.length > 0 &&
+                  listSubCategory.map((item, index) => (
+                    <option value={item.category_id} key={item.category_id}>
+                      {item.name}
+                    </option>
+                  ))}
+
               </Select>
             </div>
           </div>
@@ -60,27 +117,34 @@ function SubCategoryManager() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow className={classes.tableRow}>
-                  <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
-                    1
-                  </TableCell>
-                  <TableCell>Điện thoại di động</TableCell>
-                  <TableCell>Điện tử và thiết bị thông minh</TableCell>
-                  <TableCell>
-                    <Box display="flex" justifyContent="center">
-                      <Edit className={classes.actionIcon} />
-                      <Delete className={classes.actionIcon} />
-                    </Box>
-                  </TableCell>
-                </TableRow>
+
+                {data?.length > 0 &&
+                  data.map((item, index) => (
+                    <TableRow className={classes.tableRow} key={index}>
+                      <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                        {item.sub_category_id}
+                      </TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.category_id}</TableCell>
+                      <TableCell>
+                        <Box display="flex" justifyContent="center">
+                          <Edit className={classes.actionIcon} />
+                          <Delete className={classes.actionIcon} />
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
               </TableBody>
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[5, 10, 15]}
-                    count={25}
-                    rowsPerPage={5}
-                    page={1}
+                    rowsPerPageOptions={[5, 10, 15, 50, 100]}
+                    count={count}
+                    rowsPerPage={limit}
+                    page={page}
+                    onPageChange={pageChangeHandler}
+                    onRowsPerPageChange={rowsPerPageChangeHandler}
                   />
                 </TableRow>
               </TableFooter>

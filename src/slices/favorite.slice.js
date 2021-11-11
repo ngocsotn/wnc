@@ -51,7 +51,7 @@ export const favoriteDelete = createAsyncThunk(
 );
 
 const favoriteSlice = createSlice({
-  name: 'productSlice',
+  name: 'favoriteSlice',
   initialState: {},
   reducers: {},
   extraReducers: {},
