@@ -128,9 +128,7 @@ const categorySlice = createSlice({
       state.page = page;
       state.total_page = total_page;
     },
-    [categoryGetAll.pending]: (state) => {
-      console.log('here');
-    },
+    [categoryGetAll.pending]: (state) => {},
     [categoryGetAll.fulfilled]: (state, action) => {
       state.allData = action.payload.data;
     },

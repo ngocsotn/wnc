@@ -1,6 +1,5 @@
-import { Typography } from '@material-ui/core';
 import React from 'react';
-import { Nav, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import userIcon from '../../assets/images/user.png';
 import watchListIcon from '../../assets/images/purchase.png';
 import auctionIcon from '../../assets/images/diamond.png';

@@ -1,4 +1,4 @@
-import { Box, Button, Container, IconButton, TextField, Typography } from '@material-ui/core';
+import { Box, Button, IconButton, TextField, Typography } from '@material-ui/core';
 import { AccessTime, Add, Gavel } from '@material-ui/icons';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import Slider from 'react-slick';
@@ -12,28 +12,23 @@ import Section from '../../components/Section/Section';
 import { getCreatedTime } from '../../utils/getCreatedTime';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { productGetById } from '../../slices/product.slice';
+import { productGetById, productGetByPage } from '../../slices/product.slice';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
 
-function Detail({}) {
+function Detail() {
   const { id } = useParams();
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  console.log(useParams());
-  const description = ':';
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
-  const [listImage, setListImage] = useState([
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-    'https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546',
-  ]);
+  const [productDetail, setProductDetail] = useState({});
+  const getLoading = useSelector((state) => state.product.getLoading);
+  const loading = useSelector((state) => state.product.loading);
+  const [listSuggest, setListSuggest] = useState([]);
+
   const settings1 = useMemo(
     () => ({
       dots: false,
@@ -49,113 +44,161 @@ function Detail({}) {
   const settings2 = useMemo(
     () => ({
       dots: false,
-      infinite: listImage?.length > 5,
+      infinite: productDetail.images?.length > 5,
       speed: 500,
       arrows: false,
       slidesToShow: 5,
     }),
-    [listImage]
+    [productDetail]
   );
 
-  const getProductByIdHandler = useCallback(async (id) => {
-    try {
-      const response = await dispatch(productGetById(id)).unwrap();
-      console.log(response);
-    } catch (error) {
-      toast(error);
-    }
-  }, []);
+  const getProductByIdHandler = useCallback(
+    async (id) => {
+      try {
+        const response = await dispatch(productGetById({ id })).unwrap();
+        setProductDetail(response);
+      } catch (error) {
+        toast(error);
+      }
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     getProductByIdHandler(id);
   }, [id, getProductByIdHandler]);
+
+  useEffect(() => {
+    const getSuggestionHandler = async () => {
+      try {
+        const response = await dispatch(
+          productGetByPage({
+            sub_category_id: +productDetail.sub_category_id,
+            limit: 5,
+            page: 1,
+            order_by: null,
+            order_type: null,
+            keyword: null,
+          })
+        ).unwrap();
+        console.log(response);
+        setListSuggest(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSuggestionHandler();
+  }, [productDetail, dispatch]);
+
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, [dispatch]);
+
   return (
     <div className={classes.root}>
-      <Section>
-        <div className={classes.top}>
-          <div className={classes.productImage}>
-            <Slider
-              asNavFor={nav2}
-              ref={(slider1) => setNav1(slider1)}
-              {...settings1}
-              className={classes.thumbnail}>
-              {listImage?.length > 0 &&
-                listImage.map((item, index) => (
-                  <div key={index} className={classes.sliderMainImage}>
-                    <img src={item} alt="" />
-                  </div>
-                ))}
-            </Slider>
-            <Slider
-              asNavFor={nav1}
-              ref={(slider2) => setNav2(slider2)}
-              swipeToSlide={true}
-              focusOnSelect={true}
-              {...settings2}
-              className={`${classes.slider} ${classes.sliderControl}`}>
-              {listImage?.length > 0 &&
-                listImage.map((item, index) => (
-                  <div key={index} className={classes.sliderImage}>
-                    <img src={item} alt="" />
-                  </div>
-                ))}
-            </Slider>
-          </div>
-          <TimeLeft timeEnd="20/12/2021" />
-        </div>
-      </Section>
-
-      <Section background="#ddd" data-aos="fade-up">
-        <Box className={classes.detailTop}>
-          <div>
-            <Typography variant="h4" className={classes.title}>
-              Đồng hồ Rolex
-            </Typography>
-            <Typography variant="subtitle2" className={classes.seller}>
-              Người bán: <b>Nguyễn Văn Nhật (99)</b>
-            </Typography>
-            <div className={classes.created}>
-              <AccessTime fontSize="small" />
-              <Typography variant="subtitle2">{getCreatedTime('30/10/2021 23:00:00')}</Typography>
+      {getLoading ? (
+        <RequestLoading />
+      ) : (
+        <>
+          <Section>
+            <div className={classes.top}>
+              <div className={classes.productImage}>
+                <Slider
+                  asNavFor={nav2}
+                  ref={(slider1) => setNav1(slider1)}
+                  {...settings1}
+                  className={classes.thumbnail}>
+                  {productDetail.images?.length > 0 &&
+                    productDetail.images.map((image, index) => (
+                      <div key={index} className={classes.sliderMainImage}>
+                        <img src={image.url} alt="" />
+                      </div>
+                    ))}
+                </Slider>
+                <Slider
+                  asNavFor={nav1}
+                  ref={(slider2) => setNav2(slider2)}
+                  swipeToSlide={true}
+                  focusOnSelect={true}
+                  {...settings2}
+                  className={`${classes.slider} ${classes.sliderControl}`}>
+                  {productDetail.images?.length > 0 &&
+                    productDetail.images.map((image, index) => (
+                      <div key={index} className={classes.sliderImage}>
+                        <img src={image.url} alt="" />
+                      </div>
+                    ))}
+                </Slider>
+              </div>
+              <TimeLeft timeEnd={productDetail.expire_at} />
             </div>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.addToWatchList}
-              startIcon={<Add />}>
-              Add to watch list
-            </Button>
-          </div>
-          <div className={classes.bid}>
-            <TextField required id="money" label="Tiền đấu giá" defaultValue={10} />
-            <IconButton color="primary">
-              <Gavel />
-            </IconButton>
-          </div>
-        </Box>
+          </Section>
 
-        <Typography variant="h6">
-          Ra giá cao nhất: <b>@xizot (99)</b>
-        </Typography>
-        <Typography variant="h6">Giá hiện tại: 1000000VND</Typography>
-        <div className={classes.buyNow}>
-          <Typography variant="h6">Giá mua ngay: 1000000VND</Typography>
-          <Button variant="contained" color="primary" className={classes.btnBuy}>
-            Mua ngay
-          </Button>
-        </div>
+          <Section background="#ddd" data-aos="fade-up">
+            <Box className={classes.detailTop}>
+              <div>
+                <Typography variant="h4" className={classes.title}>
+                  {productDetail.name}
+                </Typography>
+                <Typography variant="subtitle2" className={classes.seller}>
+                  Người bán:{' '}
+                  <b>
+                    {productDetail.seller?.name} ({productDetail.seller?.point})
+                  </b>
+                </Typography>
+                <div className={classes.created}>
+                  <AccessTime fontSize="small" />
+                  <Typography variant="subtitle2">
+                    {getCreatedTime(productDetail.create_at)}
+                  </Typography>
+                </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.addToWatchList}
+                  startIcon={<Add />}>
+                  Add to watch list
+                </Button>
+              </div>
+              <div className={classes.bid}>
+                <TextField required id="money" label="Tiền đấu giá" defaultValue={10} />
+                <IconButton color="primary">
+                  <Gavel />
+                </IconButton>
+              </div>
+            </Box>
+            {productDetail.bidder?.name && (
+              <Typography variant="h6">
+                Ra giá cao nhất:{' '}
+                <b>
+                  {productDetail.bidder?.name} ({productDetail.bidder?.point})
+                </b>
+              </Typography>
+            )}
 
-        <div className={classes.description}>
-          <div dangerouslySetInnerHTML={{ __html: description }} />
-        </div>
-      </Section>
+            <Typography variant="h6">Giá hiện tại: {productDetail.price}đ</Typography>
+            {productDetail.buy_price !== 0 && (
+              <div className={classes.buyNow}>
+                <Typography variant="h6">Giá mua ngay: {productDetail.buy_price}đ</Typography>
+                <Button variant="contained" color="primary" className={classes.btnBuy}>
+                  Mua ngay
+                </Button>
+              </div>
+            )}
 
-      <Section data-aos="fade-up">
-        <SectionTitle title="Sản phẩm cùng chuyên mục" />
-        <ProductSlider listProduct={[1, 1, 1, 1, 1, 1, 1]} slidesToShow={3} />
-      </Section>
+            <div className={classes.description}>
+              <div dangerouslySetInnerHTML={{ __html: productDetail.detail }} />
+            </div>
+          </Section>
+        </>
+      )}
+
+      {listSuggest.length > 0 && (
+        <Section data-aos="fade-up">
+          <SectionTitle title="Sản phẩm cùng chuyên mục" />
+          <ProductSlider listProduct={listSuggest} slidesToShow={3} loading={loading} />
+        </Section>
+      )}
     </div>
   );
 }

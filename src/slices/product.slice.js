@@ -134,15 +134,23 @@ const productSlice = createSlice({
     page: 0,
     total_page: 0,
     loading: false,
+    getLoading: false,
   },
   reducers: {},
   extraReducers: {
+    [productGetByPage.pending]: (state) => {
+      state.loading = true;
+    },
+    [productGetByPage.rejected]: (state) => {
+      state.loading = false;
+    },
     [productGetByPage.fulfilled]: (state, action) => {
       const { count, page, total_page, data } = action.payload;
       state.count = count;
       state.data = data;
       state.page = page;
       state.total_page = total_page;
+      state.loading = false;
     },
     [productAddNew.pending]: (state) => {
       state.loading = true;
@@ -161,6 +169,15 @@ const productSlice = createSlice({
     },
     [productAddImage.fulfilled]: (state) => {
       state.loading = false;
+    },
+    [productGetById.pending]: (state) => {
+      state.getLoading = true;
+    },
+    [productGetById.rejected]: (state) => {
+      state.getLoading = false;
+    },
+    [productGetById.fulfilled]: (state) => {
+      state.getLoading = false;
     },
   },
 });

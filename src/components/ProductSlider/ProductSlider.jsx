@@ -1,8 +1,9 @@
-import { Box, IconButton, Typography } from '@material-ui/core';
+import { Box, IconButton } from '@material-ui/core';
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 import React from 'react';
 import Slider from 'react-slick';
 import ProductItem from '../ProductItem/ProductItem';
+import RequestLoading from '../UI/RequestLoading/RequestLoading';
 import useStyles from './ProductSlider.styles';
 
 function NextArrow(props) {
@@ -36,7 +37,7 @@ function PrevArrow(props) {
   );
 }
 
-function ProductSlider({ listProduct, slidesToShow, settings }) {
+function ProductSlider({ listProduct, slidesToShow, loading, settings }) {
   const classes = useStyles();
 
   const newSettings = {
@@ -78,26 +79,30 @@ function ProductSlider({ listProduct, slidesToShow, settings }) {
   };
   return (
     <Box className={classes.root}>
-      <Slider {...newSettings} className={classes.slider}>
-        {listProduct &&
-          listProduct.map((product, index) => (
-            <div className={classes.productItem} key={index}>
-              <ProductItem
-                productId={1}
-                title="Đồng hồ Rolex"
-                imgSrc="https://cdn2.jomashop.com/media/catalog/product/cache/fde19e4197824625333be074956e7640/r/o/rolex-cosmograph-daytona-chronograph-automatic-rainbow-pave-watch-116595rbow0002.jpg?width=546&height=546"
-                categoryName="Đồng hồ"
-                categoryId={1}
-                dateCreated="01/12/2021 12:00:00"
-                dateEnd="01/11/2021 23:01:00"
-                totalBid={10}
-                currentPrice={12000000}
-                currentUser="xizot"
-                currentUserRate={99}
-              />
-            </div>
-          ))}
-      </Slider>
+      {loading && listProduct.length === 0 ? (
+        <RequestLoading />
+      ) : (
+        <Slider {...newSettings} className={classes.slider}>
+          {listProduct &&
+            listProduct.map((product, index) => (
+              <div className={classes.productItem} key={index}>
+                <ProductItem
+                  productId={product.product_id}
+                  title={product.name}
+                  imgSrc={(product.images?.length > 0 && product.images[0].url) || ''}
+                  categoryName={'DEMO'}
+                  categoryId={1}
+                  dateCreated={product.create_at}
+                  dateEnd={product.expire_at}
+                  totalBid={product.bid_count}
+                  currentPrice={product.price}
+                  currentUser={product.bidder?.name || null}
+                  currentUserRate={99}
+                />
+              </div>
+            ))}
+        </Slider>
+      )}
     </Box>
   );
 }

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Redirect, useHistory, useParams } from 'react-router';
+import React from 'react';
+import { Redirect, useParams } from 'react-router';
 import RatePanel from '../../../components/TabPanel/RatePanel/RatePanel';
 import ProfileSideBar from '../../../components/ProfileSideBar/ProfileSideBar';
 import Section from '../../../components/Section/Section';

@@ -9,7 +9,7 @@ function Category() {
   const classes = useStyles();
   const [openCategory, setOpenCategory] = useState(false);
   const category = useSelector((state) => state.category.allData);
-  console.log(category);
+
   const dispatch = useDispatch();
 
   const categoryGetAllHandler = useCallback(async () => {

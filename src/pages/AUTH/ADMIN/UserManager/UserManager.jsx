@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import useStyles from './UserManager.styles';
 import moment from 'moment';
 import {
@@ -14,8 +14,6 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Delete, Edit } from '@material-ui/icons';
 function UserManager() {
   const classes = useStyles();
