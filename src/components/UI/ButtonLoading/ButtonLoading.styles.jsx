@@ -5,12 +5,13 @@ export default makeStyles((theme) => ({
     display: 'block',
     '&.Mui-disabled': {
       background: '#ddd',
-      cursort: 'not-allowed',
+      cursor: 'not-allowed',
     },
   },
   buttonLoading: {
-    opacity: ' 0.7 !important',
+    opacity: '0.7 !important',
     minHeight: 42,
-    minWidth: 150,
+    cursor: 'not-allowed',
+    pointerEvents: 'none',
   },
 }));

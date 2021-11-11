@@ -45,7 +45,7 @@ export const profileUpdateInfo = createAsyncThunk(
   'profile/profileUpdateInfo',
   async ({ name, email, address, birth }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.post(`/profile`, { name, email, address, birth })).data;
+      return (await axiosInstance.put(`/profile`, { name, email, address, birth })).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -59,7 +59,7 @@ export const profileUpdatePassword = createAsyncThunk(
   'profile/profileUpdatePassword',
   async ({ password, new_password }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.post(`/profile`, { password, new_password })).data;
+      return (await axiosInstance.put(`/profile`, { password, new_password })).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -71,9 +71,34 @@ export const profileUpdatePassword = createAsyncThunk(
 
 const profileSlice = createSlice({
   name: 'profileSlice',
-  initialState: {},
+  initialState: {
+    user: {},
+    loading: false,
+  },
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [profileGet.fulfilled]: (state, action) => {
+      state.user = action.payload;
+    },
+    [profileUpdateInfo.pending]: (state) => {
+      state.loading = true;
+    },
+    [profileUpdateInfo.rejected]: (state) => {
+      state.loading = false;
+    },
+    [profileUpdateInfo.fulfilled]: (state, action) => {
+      state.loading = false;
+    },
+    [profileUpdatePassword.pending]: (state) => {
+      state.loading = true;
+    },
+    [profileUpdatePassword.rejected]: (state) => {
+      state.loading = false;
+    },
+    [profileUpdatePassword.fulfilled]: (state, action) => {
+      state.loading = false;
+    },
+  },
 });
 
 export const profileActions = profileSlice.actions;

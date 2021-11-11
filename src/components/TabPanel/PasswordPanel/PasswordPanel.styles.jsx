@@ -9,4 +9,9 @@ export default makeStyles((theme) => ({
     maxWidth: '40rem',
     display: 'block',
   },
+  errorMessage: {
+    fontSize: 11,
+    color: 'red',
+    fontWeight: 'normal',
+  },
 }));

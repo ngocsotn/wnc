@@ -26,6 +26,7 @@ function CategoryManager() {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
   const count = useSelector((state) => state.category.count);
   const data = useSelector((state) => state.category.data);
 

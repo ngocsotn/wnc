@@ -57,6 +57,7 @@ function AddProductModalPanel({ onClose }) {
     hasError: priceHasError,
     errorMsg: priceErrorMsg,
   } = useInput(number, 10000);
+
   const {
     enteredInput: stepPrice,
     inputChangeHandler: stepPriceChangeHandler,
@@ -250,7 +251,7 @@ function AddProductModalPanel({ onClose }) {
                   label="Ngày kết thúc"
                   value={endDate}
                   onChange={setEndDate}
-                  onError={console.log}
+                  // onError={console.log}
                   format="DD/MM/yyyy HH:mm:ss"
                   inputVariant="outlined"
                   size="small"
