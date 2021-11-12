@@ -35,6 +35,7 @@ import { number } from '../../schemas/common.schema';
 import { bidBidProduct, bidHistoryPaging } from '../../slices/bid.slice';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { formatMoney } from '../../utils/formatMoney';
+import socketIOClient from 'socket.io-client';
 
 function Detail() {
   const { id } = useParams();
@@ -158,6 +159,29 @@ function Detail() {
   };
 
   useEffect(() => {
+    const socket = socketIOClient(process.env.REACT_APP_BASE_URL);
+    socket.on('broadcast-channel', (data) => {
+      // chỉ fetch lại api khi và chỉ khi đang xem sản phẩm là sản phẩm vừa có update
+      if (+data === +id) {
+        // console.log(data);
+        getProductByIdHandler(id);
+				try {
+					dispatch(
+						bidHistoryPaging({
+							page: page + 1,
+							limit,
+							product_id: +id,
+						})
+					).unwrap();
+				} catch (error) {
+					toast.error(error);
+					console.log(error);
+				}
+      }
+    });
+  }, [id, getProductByIdHandler, limit, page, dispatch]);
+
+  useEffect(() => {
     try {
       dispatch(
         bidHistoryPaging({
@@ -201,7 +225,7 @@ function Detail() {
   }, [id, getProductByIdHandler, checkFavoriteHandler, isAuthenticated]);
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [dispatch, id]);
 
   return (
