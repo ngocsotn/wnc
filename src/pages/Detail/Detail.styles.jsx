@@ -131,4 +131,16 @@ export default makeStyles((theme) => ({
       borderCollapse: 'collapse',
     },
   },
+  bold: {
+    background: '#ddd',
+    '& td': {
+      fontWeight: 'bold',
+    },
+  },
+  accept: {
+    color: 'green',
+  },
+  block: {
+    color: theme.palette.secondary.main,
+  },
 }));

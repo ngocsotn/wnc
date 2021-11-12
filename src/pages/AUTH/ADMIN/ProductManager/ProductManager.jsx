@@ -23,6 +23,7 @@ import { productGetByPage } from '../../../../slices/product.slice';
 import { categoryGetAll } from '../../../../slices/category.slice';
 import { uiActions } from '../../../../slices/ui.slice';
 import RequestLoading from '../../../../components/UI/RequestLoading/RequestLoading';
+import { formatMoney } from '../../../../utils/formatMoney';
 function ProductManager() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -99,7 +100,7 @@ function ProductManager() {
               id="demo-simple-select-outlined"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              label="category">
+              label="Chọn danh mục">
               <option value=""></option>
               {listCategory?.length > 0 &&
                 listCategory.map((cat, index) => (
@@ -155,11 +156,11 @@ function ProductManager() {
                       </TableCell>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.bidder?.name}</TableCell>
-                      <TableCell>{item.price}đ</TableCell>
+                      <TableCell>{formatMoney(item.hidden_price)}đ</TableCell>
                       <TableCell>{item.create_at}</TableCell>
                       <TableCell>{item.expire_at}</TableCell>
                       <TableCell>{item.bid_count} </TableCell>
-                      <TableCell>{item.buy_price}đ</TableCell>
+                      <TableCell>{formatMoney(item.buy_price)}đ</TableCell>
                       <TableCell>
                         <Box
                           display="flex"

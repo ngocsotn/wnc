@@ -88,6 +88,7 @@ const profileSlice = createSlice({
     },
     [profileUpdateInfo.fulfilled]: (state, action) => {
       state.loading = false;
+      state.user = action.payload;
     },
     [profileUpdatePassword.pending]: (state) => {
       state.loading = true;

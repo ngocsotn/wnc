@@ -2,6 +2,7 @@ import { Box, Typography, Button } from '@material-ui/core';
 import { AccessTime, PermIdentityRounded } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { formatMoney } from '../../utils/formatMoney';
 import { getCreatedTime } from '../../utils/getCreatedTime';
 import TimeLeft from '../TimeLeft/TimeLeft';
 import useStyles from './RateItem.styles';
@@ -42,7 +43,7 @@ function RateItem({
 
             <Box className={classes.state}>
               <Typography variant="body1">
-                Giá hiện tại: <b>{currentPrice}VND</b>
+                Giá hiện tại: <b>{formatMoney(currentPrice)}đ</b>
               </Typography>
               <Typography variant="body1">
                 Ra giá cao nhất:{' '}

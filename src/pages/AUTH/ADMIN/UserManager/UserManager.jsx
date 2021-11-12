@@ -14,7 +14,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { Delete, Edit } from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 function UserManager() {
   const classes = useStyles();
 

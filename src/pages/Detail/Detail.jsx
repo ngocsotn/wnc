@@ -34,6 +34,7 @@ import { useInput } from '../../hooks/use-input';
 import { number } from '../../schemas/common.schema';
 import { bidBidProduct, bidHistoryPaging } from '../../slices/bid.slice';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
+import { formatMoney } from '../../utils/formatMoney';
 
 function Detail() {
   const { id } = useParams();
@@ -47,11 +48,15 @@ function Detail() {
   const loading = useSelector((state) => state.product.loading);
   const [listSuggest, setListSuggest] = useState([]);
   const [addedFavorite, setAddedFavorite] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const count = useSelector((state) => state.bid.count);
   const data = useSelector((state) => state.bid.data);
+
+  const [seller, setSeller] = useState(null);
 
   const settings1 = useMemo(
     () => ({
@@ -90,6 +95,7 @@ function Detail() {
       try {
         const response = await dispatch(productGetById({ id })).unwrap();
         setProductDetail(response);
+        setSeller(response.seller_id);
       } catch (error) {
         toast(error);
       }
@@ -189,8 +195,10 @@ function Detail() {
 
   useEffect(() => {
     getProductByIdHandler(id);
-    checkFavoriteHandler(id);
-  }, [id, getProductByIdHandler, checkFavoriteHandler]);
+    if (isAuthenticated) {
+      checkFavoriteHandler(id);
+    }
+  }, [id, getProductByIdHandler, checkFavoriteHandler, isAuthenticated]);
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
@@ -242,25 +250,30 @@ function Detail() {
                     <Table>
                       <TableHead>
                         <TableRow className={classes.tableHead}>
-                          <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
+                          <TableCell style={{ fontWeight: 'bold' }}>STT</TableCell>
                           <TableCell> Tên người đấu giá </TableCell>
-                          <TableCell> Tiền </TableCell>
+                          <TableCell> Đã đấu giá (đ) </TableCell>
                           <TableCell> Ngày đấu giá </TableCell>
                           <TableCell> Trạng thái</TableCell>
-                          <TableCell> Tùy chọn </TableCell>
+                          {seller === user.id && <TableCell> Tùy chọn </TableCell>}
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {data?.length > 0 &&
                           data.map((item, index) => (
-                            <TableRow className={classes.tableRow} key={index}>
-                              <TableCell>{item.id}</TableCell>
+                            <TableRow key={index}>
+                              <TableCell>{page * limit + index + 1}</TableCell>
                               <TableCell>{item.name}</TableCell>
-                              <TableCell>{item.price}đ</TableCell>
+                              <TableCell>{formatMoney(item.price)}đ</TableCell>
                               <TableCell>{item.bid_at}</TableCell>
-                              <TableCell>{item.status}</TableCell>
+                              <TableCell
+                                className={
+                                  item.status === 'accepted' ? classes.accept : classes.block
+                                }>
+                                {item.status}
+                              </TableCell>
                               <TableCell>
-                                {page === 0 && index === 0 && (
+                                {seller === user.id && (
                                   <IconButton>
                                     <Block color="secondary" />
                                   </IconButton>
@@ -319,7 +332,8 @@ function Detail() {
               </div>
               <div>
                 <Typography variant="h6" style={{ marginBottom: 10 }}>
-                  Ra giá tối thiểu: {productDetail.price + productDetail.step_price}đ
+                  Ra giá tối thiểu:{' '}
+                  {formatMoney(productDetail.hidden_price + productDetail.step_price)}đ
                 </Typography>
                 <div className={classes.bid}>
                   <TextField
@@ -347,11 +361,15 @@ function Detail() {
               </Typography>
             )}
 
-            <Typography variant="h6">Giá hiện tại: {productDetail.price}đ</Typography>
+            <Typography variant="h6">
+              Giá hiện tại: {formatMoney(productDetail.hidden_price)}đ
+            </Typography>
 
             {productDetail.buy_price !== 0 && (
               <div className={classes.buyNow}>
-                <Typography variant="h6">Giá mua ngay: {productDetail.buy_price}đ</Typography>
+                <Typography variant="h6">
+                  Giá mua ngay: {formatMoney(productDetail.buy_price)}đ
+                </Typography>
                 <Button variant="contained" color="primary" className={classes.btnBuy}>
                   Mua ngay
                 </Button>

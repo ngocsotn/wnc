@@ -95,7 +95,7 @@ function ProductSlider({ listProduct, slidesToShow, loading, settings }) {
                   dateCreated={product.create_at}
                   dateEnd={product.expire_at}
                   totalBid={product.bid_count}
-                  currentPrice={product.price}
+                  currentPrice={product.hidden_price}
                   currentBidder={product.bidder?.name || null}
                   currentBidderPoint={product.bidder?.point || 0}
                   buyPrice={product.buy_price}

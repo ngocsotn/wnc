@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { getCreatedTime } from '../../utils/getCreatedTime';
 import TimeLeft from '../TimeLeft/TimeLeft';
 import useStyles from './ProductItem.styles';
+import { formatMoney } from '../../utils/formatMoney';
 function ProductItem({
   productId,
   title,
@@ -59,12 +60,12 @@ function ProductItem({
             </div>
           </Box>
           <Typography variant="subtitle2" className={classes.currentPrice}>
-            Giá hiện tại : <b>{currentPrice} VND</b>
+            Giá hiện tại : <b>{formatMoney(currentPrice)}đ</b>
           </Typography>
 
           {buyPrice ? (
             <Typography variant="subtitle2" className={classes.buyPrice}>
-              Mua ngay: <b>{buyPrice} VND</b>
+              Mua ngay: <b>{formatMoney(buyPrice)}đ</b>
             </Typography>
           ) : (
             <></>

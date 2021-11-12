@@ -63,7 +63,7 @@ function MyList() {
             totalBid={item.product?.bid_count}
             dateCreated={item.product?.create_at}
             dateEnd={item.product?.expire_at}
-            currentPrice={item.product?.price}
+            currentPrice={item.product?.hidden_price}
             currentBidder={item.product?.bidder?.name}
             currentBidderPoint={item.product?.bidder?.point}
           />

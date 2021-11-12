@@ -8,6 +8,7 @@ import storeIcon from '../../assets/images/store.svg';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { uiActions } from '../../slices/ui.slice';
+import { formatMoney } from '../../utils/formatMoney';
 function ProductItemV2({
   who = 'bidder',
   productId,
@@ -80,7 +81,7 @@ function ProductItemV2({
             </div>
             <Box textAlign="right" className={classes.state}>
               <Typography variant="body1">
-                Giá hiện tại: <b>{currentPrice}VND</b>
+                Giá hiện tại: <b>{formatMoney(currentPrice)}đ</b>
               </Typography>
               {currentBidder && (
                 <Typography variant="body1">
