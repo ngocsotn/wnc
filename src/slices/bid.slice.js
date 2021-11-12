@@ -7,8 +7,12 @@ export const bidHistoryPaging = createAsyncThunk(
   'bid/history',
   async ({ page, limit, product_id }, { rejectWithValue }) => {
     try {
+<<<<<<< HEAD
       return (await axiosInstance.get(`/bid/history/${product_id}?page=${page}&limit=${limit}`))
         .data;
+=======
+      return (await axiosInstance.get(`/bid/history/${product_id}?page=${page}&limit=${limit}`)).data;
+>>>>>>> bf6675005e2861b1fdcc9754eac6e1da9578eaf0
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -81,6 +85,7 @@ export const bidBlockUser = createAsyncThunk(
 
 const bidSlice = createSlice({
   name: 'bidSlice',
+<<<<<<< HEAD
   initialState: {
     count: 0,
     data: [],
@@ -88,6 +93,9 @@ const bidSlice = createSlice({
     total_page: 0,
     loading: false,
   },
+=======
+  initialState: {},
+>>>>>>> bf6675005e2861b1fdcc9754eac6e1da9578eaf0
   reducers: {},
   extraReducers: {
     [bidHistoryPaging.pending]: (state) => {

@@ -59,7 +59,7 @@ export const tradeAcceptOrDeny = createAsyncThunk(
 );
 
 const tradeSlice = createSlice({
-  name: 'productSlice',
+  name: 'tradeSlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

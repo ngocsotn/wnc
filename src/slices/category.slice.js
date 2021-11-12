@@ -14,6 +14,7 @@ export const categoryGetAll = createAsyncThunk(
     }
   }
 );
+
 export const categoryGetByPage = createAsyncThunk(
   'category/categoryGetByPage',
   async ({ limit, page }, { rejectWithValue }) => {
@@ -69,47 +70,6 @@ export const categoryDelete = createAsyncThunk(
   }
 );
 
-export const categoryAddSub = createAsyncThunk(
-  'category/categoryAddSub',
-  async ({ category_id, name }, { rejectWithValue }) => {
-    try {
-      return (await axiosInstance.post(`/sub-category`, { category_id, name })).data;
-    } catch (error) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data.errs?.join(' - '));
-    }
-  }
-);
-export const categoryUpdateSub = createAsyncThunk(
-  'category/categoryUpdateSub',
-  async ({ name, sub_category_id, category_id }, { rejectWithValue }) => {
-    try {
-      return (await axiosInstance.put(`/category`, { name, sub_category_id, category_id })).data;
-    } catch (error) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data.errs?.join(' - '));
-    }
-  }
-);
-
-export const categoryDeleteSub = createAsyncThunk(
-  'category/categoryDeleteSub',
-  async ({ sub_category_id }, { rejectWithValue }) => {
-    try {
-      return (await axiosInstance.delete(`/sub-category/${sub_category_id}`)).data;
-    } catch (error) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data.errs?.join(' - '));
-    }
-  }
-);
-
 const categorySlice = createSlice({
   name: 'categorySlice',
   initialState: {
@@ -119,7 +79,11 @@ const categorySlice = createSlice({
     page: 0,
     total_page: 0,
   },
-  reducers: {},
+  reducers: {
+    removeCategoryById: (state, action) => {
+      state.data = state.data.filter((item) => item.category_id !== action.payload);
+    },
+  },
   extraReducers: {
     [categoryGetByPage.fulfilled]: (state, action) => {
       const { count, page, total_page, data } = action.payload;

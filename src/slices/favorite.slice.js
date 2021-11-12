@@ -66,7 +66,7 @@ export const favoriteCheck = createAsyncThunk(
 );
 
 const favoriteSlice = createSlice({
-  name: 'productSlice',
+  name: 'favoriteSlice',
   initialState: {
     count: 0,
     data: [],

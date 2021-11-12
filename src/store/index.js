@@ -3,6 +3,7 @@ import uiSlice from '../slices/ui.slice';
 import profileSlice from '../slices/profile.slice';
 import authSlice from '../slices/auth.slice';
 import categorySlice from '../slices/category.slice';
+import subCategorySlice from '../slices/subCategory.slice';
 import productSlice from '../slices/product.slice';
 import homeSlice from '../slices/home.slice';
 import favoriteSlice from '../slices/favorite.slice';
@@ -14,6 +15,7 @@ export default configureStore({
     profile: profileSlice.reducer,
     auth: authSlice.reducer,
     category: categorySlice.reducer,
+		subCategory: subCategorySlice.reducer,
     product: productSlice.reducer,
     home: homeSlice.reducer,
     favorite: favoriteSlice.reducer,

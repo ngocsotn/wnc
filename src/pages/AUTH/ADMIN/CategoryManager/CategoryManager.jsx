@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useStyles from './CategoryManager.styles';
-
+import { uiActions } from '../../../../slices/ui.slice';
 import {
   Box,
   Container,
@@ -36,6 +36,15 @@ function CategoryManager() {
   };
   const pageChangeHandler = (event, value) => {
     setPage(value);
+  };
+  const openModalDeleteHandler = (id) => {
+    dispatch(
+      uiActions.setDelete({
+        type: 'category',
+        id: +id,
+      })
+    );
+    dispatch(uiActions.openModal('openDelete'));
   };
 
   useEffect(() => {
@@ -81,7 +90,10 @@ function CategoryManager() {
                       <TableCell>
                         <Box display="flex" justifyContent="center">
                           <Edit className={classes.actionIcon} />
-                          <Delete className={classes.actionIcon} />
+                          <Delete
+                            className={classes.actionIcon}
+                            onClick={() => openModalDeleteHandler(item.category_id)}
+                          />
                         </Box>
                       </TableCell>
                     </TableRow>

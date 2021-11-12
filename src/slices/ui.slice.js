@@ -7,6 +7,11 @@ const uiSlice = createSlice({
     openUpdate: false,
     openRate: false,
     openReview: false,
+    openDelete: false,
+    delete: {
+      type: null,
+      id: null,
+    },
   },
   reducers: {
     openModal: (state, action) => {
@@ -14,6 +19,7 @@ const uiSlice = createSlice({
       state.openUpdate = false;
       state.openRate = false;
       state.openReview = false;
+      state.openDelete = false;
       state[action.payload] = true;
     },
     closeModal: (state) => {
@@ -21,6 +27,13 @@ const uiSlice = createSlice({
       state.openUpdate = false;
       state.openRate = false;
       state.openReview = false;
+      state.openDelete = false;
+      state.delete.type = null;
+      state.delete.id = null;
+    },
+    setDelete: (state, action) => {
+      state.delete.type = action.payload.type;
+      state.delete.id = action.payload.id;
     },
   },
 });

@@ -7,20 +7,21 @@ export default makeStyles((theme) => ({
     },
 		buttonAdd :{
 			color: '#3f51b5',
-			borderColor: '#3f51b5',
+			borderColor: '#3f51b5'
 		},
 		categoryTitle:{
-			padding: theme.spacing(0, 0, 0, 5)
+			padding: theme.spacing(0, 0, 0, 0)
 		},
 		selectCategory: {
-			margin: theme.spacing(0, 0, 0, 1)
+			margin: theme.spacing(0, 0, 0, 0)
 		},
 		selectWrap:{
-			justifycontent:"space-around"
+			justifyContent:"left"
 		},
 		topWrapOptions: {
 			display: 'flex',
 			justifyContent: 'left',
+			padding: 0,
 			paddingTop: theme.spacing(5)
 		}
 }));
