@@ -12,7 +12,6 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     '& li': {
-      lineHeight: 0,
       display: 'block',
       marginLeft: theme.spacing(2),
       '& a': {

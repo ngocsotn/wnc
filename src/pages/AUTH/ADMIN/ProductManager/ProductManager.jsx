@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useStyles from './ProductManager.styles';
-import moment from 'moment';
 import {
   Box,
   Container,
@@ -19,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Delete, Edit } from '@material-ui/icons';
+import { Delete } from '@material-ui/icons';
 import { productGetByPage } from '../../../../slices/product.slice';
 import { categoryGetAll } from '../../../../slices/category.slice';
 function ProductManager() {

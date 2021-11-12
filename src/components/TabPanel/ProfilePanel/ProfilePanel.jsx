@@ -1,6 +1,5 @@
-import { Grid, TextField, Typography } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import useStyles from './ProfilePanel.styles';
 import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
 import PanelTitle from '../../PanelTitle/PanelTitle';
@@ -22,7 +21,7 @@ function ProfilePanel() {
     enteredInput: fullName,
     inputChangeHandler: fullNameChangeHandler,
     inputBlurHandler: fullNameBlurHandler,
-    inputReset: fullNameReset,
+    // inputReset: fullNameReset,
     inputIsValid: fullNameIsValid,
     hasError: fullNameHasError,
     errorMsg: fullNameErrorMsg,
@@ -31,7 +30,7 @@ function ProfilePanel() {
     enteredInput: email,
     inputChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    inputReset: emailReset,
+    // inputReset: emailReset,
     inputIsValid: emailIsValid,
     hasError: emailHasError,
     errorMsg: emailErrorMsg,
@@ -40,7 +39,7 @@ function ProfilePanel() {
     enteredInput: address,
     inputChangeHandler: addressChangeHandler,
     inputBlurHandler: addressBlurHandler,
-    inputReset: addressReset,
+    // inputReset: addressReset,
     inputIsValid: addressIsValid,
     hasError: addressHasError,
     errorMsg: addressErrorMsg,
@@ -101,7 +100,7 @@ function ProfilePanel() {
           className={classes.input}
           variant="outlined"
           size="small"
-          margin="dense"
+          margin="normal"
           label="Họ tên"
           fullWidth
           value={fullName}
@@ -114,7 +113,7 @@ function ProfilePanel() {
           className={classes.input}
           variant="outlined"
           size="small"
-          margin="dense"
+          margin="normal"
           label="Email"
           fullWidth
           value={email}
@@ -131,7 +130,7 @@ function ProfilePanel() {
             // onError={console.log}
             format="DD/MM/yyyy"
             inputVariant="outlined"
-            margin="dense"
+            margin="normal"
             size="small"
             value={birth}
             onChange={setBirth}
@@ -142,7 +141,7 @@ function ProfilePanel() {
           className={classes.input}
           variant="outlined"
           size="small"
-          margin="dense"
+          margin="normal"
           label="Địa chỉ"
           fullWidth
           multiline

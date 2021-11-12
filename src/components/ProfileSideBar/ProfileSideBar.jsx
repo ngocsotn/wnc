@@ -42,7 +42,7 @@ function ProfileSideBar() {
           className={classes.link}
           activeClassName={classes.active}>
           <img src={heartIcon} alt="" />
-          Danh sách xem sau
+          Danh sách yêu thích
         </NavLink>
       </li>
       <li>

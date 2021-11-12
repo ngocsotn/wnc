@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { ArrowBack, ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
+import { ArrowForwardIos } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   sliderCustomArrowPrev: {

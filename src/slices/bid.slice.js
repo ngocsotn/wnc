@@ -7,7 +7,8 @@ export const bidHistoryPaging = createAsyncThunk(
   'bid/history',
   async ({ page, limit, product_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.get(`/bid/${product_id}?page=${page}&limit=${limit}`)).data;
+      return (await axiosInstance.get(`/bid/history/${product_id}?page=${page}&limit=${limit}`))
+        .data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -23,10 +24,12 @@ export const bidBidProduct = createAsyncThunk(
   'bid/bid',
   async ({ product_id, price }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.post(`/bid`,{
-				product_id,
-				price
-			})).data;
+      return (
+        await axiosInstance.post(`/bid`, {
+          product_id,
+          price,
+        })
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -39,11 +42,13 @@ export const bidBidProduct = createAsyncThunk(
 // BIDDER MUA NGAY 1 SẢN PHẨM NÀO ĐÓ
 export const bidBuyProduct = createAsyncThunk(
   'bid/buy',
-  async ({ product_id}, { rejectWithValue }) => {
+  async ({ product_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.post(`/bid/buy`,{
-				product_id
-			})).data;
+      return (
+        await axiosInstance.post(`/bid/buy`, {
+          product_id,
+        })
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -59,10 +64,12 @@ export const bidBlockUser = createAsyncThunk(
   'bid/block',
   async ({ product_id, user_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.post(`/bid/block`,{
-				product_id,
-				user_id
-			})).data;
+      return (
+        await axiosInstance.post(`/bid/block`, {
+          product_id,
+          user_id,
+        })
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -72,12 +79,32 @@ export const bidBlockUser = createAsyncThunk(
   }
 );
 
-
 const bidSlice = createSlice({
-  name: 'productSlice',
-  initialState: {},
+  name: 'bidSlice',
+  initialState: {
+    count: 0,
+    data: [],
+    page: 1,
+    total_page: 0,
+    loading: false,
+  },
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [bidHistoryPaging.pending]: (state) => {
+      state.loading = true;
+    },
+    [bidHistoryPaging.rejected]: (state) => {
+      state.loading = false;
+    },
+    [bidHistoryPaging.fulfilled]: (state, action) => {
+      state.loading = false;
+      const { count, data, page, total_page } = action.payload;
+      state.count = count;
+      state.data = data;
+      state.page = page;
+      state.total_page = total_page;
+    },
+  },
 });
 
 export const bidActions = bidSlice.actions;

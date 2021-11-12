@@ -1,5 +1,4 @@
-import { AppBar, Button, IconButton, Select, Toolbar, Typography } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import HeaderSearch from '../../HeaderSearch/HeaderSearch';

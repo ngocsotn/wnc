@@ -90,14 +90,15 @@ function ProductSlider({ listProduct, slidesToShow, loading, settings }) {
                   productId={product.product_id}
                   title={product.name}
                   imgSrc={(product.images?.length > 0 && product.images[0].url) || ''}
-                  categoryName={'DEMO'}
-                  categoryId={1}
+                  categoryName={product.sub_category?.name}
+                  categoryId={product.sub_category?.sub_category_id}
                   dateCreated={product.create_at}
                   dateEnd={product.expire_at}
                   totalBid={product.bid_count}
                   currentPrice={product.price}
-                  currentUser={product.bidder?.name || null}
-                  currentUserRate={99}
+                  currentBidder={product.bidder?.name || null}
+                  currentBidderPoint={product.bidder?.point || 0}
+                  buyPrice={product.buy_price}
                 />
               </div>
             ))}

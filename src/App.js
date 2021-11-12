@@ -1,6 +1,6 @@
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { routes } from './configs/routes';
-import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
+// import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { Suspense, useEffect } from 'react';
 import Loading from './components/Loading/Loading';
 import Header from './components/Layouts/Header/Header';
@@ -14,18 +14,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from './slices/auth.slice';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#E30812',
-      contrastText: '#fff',
-    },
-    secondary: {
-      main: '#131722',
-      contrastText: '#fff',
-    },
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: '#E30812',
+//       contrastText: '#fff',
+//     },
+//     secondary: {
+//       main: '#131722',
+//       contrastText: '#fff',
+//     },
+//   },
+// });
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();

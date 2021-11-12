@@ -92,6 +92,7 @@ export default makeStyles((theme) => ({
     paddingRight: theme.spacing(3),
     letterSpacing: 1.2,
     wordBreak: 'break-word',
+    textTransform: 'capitalize',
   },
   seller: {
     fontStyle: 'italic',
@@ -123,5 +124,11 @@ export default makeStyles((theme) => ({
   },
   addToWatchList: {
     marginTop: theme.spacing(1),
+  },
+  table: {
+    '&, & th, & td': {
+      border: '1px solid black',
+      borderCollapse: 'collapse',
+    },
   },
 }));

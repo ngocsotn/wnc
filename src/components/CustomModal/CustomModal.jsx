@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { Modal } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import useStyles from './CustomModal.styles';
 import AddProductModalPanel from '../ModalPanel/AddProductModalPanel/AddProductModalPanel';
 import EditProductModalPanel from '../ModalPanel/EditProductModalPanel/EditProductModalPanel';
 import RateModalPanel from '../ModalPanel/RateModalPanel/RateModalPanel';

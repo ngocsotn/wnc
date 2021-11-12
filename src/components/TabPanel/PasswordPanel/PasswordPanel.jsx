@@ -1,14 +1,11 @@
 import {
-  FilledInput,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
   TextField,
-  Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -106,9 +103,15 @@ function PasswordPanel() {
     <div className={classes.root}>
       <PanelTitle title="Đổi mật khẩu" />
       <form className={classes.form} onSubmit={formSubmitHandler}>
-        <FormControl variant="outlined" fullWidth size="small" style={{ marginBottom: 20 }}>
+        <FormControl
+          className={classes.input}
+          variant="outlined"
+          fullWidth
+          size="small"
+          style={{ marginBottom: 20 }}>
           <InputLabel htmlFor="current-password">Mật khẩu hiện tại</InputLabel>
           <OutlinedInput
+            fullWidth
             id="current-password"
             type={showPassword ? 'text' : 'password'}
             value={password}

@@ -1,5 +1,5 @@
 import { Box, IconButton, Typography } from '@material-ui/core';
-import { AccessTime, Add, Gavel, PermIdentityRounded } from '@material-ui/icons';
+import { AccessTime, Gavel, PermIdentityRounded } from '@material-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getCreatedTime } from '../../utils/getCreatedTime';
@@ -20,7 +20,7 @@ function ProductItem({
   currentPrice,
   currentBidder,
   currentBidderPoint,
-  buyNow,
+  buyPrice,
 }) {
   const classes = useStyles();
   return (
@@ -38,14 +38,6 @@ function ProductItem({
             <img src={imgSrc} alt={title} />
           </div>
 
-          <div className={classes.hoverTop}>
-            <IconButton className={classes.addToWashList}>
-              <Add />
-              <Typography variant="caption" component="p">
-                Add To Watch List
-              </Typography>
-            </IconButton>
-          </div>
           <div className={classes.time}>
             <TimeLeft timeEnd={dateEnd} />
           </div>
@@ -70,9 +62,9 @@ function ProductItem({
             Giá hiện tại : <b>{currentPrice} VND</b>
           </Typography>
 
-          {buyNow ? (
-            <Typography variant="subtitle2" className={classes.buyNow}>
-              Mua ngay: <b>{buyNow} VND</b>
+          {buyPrice ? (
+            <Typography variant="subtitle2" className={classes.buyPrice}>
+              Mua ngay: <b>{buyPrice} VND</b>
             </Typography>
           ) : (
             <></>

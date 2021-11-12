@@ -9,7 +9,11 @@ export const historySelfPaging = createAsyncThunk(
   'history/get',
   async ({ page, limit, status, oder_type }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.get(`/history?page=${page}&limit=${limit}&order_type=${oder_type}&status=${status}`)).data;
+      return (
+        await axiosInstance.get(
+          `/history?page=${page}&limit=${limit}&order_type=${oder_type}&status=${status}`
+        )
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -20,7 +24,7 @@ export const historySelfPaging = createAsyncThunk(
 );
 
 const historySlice = createSlice({
-  name: 'productSlice',
+  name: 'historySlice',
   initialState: {},
   reducers: {},
   extraReducers: {},

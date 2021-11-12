@@ -43,17 +43,17 @@ function ProductItemV2({
               </b>
             </Typography>
           </Box>
-          {who === 'bidder' && (
-            <Typography variant="h4" color="primary" className={classes.status}>
-              {status === 'done'
-                ? 'Thành công'
-                : status === 'failed'
-                ? 'Thất bại'
-                : status === 'denied'
-                ? 'Bị từ chối'
-                : 'Đang diễn ra'}
-            </Typography>
-          )}
+          <Typography variant="h4" className={classes.status}>
+            {status === 'done'
+              ? 'Thành công'
+              : status === 'failed'
+              ? 'Thất bại'
+              : status === 'denied'
+              ? 'Bị từ chối'
+              : status === 'expired'
+              ? 'Đã kết thúc'
+              : 'Đang diễn ra'}
+          </Typography>
         </div>
       )}
 
@@ -82,12 +82,14 @@ function ProductItemV2({
               <Typography variant="body1">
                 Giá hiện tại: <b>{currentPrice}VND</b>
               </Typography>
-              <Typography variant="body1">
-                Ra giá cao nhất:{' '}
-                <b>
-                  @{currentBidder} ({currentBidderPoint})
-                </b>
-              </Typography>
+              {currentBidder && (
+                <Typography variant="body1">
+                  Ra giá cao nhất:{' '}
+                  <b>
+                    @{currentBidder} ({currentBidderPoint})
+                  </b>
+                </Typography>
+              )}
             </Box>
           </Box>
         </div>
