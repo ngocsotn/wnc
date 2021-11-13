@@ -165,18 +165,18 @@ function Detail() {
       if (+data === +id) {
         // console.log(data);
         getProductByIdHandler(id);
-				try {
-					dispatch(
-						bidHistoryPaging({
-							page: page + 1,
-							limit,
-							product_id: +id,
-						})
-					).unwrap();
-				} catch (error) {
-					toast.error(error);
-					console.log(error);
-				}
+        try {
+          dispatch(
+            bidHistoryPaging({
+              page: page + 1,
+              limit,
+              product_id: +id,
+            })
+          ).unwrap();
+        } catch (error) {
+          toast.error(error);
+          console.log(error);
+        }
       }
     });
   }, [id, getProductByIdHandler, limit, page, dispatch]);
@@ -225,12 +225,12 @@ function Detail() {
   }, [id, getProductByIdHandler, checkFavoriteHandler, isAuthenticated]);
 
   useLayoutEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [dispatch, id]);
 
   return (
     <div className={classes.root}>
-      {getLoading ? (
+      {getLoading && !productDetail.product_id ? (
         <RequestLoading />
       ) : (
         <>
