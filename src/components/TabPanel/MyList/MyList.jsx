@@ -35,6 +35,7 @@ function MyList() {
       toast.error(error);
     }
   }, [limit, page, dispatch]);
+
   return (
     <div className={classes.root}>
       <PanelTitle title="Danh sách yêu thích" />
@@ -59,7 +60,7 @@ function MyList() {
                 ? 'continue'
                 : 'expired'
             }
-            imgSrc={item.product?.images?.length > 0 && item.product.images[0].url}
+            imgSrc={item.product?.images?.length > 0 ? item.product.images[0].url : process.env.REACT_APP_BASE_IMAGE}
             totalBid={item.product?.bid_count}
             dateCreated={item.product?.create_at}
             dateEnd={item.product?.expire_at}

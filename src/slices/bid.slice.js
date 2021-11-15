@@ -19,6 +19,22 @@ export const bidHistoryPaging = createAsyncThunk(
 );
 
 // BIDDER
+// BIDDER XEM LỊCH SỬ CÁC SẢN PHẨM ĐÃ THAM GIA BẢN THÂN
+export const bidSelfHistory = createAsyncThunk(
+  'bid/history',
+  async ({ page, limit }, { rejectWithValue }) => {
+    try {
+      return (await axiosInstance.get(`/bid/self?page=${page}&limit=${limit}`))
+        .data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data.errs?.join(' - '));
+    }
+  }
+);
+
 // BIDDER BID 1 sản phầm nào đó
 export const bidBidProduct = createAsyncThunk(
   'bid/bid',

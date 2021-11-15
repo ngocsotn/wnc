@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { favoriteSelfPaging } from '../../../slices/favorite.slice';
+import { bidSelfHistory } from '../../../slices/bid.slice';
 import PanelTitle from '../../PanelTitle/PanelTitle';
 import ProductItemV2 from '../../ProductItemV2/ProductItemV2';
 import RequestLoading from '../../UI/RequestLoading/RequestLoading';
@@ -11,11 +11,11 @@ import useStyles from './AutionPanel.styles';
 function AuctionPanel() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(1000);
   const [page, setPage] = useState(0);
-  const data = useSelector((state) => state.favorite.data);
-  const total_page = useSelector((state) => state.favorite.total_page);
-  const loading = useSelector((state) => state.favorite.loading);
+  const data = useSelector((state) => state.bid.data);
+  const total_page = useSelector((state) => state.bid.total_page);
+  const loading = useSelector((state) => state.bid.loading);
 
   const pageChangeHandler = (event, value) => {
     setPage(value);
@@ -24,10 +24,9 @@ function AuctionPanel() {
   useEffect(() => {
     try {
       dispatch(
-        favoriteSelfPaging({
+        bidSelfHistory({
           limit,
-          page: page + 1,
-          order_type: null,
+          page: page + 1
         })
       ).unwrap();
     } catch (error) {
@@ -58,7 +57,7 @@ function AuctionPanel() {
                 ? 'continue'
                 : 'expired'
             }
-            imgSrc={item.product?.images?.length > 0 && item.product.images[0].url}
+            imgSrc={item.product?.images?.length > 0 ? item.product.images[0].url: process.env.REACT_APP_BASE_IMAGE}
             totalBid={item.product?.bid_count}
             dateCreated={item.product?.create_at}
             dateEnd={item.product?.expire_at}

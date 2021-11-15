@@ -10,7 +10,7 @@ import useStyles from './RatePanel.styles';
 function RatePanel() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(10000);
   const [page, setPage] = useState(0);
   const data = useSelector((state) => state.rate.data);
   const total_page = useSelector((state) => state.rate.total_page);
@@ -44,21 +44,21 @@ function RatePanel() {
           data?.length > 0 &&
           data.map((item, index) => (
             <RateItem
-              title="Đồng hồ rolex"
-              seller="ngocsotn"
-              sellerPoint={2}
-              status="done"
-              imgSrc="https://cf.shopee.vn/file/8126085bad03c21779e1b77876fb7316"
-              totalBid="5"
-              dateCreated="31/10/2021 4:30:00"
-              dateEnd="1/11/2021 12:00:00"
-              currentPrice="5000"
-              currentBidder="xizot"
-              currentBidderPoint={9}
-              rateUser="xizot"
-              ratePoint="+1"
-              rateDate="20/11/2021"
-              rateContent="Sản phẩm tốt"
+              title={item.product.name}
+              seller={item.product.seller.name}
+              sellerPoint={item.product.seller.point}
+              status={item.product.status === 'off' ? 'done' : 'no'} //on hoặc off
+              imgSrc={item.product.images.length > 0 ? item.product.images[0].url : process.env.REACT_APP_BASE_IMAGE}
+              totalBid={item.product.bid_count}
+              dateCreated={item.product.create_at}
+              dateEnd={item.product.expire_at}
+              currentPrice={item.product.hidden_price}
+              currentBidder={item.product.bidder.name}
+              currentBidderPoint={item.product.bidder.point}
+              rateUser={item.user_1.name}
+              ratePoint={item.point === 1 ? '+1' : '-1'}
+              rateDate={item.create_at}
+              rateContent={item.comment}
             />
           ))
         )}

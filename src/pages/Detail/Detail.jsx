@@ -32,7 +32,12 @@ import { useSelector } from 'react-redux';
 import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
 import { useInput } from '../../hooks/use-input';
 import { number } from '../../schemas/common.schema';
-import { bidBidProduct, bidHistoryPaging, bidBuyProduct, bidBlockUser } from '../../slices/bid.slice';
+import {
+  bidBidProduct,
+  bidHistoryPaging,
+  bidBuyProduct,
+  bidBlockUser,
+} from '../../slices/bid.slice';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { formatMoney } from '../../utils/formatMoney';
 import socketIOClient from 'socket.io-client';
@@ -118,19 +123,32 @@ function Detail() {
     }
   };
 
-	const buyNowHandler = async () => {
-		try {
-			await dispatch(
+  const buyNowHandler = async () => {
+    try {
+      await dispatch(
         bidBuyProduct({
-          product_id: +id
+          product_id: +id,
         })
       ).unwrap();
-			toast.success('Mua ngay thành công');
-		}
-		catch(error) {
-			toast.error(error);
-		}
-	};
+      toast.success('Mua ngay thành công');
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const blockBidderHandler = async (bidder) => {
+    try {
+      await dispatch(
+        bidBlockUser({
+          product_id: +id,
+          user_id: bidder.user_id,
+        })
+      ).unwrap();
+      toast.success('Đã từ chối ra giá của người dùng ' + bidder.name);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   const addToFavoriteHandler = async (id) => {
     try {
@@ -221,9 +239,9 @@ function Detail() {
             order_by: null,
             order_type: null,
             keyword: null,
-						is_self: 0,
-						is_expire: 0, // chưa hết hạn
-						status: "on" // còn mở
+            is_self: 0,
+            is_expire: 0, // chưa hết hạn
+            status: 'on', // còn mở
           })
         ).unwrap();
         setListSuggest(response.data);
@@ -314,8 +332,8 @@ function Detail() {
                                 {item.status}
                               </TableCell>
                               <TableCell>
-                                {seller === user.id && (
-                                  <IconButton>
+                                {seller === user.id && item.status === 'accepted' && (
+                                  <IconButton onClick={() => blockBidderHandler(item)}>
                                     <Block color="secondary" />
                                   </IconButton>
                                 )}
@@ -411,7 +429,11 @@ function Detail() {
                 <Typography variant="h6">
                   Giá mua ngay: {formatMoney(productDetail.buy_price)}đ
                 </Typography>
-                <Button variant="contained" color="primary" className={classes.btnBuy} onClick={buyNowHandler}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.btnBuy}
+                  onClick={buyNowHandler}>
                   Mua ngay
                 </Button>
               </div>

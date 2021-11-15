@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { uiActions } from '../../slices/ui.slice';
 import { formatMoney } from '../../utils/formatMoney';
+import { toast } from 'react-toastify';
+import { favoriteDelete } from '../../slices/favorite.slice';
+
 function ProductItemV2({
   who = 'bidder',
   productId,
@@ -32,6 +35,20 @@ function ProductItemV2({
   const openModalRateHandler = () => {
     dispatch(uiActions.openModal('openUpdate'));
   };
+
+  const deleteFromFavoriteHandler = async (product_id) => {
+		try {
+      await dispatch(
+        favoriteDelete({
+          product_id: productId
+        })
+      ).unwrap();
+      toast.success('Xóa khỏi yêu thích thành công');
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <div className={classes.root}>
       {who !== 'seller' && (
@@ -59,7 +76,7 @@ function ProductItemV2({
       )}
 
       <div className={classes.middle}>
-        <img src={imgSrc} alt={title} />
+        <img src={imgSrc || process.env.REACT_APP_BASE_IMAGE} alt={title} />
         <div className={classes.info}>
           <Link to={`/detail/${productId}`} className={classes.xizot}>
             <Typography variant="h5" className={classes.title}>
@@ -116,7 +133,12 @@ function ProductItemV2({
         )}
         {who === 'user-save' && (
           <div className={classes.bottomContent}>
-            <Button variant="outlined" color="secondary" size="small" startIcon={<Delete />}>
+            <Button
+              onClick={() => deleteFromFavoriteHandler(productId)}
+              variant="outlined"
+              color="secondary"
+              size="small"
+              startIcon={<Delete />}>
               Xóa khỏi danh sách
             </Button>
           </div>

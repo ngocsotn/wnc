@@ -89,7 +89,7 @@ function ProductSlider({ listProduct, slidesToShow, loading, settings }) {
                 <ProductItem
                   productId={product.product_id}
                   title={product.name}
-                  imgSrc={(product.images?.length > 0 && product.images[0].url) || ''}
+                  imgSrc={(product.images?.length > 0 && product.images[0].url) || process.env.REACT_APP_BASE_IMAGE }
                   categoryName={product.sub_category?.name}
                   categoryId={product.sub_category?.sub_category_id}
                   dateCreated={product.create_at}
