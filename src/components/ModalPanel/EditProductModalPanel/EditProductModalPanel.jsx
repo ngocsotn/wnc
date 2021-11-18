@@ -6,15 +6,41 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
 import { quillConfig } from '../../../utils/quillConfig';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { productUpdate } from '../../../slices/product.slice';
+import { uiActions } from '../../../slices/ui.slice';
 
 function EditProductModalPanel({ onClose }) {
   const classes = useStyles();
   const [description, setDescription] = useState('');
-  console.log(description);
+  const productId = useSelector((state) => state.ui.product.product_id);
+  const formIsValid = description.length > 10;
+
+  const dispatch = useDispatch();
+
+  const productUpdateHandler = async (e) => {
+    e.preventDefault();
+    if (!formIsValid) return;
+
+    try {
+      await dispatch(
+        productUpdate({
+          product_id: +productId,
+          detail: description,
+        })
+      ).unwrap();
+      toast.success('Cập nhật thông tin thành công');
+      dispatch(uiActions.closeModal());
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   return (
     <Container className={classes.root}>
-      <form action="">
+      <form action="" onSubmit={productUpdateHandler}>
         <ModalTitle title="Cập nhật mô tả" onClose={onClose} />
         <div>
           <ReactQuill
@@ -29,7 +55,11 @@ function EditProductModalPanel({ onClose }) {
           />
         </div>
 
-        <ButtonLoading fullWidth={false} style={{ marginTop: 10 }}>
+        <ButtonLoading
+          fullWidth={false}
+          type="submit"
+          style={{ marginTop: 10 }}
+          disabled={!formIsValid}>
           Lưu
         </ButtonLoading>
       </form>

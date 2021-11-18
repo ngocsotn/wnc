@@ -36,5 +36,6 @@ export default makeStyles((theme) => ({
   },
   productItem: {
     padding: '15px 16px',
+    height: '100%',
   },
 }));

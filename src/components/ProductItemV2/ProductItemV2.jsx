@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import { AccessTime, Delete, Edit, PermIdentityRounded, RemoveRedEye } from '@material-ui/icons';
+import { AccessTime, Check, Delete, Edit, PermIdentityRounded, Block } from '@material-ui/icons';
 import React from 'react';
 import { getCreatedTime } from '../../utils/getCreatedTime';
 import TimeLeft from '../TimeLeft/TimeLeft';
@@ -11,7 +11,6 @@ import { uiActions } from '../../slices/ui.slice';
 import { formatMoney } from '../../utils/formatMoney';
 import { toast } from 'react-toastify';
 import { favoriteDelete } from '../../slices/favorite.slice';
-
 function ProductItemV2({
   who = 'bidder',
   productId,
@@ -30,10 +29,12 @@ function ProductItemV2({
   type = 'auction-won',
   isRate = false,
   primary = false,
+  sell_status = 'processing',
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const openModalEditHandler = () => {
+    dispatch(uiActions.setUpdateProduct({ product_id: +productId, type: 'updateProduct' }));
     dispatch(uiActions.openModal('openUpdate'));
   };
   const openModalRateHandler = () => {
@@ -85,7 +86,11 @@ function ProductItemV2({
       )}
 
       <div className={classes.middle}>
-        <img src={imgSrc || process.env.REACT_APP_BASE_IMAGE} alt={title} />
+        <img
+          src={imgSrc || process.env.REACT_APP_BASE_IMAGE}
+          alt={title}
+          style={{ maxHeight: 150, objectFit: 'cover', objectPosition: 'top' }}
+        />
         <div className={classes.info}>
           <Link to={`/detail/${productId}`} className={classes.xizot}>
             <Typography variant="h5" className={classes.title}>
@@ -142,12 +147,30 @@ function ProductItemV2({
 
         {who === 'seller' && (
           <div className={classes.bottomContent}>
-            <Button variant="contained" color="primary" startIcon={<RemoveRedEye />} size="small">
-              Xem kết quả
-            </Button>
-            <Button variant="contained" size="small" onClick={openModalEditHandler}>
-              <Edit />
-            </Button>
+            {sell_status === 'processing' && (
+              <Button variant="contained" size="small" onClick={openModalEditHandler}>
+                <Edit />
+              </Button>
+            )}
+            {sell_status === 'hasBidder' && (
+              <Box>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={openModalEditHandler}
+                  startIcon={<Block />}>
+                  Từ chối
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={openModalEditHandler}
+                  startIcon={<Check />}>
+                  Chấp thuận
+                </Button>
+              </Box>
+            )}
           </div>
         )}
         {who === 'user-save' && (

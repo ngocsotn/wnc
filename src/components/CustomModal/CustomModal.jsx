@@ -7,11 +7,13 @@ import { uiActions } from '../../slices/ui.slice';
 import DeleteModalPanel from '../ModalPanel/DeleteModalPanel/DeleteModalPanel';
 import AddCategoryModalPanel from '../ModalPanel/AddCategoryModalPanel/AddCategoryModalPanel';
 import UpdateCategoryModalPanel from '../ModalPanel/UpdateCategoryModalPanel/UpdateCategoryModalPanel';
+import ConfirmModalPanel from '../ModalPanel/ConfirmModalPanel/ConfirmModalPanel';
 
 const CustomModal = () => {
   const dispatch = useDispatch();
   const ui = useSelector((state) => state.ui);
   const isOpen =
+    ui.openConfirm !== false ||
     ui.openUpdateCategory !== false ||
     ui.openAddCategory !== false ||
     ui.openAdd !== false ||
@@ -39,6 +41,7 @@ const CustomModal = () => {
         {ui.openDelete && <DeleteModalPanel onClose={closeHandler} />}
         {ui.openAddCategory && <AddCategoryModalPanel onClose={closeHandler} />}
         {ui.openUpdateCategory && <UpdateCategoryModalPanel onClose={closeHandler} />}
+        {ui.openConfirm && <ConfirmModalPanel onClose={closeHandler} />}
       </>
     </Modal>
   );

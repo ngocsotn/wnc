@@ -2,6 +2,7 @@ import { alpha, makeStyles } from '@material-ui/core';
 
 export default makeStyles((theme) => ({
   root: {
+    height: '100%',
     position: 'relative',
     display: 'block',
     opacity: 1 + '!important',
@@ -9,6 +10,7 @@ export default makeStyles((theme) => ({
     overflow: 'hidden',
     border: '1px solid #ddd',
     borderRadius: theme.shape.borderRadius,
+    background: '#fff',
     '& p': {
       wordBreak: 'break-word',
     },

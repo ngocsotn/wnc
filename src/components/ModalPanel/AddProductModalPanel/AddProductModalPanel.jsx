@@ -26,6 +26,7 @@ import { productAddImage, productAddNew } from '../../../slices/product.slice';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { uiActions } from '../../../slices/ui.slice';
 
 function AddProductModalPanel({ onClose }) {
   const classes = useStyles();
@@ -133,6 +134,7 @@ function AddProductModalPanel({ onClose }) {
 
       await dispatch(productAddImage(formData)).unwrap();
       toast.success('Thêm sản phẩm đấu giá thành công');
+      dispatch(uiActions.closeModal());
     } catch (error) {
       toast.error(error);
     }

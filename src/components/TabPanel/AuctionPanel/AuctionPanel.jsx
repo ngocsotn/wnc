@@ -19,7 +19,6 @@ function AuctionPanel() {
   const loading = useSelector((state) => state.bid.loading);
   const user = useSelector((state) => state.auth.user);
 
-  console.log(user);
   const pageChangeHandler = (event, value) => {
     setPage(value);
   };

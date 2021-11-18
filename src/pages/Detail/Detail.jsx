@@ -41,6 +41,7 @@ import {
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { formatMoney } from '../../utils/formatMoney';
 import socketIOClient from 'socket.io-client';
+import { uiActions } from '../../slices/ui.slice';
 
 function Detail() {
   const { id } = useParams();
@@ -52,6 +53,7 @@ function Detail() {
   const [productDetail, setProductDetail] = useState({});
   const getLoading = useSelector((state) => state.product.getLoading);
   const loading = useSelector((state) => state.product.loading);
+  const bidRequesting = useSelector((state) => state.bid.bidRequesting);
   const [listSuggest, setListSuggest] = useState([]);
   const [addedFavorite, setAddedFavorite] = useState(false);
   const user = useSelector((state) => state.auth.user);
@@ -109,18 +111,16 @@ function Detail() {
     [dispatch]
   );
 
-  const bidHandler = async () => {
-    try {
-      await dispatch(
-        bidBidProduct({
-          product_id: +id,
-          price: +price,
-        })
-      ).unwrap();
-      toast.success('Đấu giá thành công');
-    } catch (error) {
-      toast.error(error);
-    }
+  const openConfirmModal = async () => {
+    dispatch(
+      uiActions.setConfirm({
+        type: 'bid',
+        product_id: +id,
+        price: +price,
+      })
+    );
+
+    dispatch(uiActions.openModal('openConfirm'));
   };
 
   const buyNowHandler = async () => {
@@ -265,6 +265,20 @@ function Detail() {
 
   return (
     <div className={classes.root}>
+      {bidRequesting && (
+        <RequestLoading
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            zIndex: 9999,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0,0,0,.3)',
+          }}
+        />
+      )}
+
       {getLoading && !productDetail.product_id ? (
         <RequestLoading />
       ) : (
@@ -405,7 +419,7 @@ function Detail() {
                     value={price}
                     error={priceHasError}
                   />
-                  <IconButton color="primary" onClick={bidHandler} disabled={!priceIsValid}>
+                  <IconButton color="primary" onClick={openConfirmModal} disabled={!priceIsValid}>
                     <Gavel />
                   </IconButton>
                 </div>

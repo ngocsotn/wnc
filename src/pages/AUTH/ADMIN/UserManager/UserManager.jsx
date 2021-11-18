@@ -128,7 +128,7 @@ function UserManager() {
                       <TableCell>{item.address}</TableCell>
                       <TableCell>{item.role}</TableCell>
                       <TableCell>
-                        {item?.status || item.status === 'block' ? (
+                        {item.status === 'block' ? (
                           <Typography variant="body1" color="secondary">
                             Blocked
                           </Typography>

@@ -12,6 +12,8 @@ import bidSlice from '../slices/bid.slice';
 import auctionWonSlice from '../slices/auction-won.slice';
 import requestSlice from '../slices/requests.slice';
 import adminSlice from '../slices/admin.slice';
+import sellerSlice from '../slices/seller.slice';
+import tradeSlice from '../slices/trade.slice';
 export default configureStore({
   reducer: {
     ui: uiSlice.reducer,
@@ -27,5 +29,7 @@ export default configureStore({
     auctionWon: auctionWonSlice.reducer,
     request: requestSlice.reducer,
     admin: adminSlice.reducer,
+    seller: sellerSlice.reducer,
+    trade: tradeSlice.reducer,
   },
 });
