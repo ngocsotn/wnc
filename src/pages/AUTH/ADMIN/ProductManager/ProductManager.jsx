@@ -165,12 +165,11 @@ function ProductManager() {
                       <TableCell>{item.bid_count} </TableCell>
                       <TableCell>{formatMoney(item.buy_price)}đ</TableCell>
                       <TableCell>
-                        <Box
-                          display="flex"
-                          justifyContent="center"
-                          onClick={() => openModalDeleteHandler(item.product_id)}>
-                          <Delete className={classes.actionIcon} />
-                        </Box>
+                        <Delete
+                          className={classes.actionIcon}
+                          color="secondary"
+                          onClick={() => openModalDeleteHandler(item.product_id)}
+                        />
                       </TableCell>
                     </TableRow>
                   ))

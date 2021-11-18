@@ -110,10 +110,12 @@ function CategoryManager() {
                           <Edit
                             className={classes.actionIcon}
                             onClick={() => openModalUpdateHandler(item.name, item.category_id)}
+                            color="primary"
                           />
                           <Delete
                             className={classes.actionIcon}
                             onClick={() => openModalDeleteHandler(item.category_id)}
+                            color="secondary"
                           />
                         </Box>
                       </TableCell>

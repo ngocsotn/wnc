@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useStyles from './RequestManager.style';
 import moment from 'moment';
 import {
@@ -16,10 +16,61 @@ import {
 } from '@material-ui/core';
 
 import { Check, Block } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { requestAdminGetAll, requestAdminUpdateStatus } from '../../../../slices/requests.slice';
+import RequestLoading from '../../../../components/UI/RequestLoading/RequestLoading';
+import { toast } from 'react-toastify';
 
-function SubCategoryManager() {
+function RequestManager() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const loading = useSelector((state) => state.request.loading);
 
+  const count = useSelector((state) => state.request.count);
+  const data = useSelector((state) => state.request.data);
+
+  const rowsPerPageChangeHandler = (event) => {
+    setLimit(+event.target.value);
+    setPage(0);
+  };
+  const pageChangeHandler = (event, value) => {
+    setPage(value);
+  };
+
+  const requestAdminUpdateStatusHandler = async ({ user_id, status }) => {
+    try {
+      await dispatch(
+        requestAdminUpdateStatus({
+          user_id: +user_id,
+          status,
+        })
+      ).unwrap();
+      toast.success('Yêu cầu đã được lên seller');
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+  const requestAdminGetAllHandler = async ({ limit, page }) => {
+    try {
+      await dispatch(
+        requestAdminGetAll({
+          page,
+          limit,
+          order_by: 'create_at',
+          order_type: 'DESC',
+          status: '',
+        })
+      ).unwrap();
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  useEffect(() => {
+    requestAdminGetAllHandler({ limit, page: page + 1 });
+  }, [limit, page, dispatch]);
   return (
     <div className={classes.root}>
       <Container>
@@ -45,34 +96,71 @@ function SubCategoryManager() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow className={classes.tableRow}>
-                  <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
-                    1
-                  </TableCell>
-                  <TableCell>ngocsotn xizot inauu</TableCell>
-                  <TableCell>abcxyz12345@emgail.com</TableCell>
-                  <TableCell>{moment().format('DD/MM/yyyy HH:mm:ss')}</TableCell>
-                  <TableCell>{moment().format('DD/MM/yyyy HH:mm:ss')}</TableCell>
-                  <TableCell>Đang chờ</TableCell>
-                  <TableCell>
-                    Chào quản lý, mình đang có rất nhiều đồ cổ cần đấu giá rao bán, mong được duyệt
-                    làm seller, cảm ơn.
-                  </TableCell>
-                  <TableCell>
-                    <Box display="flex" justifyContent="center">
-                      <Check className={classes.actionIcon} />
-                      <Block className={classes.actionIcon} />
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                {loading ? (
+                  <RequestLoading />
+                ) : (
+                  data?.length > 0 &&
+                  data.map((item, index) => (
+                    <TableRow className={classes.tableRow} key={index}>
+                      <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                        {item.id}
+                      </TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>{item.create_at}</TableCell>
+                      <TableCell>{item.expire_at}</TableCell>
+                      <TableCell>
+                        <Typography
+                          color={
+                            item.status === 'accepted'
+                              ? 'primary'
+                              : item.status === 'denied'
+                              ? 'secondary'
+                              : 'inherit'
+                          }>
+                          {item.status}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>{item.message}</TableCell>
+                      <TableCell>
+                        {item.status === 'pending' && (
+                          <Box display="flex" justifyContent="center">
+                            <Check
+                              className={classes.actionIcon}
+                              color="primary"
+                              onClick={() =>
+                                requestAdminUpdateStatusHandler({
+                                  user_id: item.user_id,
+                                  status: 'accepted',
+                                })
+                              }
+                            />
+                            <Block
+                              className={classes.actionIcon}
+                              color="secondary"
+                              onClick={() =>
+                                requestAdminUpdateStatusHandler({
+                                  user_id: item.user_id,
+                                  status: 'denied',
+                                })
+                              }
+                            />
+                          </Box>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[5, 10, 15]}
-                    count={25}
-                    rowsPerPage={5}
-                    page={1}
+                    rowsPerPageOptions={[5, 10, 15, 50, 100]}
+                    count={count}
+                    rowsPerPage={limit}
+                    page={page}
+                    onPageChange={pageChangeHandler}
+                    onRowsPerPageChange={rowsPerPageChangeHandler}
                   />
                 </TableRow>
               </TableFooter>
@@ -84,4 +172,4 @@ function SubCategoryManager() {
   );
 }
 
-export default SubCategoryManager;
+export default RequestManager;

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useStyles from './UserManager.styles';
-import moment from 'moment';
 import {
   Box,
+  Button,
   Container,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -14,10 +15,80 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { RotateLeft } from '@material-ui/icons';
+import {
+  adminBlockUser,
+  adminGetAllUser,
+  adminResetPasswordUser,
+} from '../../../../slices/admin.slice';
+import RequestLoading from '../../../../components/UI/RequestLoading/RequestLoading';
 function UserManager() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const loading = useSelector((state) => state.admin.loading);
+
+  const count = useSelector((state) => state.admin.count);
+  const data = useSelector((state) => state.admin.data);
+
+  const rowsPerPageChangeHandler = (event) => {
+    setLimit(+event.target.value);
+    setPage(0);
+  };
+  const pageChangeHandler = (event, value) => {
+    setPage(value);
+  };
+
+  const adminGetAllUserHandler = async ({ page, limit }) => {
+    try {
+      await dispatch(
+        adminGetAllUser({
+          page,
+          limit,
+        })
+      ).unwrap();
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+  const adminResetPasswordUserHandler = async (user_id) => {
+    try {
+      await dispatch(
+        adminResetPasswordUser({
+          user_id,
+        })
+      ).unwrap();
+      toast.success('Reset mật khẩu thành công. Vui lòng kiểm tra email');
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const statusChangeHandler = async (e, user_id) => {
+    e.stopPropagation();
+    const newStatus = e.target.value;
+    console.log(newStatus);
+    try {
+      if (newStatus === 'block') {
+        await dispatch(
+          adminBlockUser({
+            user_id: +user_id,
+          })
+        ).unwrap();
+        toast.success('Cập nhật trạng thái thành công');
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  useEffect(() => {
+    adminGetAllUserHandler({ limit, page: page + 1 });
+  }, [limit, page, dispatch]);
   return (
     <div className={classes.root}>
       <Container>
@@ -37,35 +108,66 @@ function UserManager() {
                   <TableCell> Ngày sinh </TableCell>
                   <TableCell> Địa chỉ </TableCell>
                   <TableCell> Quyền hạn </TableCell>
-                  <TableCell> Tùy chọn </TableCell>
+                  <TableCell> Trạng thái </TableCell>
+                  <TableCell> Reset mật khẩu</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow
-                  // onClick={() => openUpdateModalHandler(row.prod_id)}
-                  className={classes.tableRow}>
-                  <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
-                    1
-                  </TableCell>
-                  <TableCell>Nguyễn Văn Nhật</TableCell>
-                  <TableCell>xizot@gmail.com</TableCell>
-                  <TableCell>{moment().format('DD/MM/yyyy')}</TableCell>
-                  <TableCell>123 Thu Duc</TableCell>
-                  <TableCell>Bidder</TableCell>
-                  <TableCell>
-                    <Box display="flex">
-                      <Edit className={classes.actionIcon} />
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                {loading ? (
+                  <RequestLoading />
+                ) : (
+                  data?.length > 0 &&
+                  data.map((item, index) => (
+                    <TableRow className={classes.tableRow} key={index}>
+                      <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                        {item.id}
+                      </TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>{item.birth}</TableCell>
+                      <TableCell>{item.address}</TableCell>
+                      <TableCell>{item.role}</TableCell>
+                      <TableCell>
+                        {item?.status || item.status === 'block' ? (
+                          <Typography variant="body1" color="secondary">
+                            Blocked
+                          </Typography>
+                        ) : (
+                          <Select
+                            native
+                            value={item?.status}
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) => statusChangeHandler(e, item.id)}
+                            style={{ minWidth: 100 }}>
+                            <option value="ok">Active</option>
+                            <option value="block">Blocked</option>
+                          </Select>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          size="small"
+                          startIcon={<RotateLeft />}
+                          onClick={() => adminResetPasswordUserHandler(item.id)}>
+                          {' '}
+                          Reset
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[5, 10, 15]}
-                    count={25}
-                    rowsPerPage={5}
-                    page={1}
+                    rowsPerPageOptions={[5, 10, 15, 50, 100]}
+                    count={count}
+                    rowsPerPage={limit}
+                    page={page}
+                    onPageChange={pageChangeHandler}
+                    onRowsPerPageChange={rowsPerPageChangeHandler}
                   />
                 </TableRow>
               </TableFooter>

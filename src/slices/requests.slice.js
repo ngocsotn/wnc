@@ -78,12 +78,12 @@ export const requestAdminUpdateStatus = createAsyncThunk(
   'request/update',
   async ({ user_id, status }, { rejectWithValue }) => {
     try {
-      return (
-        await axiosInstance.put(`/request/admin/`, {
-          user_id,
-          status,
-        })
-      ).data;
+      await axiosInstance.put(`/request/admin/`, {
+        user_id,
+        status,
+      });
+
+      return { user_id };
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -98,6 +98,11 @@ const requestSlice = createSlice({
   initialState: {
     loading: false,
     sending: false,
+
+    count: 0,
+    data: [],
+    page: 0,
+    total_page: 0,
   },
   reducers: {},
   extraReducers: {
@@ -118,6 +123,24 @@ const requestSlice = createSlice({
     },
     [requestGetSelfStatus.rejected]: (state) => {
       state.loading = false;
+    },
+    [requestAdminGetAll.pending]: (state) => {
+      state.loading = true;
+    },
+    [requestAdminGetAll.rejected]: (state) => {
+      state.loading = false;
+    },
+    [requestAdminGetAll.fulfilled]: (state, action) => {
+      const { count, page, total_page, data } = action.payload;
+      state.count = count;
+      state.data = data;
+      state.page = page;
+      state.total_page = total_page;
+      state.loading = false;
+    },
+    [requestAdminUpdateStatus.fulfilled]: (state, action) => {
+      const { user_id } = action.payload;
+      state.data = state.data.filter((item) => item.user_id !== user_id);
     },
   },
 });
