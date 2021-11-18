@@ -45,14 +45,7 @@ export const rateCreateNew = createAsyncThunk(
   'rate/post',
   async ({ product_id, user_id_2, comment, point }, { rejectWithValue }) => {
     try {
-      return (
-        await axiosInstance.post(`/rate`, {
-          product_id,
-          user_id_2,
-          comment,
-          point,
-        })
-      ).data;
+      return (await axiosInstance.post(`/rate`, {})).data;
     } catch (error) {
       if (!error.response) {
         throw error;

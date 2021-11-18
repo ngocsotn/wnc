@@ -12,6 +12,12 @@ const uiSlice = createSlice({
       type: null,
       id: null,
     },
+
+    rate: {
+      user_id_2: null,
+      product_id: null,
+      type: null,
+    },
   },
   reducers: {
     openModal: (state, action) => {
@@ -34,6 +40,12 @@ const uiSlice = createSlice({
     setDelete: (state, action) => {
       state.delete.type = action.payload.type;
       state.delete.id = action.payload.id;
+    },
+    setRate: (state, action) => {
+      const { product_id, user_id_2, type } = action.payload;
+      state.rate.product_id = product_id;
+      state.rate.user_id_2 = user_id_2;
+      state.rate.type = type;
     },
   },
 });

@@ -53,16 +53,28 @@ function ProfileSideBar() {
       </li>
 
       {user?.role === 'bidder' && (
-        <li>
-          <NavLink
-            exact
-            to="/account/auction"
-            className={classes.link}
-            activeClassName={classes.active}>
-            <img src={auctionIcon} alt="" />
-            Lịch sử đấu giá
-          </NavLink>
-        </li>
+        <>
+          <li>
+            <NavLink
+              exact
+              to="/account/auction"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={auctionIcon} alt="" />
+              Đang tham gia đấu giá
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to="/account/auction-won"
+              className={classes.link}
+              activeClassName={classes.active}>
+              <img src={auctionIcon} alt="" />
+             Đấu giá thắng
+            </NavLink>
+          </li>
+        </>
       )}
 
       {user?.role === 'seller' && (

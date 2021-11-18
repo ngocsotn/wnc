@@ -21,11 +21,14 @@ export const productGetById = createAsyncThunk(
 // status có on và off, off là sản phẩm đã kết thúc cuộc đấu giá (null là lấy hết)
 export const productGetByPage = createAsyncThunk(
   'product/productGetByPage',
-  async ({ sub_category_id, order_by, order_type, keyword, limit, page, is_self,  is_expire, status}, { rejectWithValue }) => {
+  async (
+    { sub_category_id, order_by, order_type, keyword, limit, page, is_self, is_expire, status },
+    { rejectWithValue }
+  ) => {
     try {
       return (
         await axiosInstance.get(
-          `/product?sub_category_id=${sub_category_id}& order_by=${order_by}& order_type=${order_type}& keyword=${keyword}& limit=${limit}& page=${page}&is_self=${is_self}&is_expire=${is_expire}&status=${status}`
+          `/product?sub_category_id=${sub_category_id}&order_by=${order_by}&order_type=${order_type}&keyword=${keyword}&limit=${limit}&page=${page}&is_self=${is_self}&is_expire=${is_expire}&status=${status}`
         )
       ).data;
     } catch (error) {

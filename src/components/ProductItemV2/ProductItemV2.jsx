@@ -17,6 +17,7 @@ function ProductItemV2({
   productId,
   title,
   seller,
+  sellerId,
   sellerPoint,
   status,
   imgSrc,
@@ -26,6 +27,8 @@ function ProductItemV2({
   currentPrice,
   currentBidder,
   currentBidderPoint,
+  type = 'auction-won',
+  isRate = false,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -33,14 +36,21 @@ function ProductItemV2({
     dispatch(uiActions.openModal('openUpdate'));
   };
   const openModalRateHandler = () => {
-    dispatch(uiActions.openModal('openUpdate'));
+    dispatch(uiActions.openModal('openRate'));
+    dispatch(
+      uiActions.setRate({
+        product_id: +productId,
+        user_id_2: +sellerId,
+        type,
+      })
+    );
   };
 
   const deleteFromFavoriteHandler = async (product_id) => {
-		try {
+    try {
       await dispatch(
         favoriteDelete({
-          product_id: productId
+          product_id: productId,
         })
       ).unwrap();
       toast.success('Xóa khỏi yêu thích thành công');
@@ -56,9 +66,7 @@ function ProductItemV2({
           <Box display="flex" alignItems="center">
             <img src={storeIcon} alt="store" style={{ marginRight: 5 }} />
             <Typography variant="caption">
-              <b>
-                @{seller} ({sellerPoint})
-              </b>
+              <b>Người bán: {seller}</b>
             </Typography>
           </Box>
           <Typography variant="h4" className={classes.status}>
@@ -115,9 +123,19 @@ function ProductItemV2({
       <div className={classes.bottom}>
         {who === 'bidder' && status === 'done' && (
           <div className={classes.bottomContent}>
-            <Button variant="contained" color="primary" size="small" onClick={openModalRateHandler}>
-              Đánh giá
-            </Button>
+            {!isRate ? (
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={openModalRateHandler}>
+                Đánh giá
+              </Button>
+            ) : (
+              <Button variant="text" color="primary" disabled>
+                Đã đánh giá
+              </Button>
+            )}
           </div>
         )}
 

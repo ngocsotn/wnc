@@ -9,8 +9,18 @@ import PasswordPanel from '../../../components/TabPanel/PasswordPanel/PasswordPa
 import ProductPanel from '../../../components/TabPanel/ProductPanel/ProductPanel';
 import ProfilePanel from '../../../components/TabPanel/ProfilePanel/ProfilePanel';
 import useStyles from './Manager.styles';
+import AuctionWonPanel from '../../../components/TabPanel/AuctionWonPanel/AuctionWonPanel';
 function Manager() {
-  const tabs = ['profile', 'password', 'auction', 'notification', 'product', 'mylist', 'rate'];
+  const tabs = [
+    'profile',
+    'password',
+    'auction',
+    'notification',
+    'product',
+    'mylist',
+    'rate',
+    'auction-won',
+  ];
   const classes = useStyles();
   const { slug } = useParams();
   if (!slug) {
@@ -28,6 +38,7 @@ function Manager() {
           {slug === 'profile' && <ProfilePanel />}
           {slug === 'password' && <PasswordPanel />}
           {slug === 'auction' && <AuctionPanel />}
+          {slug === 'auction-won' && <AuctionWonPanel />}
           {slug === 'product' && <ProductPanel />}
           {slug === 'mylist' && <MyList />}
           {slug === 'rate' && <RatePanel />}

@@ -9,17 +9,19 @@ import homeSlice from '../slices/home.slice';
 import favoriteSlice from '../slices/favorite.slice';
 import rateSlice from '../slices/rate.slice';
 import bidSlice from '../slices/bid.slice';
+import auctionWonSlice from '../slices/auction-won.slice';
 export default configureStore({
   reducer: {
     ui: uiSlice.reducer,
     profile: profileSlice.reducer,
     auth: authSlice.reducer,
     category: categorySlice.reducer,
-		subCategory: subCategorySlice.reducer,
+    subCategory: subCategorySlice.reducer,
     product: productSlice.reducer,
     home: homeSlice.reducer,
     favorite: favoriteSlice.reducer,
     rate: rateSlice.reducer,
     bid: bidSlice.reducer,
+    auctionWon: auctionWonSlice.reducer,
   },
 });

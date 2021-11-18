@@ -50,8 +50,8 @@ function ProductManager() {
           sub_category_id: +category,
           limit,
           page: page + 1,
-          order_by: null,
-          order_type: null,
+          order_by: 'create_at',
+          order_type: 'ASC',
           keyword: '',
           is_self: 0, //lấy toàn bộ, không lấy của bản thân
           is_expire: '', // toàn bộ tình trạng hết hạn hay ko
@@ -153,7 +153,7 @@ function ProductManager() {
                         <img
                           className={classes.img}
                           style={{ maxWidth: 120 }}
-                          src={item.images[0]}
+                          src={item.images[0]?.url}
                           alt=""
                         />
                       </TableCell>
