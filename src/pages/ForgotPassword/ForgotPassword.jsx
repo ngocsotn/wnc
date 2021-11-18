@@ -12,6 +12,7 @@ import { useInput } from '../../hooks/use-input';
 import { forgotPassword } from '../../slices/auth.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
+import { emailSchema } from '../../schemas/common.schema';
 
 function ForgotPassword() {
   const classes = useStyles();
@@ -26,7 +27,7 @@ function ForgotPassword() {
     inputIsValid: emailIsvalid,
     hasError: emailHasError,
     errorMsg: emailErrorMessage,
-  } = useInput();
+  } = useInput(emailSchema);
 
   const formIsValid = emailIsvalid;
   const [error, setError] = useState(null);

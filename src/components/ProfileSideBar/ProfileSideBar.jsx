@@ -52,7 +52,7 @@ function ProfileSideBar() {
         </NavLink>
       </li>
 
-      {user?.role === 'bidder' && (
+      {(user?.role === 'bidder' || user?.role === 'seller') && (
         <>
           <li>
             <NavLink
@@ -61,7 +61,7 @@ function ProfileSideBar() {
               className={classes.link}
               activeClassName={classes.active}>
               <img src={auctionIcon} alt="" />
-              Đang tham gia đấu giá
+              Lịch sử đấu giá
             </NavLink>
           </li>
           <li>
@@ -71,7 +71,7 @@ function ProfileSideBar() {
               className={classes.link}
               activeClassName={classes.active}>
               <img src={auctionIcon} alt="" />
-             Đấu giá thắng
+              Đấu giá thắng
             </NavLink>
           </li>
         </>

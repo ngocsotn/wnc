@@ -18,6 +18,7 @@ import { register } from '../../slices/auth.slice';
 import { postReCaptcha } from '../../slices/recatpcha.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
+import { emailSchema, text } from '../../schemas/common.schema';
 
 function Register() {
   const reCaptchaRef = useRef(null);
@@ -44,7 +45,7 @@ function Register() {
     inputIsValid: fullNameIsvalid,
     hasError: fullNameHasError,
     errorMsg: fullNameErrorMessage,
-  } = useInput();
+  } = useInput(text);
 
   const {
     enteredInput: email,
@@ -54,7 +55,7 @@ function Register() {
     inputIsValid: emailIsvalid,
     hasError: emailHasError,
     errorMsg: emailErrorMessage,
-  } = useInput();
+  } = useInput(emailSchema);
 
   const {
     enteredInput: address,
@@ -64,7 +65,7 @@ function Register() {
     inputIsValid: addressIsvalid,
     hasError: addressHasError,
     errorMsg: addressErrorMessage,
-  } = useInput();
+  } = useInput(text);
 
   const {
     enteredInput: password,
@@ -74,7 +75,7 @@ function Register() {
     inputIsValid: passwordIsvalid,
     hasError: passwordHasError,
     errorMsg: passwordErrorMessage,
-  } = useInput();
+  } = useInput(text);
 
   const {
     enteredInput: confirmpassword,
@@ -85,7 +86,7 @@ function Register() {
     hasError: confirmpasswordHasError,
     errorMsg: confirmpasswordErrorMessage,
     isTouched,
-  } = useInput();
+  } = useInput(text);
 
   const passwordOnChangeHandler = (e) => {
     passwordChangeHandler(e);

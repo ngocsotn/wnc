@@ -33,7 +33,8 @@ export const categoryUpdate = createAsyncThunk(
   'category/categoryUpdate',
   async ({ name, category_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.put(`/category`, { name, category_id })).data;
+      await axiosInstance.put(`/category`, { name, category_id });
+      return { name, category_id };
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -82,6 +83,7 @@ const categorySlice = createSlice({
   reducers: {
     removeCategoryById: (state, action) => {
       state.data = state.data.filter((item) => item.category_id !== action.payload);
+      state.count = state.count - 1;
     },
   },
   extraReducers: {
@@ -95,6 +97,16 @@ const categorySlice = createSlice({
     [categoryGetAll.pending]: (state) => {},
     [categoryGetAll.fulfilled]: (state, action) => {
       state.allData = action.payload.data;
+    },
+    [categoryAddNew.fulfilled]: (state, action) => {
+      state.data = [...state.data, action.payload];
+      state.count = state.count + 1;
+    },
+    [categoryUpdate.fulfilled]: (state, action) => {
+      const { category_id, name } = action.payload;
+      state.data = state.data.map((item) =>
+        item.category_id === category_id ? { ...item, name: name } : item
+      );
     },
   },
 });

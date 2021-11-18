@@ -29,6 +29,7 @@ function ProductItemV2({
   currentBidderPoint,
   type = 'auction-won',
   isRate = false,
+  primary = false,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ function ProductItemV2({
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${primary ? classes.primary : ''}`}>
       {who !== 'seller' && (
         <div className={classes.top}>
           <Box display="flex" alignItems="center">

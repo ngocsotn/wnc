@@ -7,6 +7,7 @@ import useStyles from './HeaderBottom.styles';
 function HeaderBottom() {
   const classes = useStyles();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <Toolbar className={classes.root}>
@@ -22,7 +23,7 @@ function HeaderBottom() {
             <>
               <li>
                 <NavLink to="/account/profile" activeClassName={classes.active}>
-                  Tài khoản của tôi
+                  Chức năng
                 </NavLink>
               </li>
               <li>
@@ -30,6 +31,13 @@ function HeaderBottom() {
                   Xem sau
                 </NavLink>
               </li>
+              {user?.role === 'bidder' && (
+                <li>
+                  <NavLink to="/request" activeClassName={classes.active}>
+                    Nâng cấp tài khoản
+                  </NavLink>
+                </li>
+              )}
             </>
           )}
         </ul>

@@ -17,6 +17,7 @@ import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { useInput } from '../../hooks/use-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../slices/auth.slice';
+import { emailSchema } from '../../schemas/common.schema';
 
 function Login() {
   const classes = useStyles();
@@ -36,7 +37,7 @@ function Login() {
     inputIsValid: emailIsvalid,
     hasError: emailHasError,
     errorMsg: emailErrorMessage,
-  } = useInput();
+  } = useInput(emailSchema);
 
   const {
     enteredInput: password,

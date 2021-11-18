@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const uiSlice = createSlice({
   name: 'uiSlice',
   initialState: {
+    openAddCategory: false,
+    openUpdateCategory: false,
     openAdd: false,
     openUpdate: false,
     openRate: false,
@@ -18,9 +20,16 @@ const uiSlice = createSlice({
       product_id: null,
       type: null,
     },
+
+    category: {
+      name: null,
+      category_id: null,
+    },
   },
   reducers: {
     openModal: (state, action) => {
+      state.openAddCategory = false;
+      state.openUpdateCategory = false;
       state.openAdd = false;
       state.openUpdate = false;
       state.openRate = false;
@@ -29,6 +38,8 @@ const uiSlice = createSlice({
       state[action.payload] = true;
     },
     closeModal: (state) => {
+      state.openAddCategory = false;
+      state.openUpdateCategory = false;
       state.openAdd = false;
       state.openUpdate = false;
       state.openRate = false;
@@ -36,16 +47,28 @@ const uiSlice = createSlice({
       state.openDelete = false;
       state.delete.type = null;
       state.delete.id = null;
+      state.rate.product_id = null;
+      state.rate.user_id_2 = null;
+      state.rate.type = null;
+      state.category.name = null;
+      state.category.category_id = null;
     },
     setDelete: (state, action) => {
-      state.delete.type = action.payload.type;
-      state.delete.id = action.payload.id;
+      const { type, id } = action.payload;
+      state.delete.id = id;
+      state.delete.type = type;
     },
+
     setRate: (state, action) => {
       const { product_id, user_id_2, type } = action.payload;
       state.rate.product_id = product_id;
       state.rate.user_id_2 = user_id_2;
       state.rate.type = type;
+    },
+    setCategory: (state, action) => {
+      const { name, category_id } = action.payload;
+      state.category.category_id = category_id;
+      state.category.name = name;
     },
   },
 });

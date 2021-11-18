@@ -10,6 +10,7 @@ import favoriteSlice from '../slices/favorite.slice';
 import rateSlice from '../slices/rate.slice';
 import bidSlice from '../slices/bid.slice';
 import auctionWonSlice from '../slices/auction-won.slice';
+import requestSlice from '../slices/requests.slice';
 export default configureStore({
   reducer: {
     ui: uiSlice.reducer,
@@ -23,5 +24,6 @@ export default configureStore({
     rate: rateSlice.reducer,
     bid: bidSlice.reducer,
     auctionWon: auctionWonSlice.reducer,
+    request: requestSlice.reducer,
   },
 });

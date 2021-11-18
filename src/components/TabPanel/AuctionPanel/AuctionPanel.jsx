@@ -15,8 +15,11 @@ function AuctionPanel() {
   const [page, setPage] = useState(1);
   const data = useSelector((state) => state.bid.data);
   const total_page = useSelector((state) => state.bid.total_page);
+  const count = useSelector((state) => state.bid.count);
   const loading = useSelector((state) => state.bid.loading);
+  const user = useSelector((state) => state.auth.user);
 
+  console.log(user);
   const pageChangeHandler = (event, value) => {
     setPage(value);
   };
@@ -67,15 +70,18 @@ function AuctionPanel() {
             currentPrice={item.product?.price}
             currentBidder={item.product?.bidder?.name}
             currentBidderPoint={item.product?.bidder?.point}
+            primary={+user?.id === +item.product?.bidder?.id}
           />
         ))
       )}
-      <Pagination
-        count={total_page}
-        variant="outlined"
-        color="primary"
-        onChange={pageChangeHandler}
-      />
+      {count > 0 && (
+        <Pagination
+          count={total_page}
+          variant="outlined"
+          color="primary"
+          onChange={pageChangeHandler}
+        />
+      )}
     </div>
   );
 }

@@ -9,27 +9,42 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { rateCreateNew } from '../../../slices/rate.slice';
 import { toast } from 'react-toastify';
+import { uiActions } from '../../../slices/ui.slice';
+import { useInput } from '../../../hooks/use-input';
+import { text } from '../../../schemas/common.schema';
 
 function ReviewModalPanel({ onClose }) {
   const classes = useStyles();
   const [isLike, setIsLike] = useState(true);
-  const [comment, setComment] = useState('Không bình luận');
+  const dispatch = useDispatch();
   const type = useSelector((state) => state.ui.rate.type);
   const product_id = useSelector((state) => state.ui.rate.product_id);
   const user_id_2 = useSelector((state) => state.ui.rate.user_id_2);
-  const dispatch = useDispatch();
+
+  const {
+    enteredInput: comment,
+    inputBlurHandler: commentBlurHandler,
+    inputChangeHandler: commentChangeHandler,
+    inputReset: commentReset,
+    inputIsValid: commentIsvalid,
+    hasError: commentHasError,
+    errorMsg: commentErrorMessage,
+  } = useInput(text, 'Không bình luận');
 
   const rateSellerHandler = async () => {
     try {
+      console.log('here');
       await dispatch(
         rateCreateNew({
           product_id,
           user_id_2,
-          comment,
+          comment: comment,
           point: isLike ? 1 : -1,
         })
       ).unwrap();
       toast.success('Đánh giá thành công');
+      commentReset();
+      dispatch(uiActions.closeModal());
     } catch (error) {
       toast.error(error);
     }
@@ -60,14 +75,21 @@ function ReviewModalPanel({ onClose }) {
               multiline
               rows={3}
               fullWidth
-              label="Mô tả trải nghiệm của bạn (không bắt buộc)"
+              label="Mô tả trải nghiệm của bạn "
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              error={commentHasError}
+              onBlur={commentBlurHandler}
+              onChange={commentChangeHandler}
+              helperText={(commentHasError && commentErrorMessage) || ''}
             />
           </div>
         </div>
 
-        <ButtonLoading fullWidth={false} style={{ margin: '10px auto' }} onClick={rateHandler}>
+        <ButtonLoading
+          fullWidth={false}
+          style={{ margin: '10px auto' }}
+          onClick={rateHandler}
+          disabled={!commentIsvalid}>
           Đánh giá
         </ButtonLoading>
       </form>

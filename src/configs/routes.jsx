@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import Request from '../pages/AUTH/Request/Request';
 
 const Home = lazy(() => import('../pages/Home/Home'));
 const Register = lazy(() => import('../pages/Register/Register'));
@@ -88,6 +89,12 @@ export const routes = [
     protected: true,
     component: Manager,
     roles: [],
+  },
+  {
+    path: '/request',
+    protected: true,
+    component: Request,
+    roles: ['bidder'],
   },
   {
     path: '/account/product-manager',

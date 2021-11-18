@@ -6,7 +6,7 @@ import axiosInstance from '../axios';
 // hoặc đẵ hết hạn, có thể render nút gửi để gửi tiếp bằng api postCreate
 export const requestGetSelfStatus = createAsyncThunk(
   'request/get',
-  async ({ }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       return (await axiosInstance.get(`/request/`)).data;
     } catch (error) {
@@ -23,9 +23,11 @@ export const requestCreateNew = createAsyncThunk(
   'request/post',
   async ({ message }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.post(`/request/`, {
-				message:message
-			})).data;
+      return (
+        await axiosInstance.post(`/request/`, {
+          message: message,
+        })
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -39,9 +41,13 @@ export const requestCreateNew = createAsyncThunk(
 // admin lấy danh sách request của những người xin lên seller
 export const requestAdminGetAll = createAsyncThunk(
   'request/all',
-  async ({ page, limit , order_by, order_type, status }, { rejectWithValue }) => {
+  async ({ page, limit, order_by, order_type, status }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.get(`/request/admin?page=${page}&limit=${limit}&order_by=${order_by}&order_type=${order_type}&status=${status}`)).data;
+      return (
+        await axiosInstance.get(
+          `/request/admin?page=${page}&limit=${limit}&order_by=${order_by}&order_type=${order_type}&status=${status}`
+        )
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -70,12 +76,14 @@ export const requestAdminGetDetail = createAsyncThunk(
 // admin duyệt request hoặc từ chối request
 export const requestAdminUpdateStatus = createAsyncThunk(
   'request/update',
-  async ({ user_id, status}, { rejectWithValue }) => {
+  async ({ user_id, status }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.put(`/request/admin/`, {
-				user_id,
-				status
-			})).data;
+      return (
+        await axiosInstance.put(`/request/admin/`, {
+          user_id,
+          status,
+        })
+      ).data;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -87,9 +95,31 @@ export const requestAdminUpdateStatus = createAsyncThunk(
 
 const requestSlice = createSlice({
   name: 'requestSlice',
-  initialState: {},
+  initialState: {
+    loading: false,
+    sending: false,
+  },
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [requestCreateNew.pending]: (state) => {
+      state.sending = true;
+    },
+    [requestCreateNew.fulfilled]: (state) => {
+      state.sending = false;
+    },
+    [requestCreateNew.rejected]: (state) => {
+      state.sending = false;
+    },
+    [requestGetSelfStatus.pending]: (state) => {
+      state.loading = true;
+    },
+    [requestGetSelfStatus.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [requestGetSelfStatus.rejected]: (state) => {
+      state.loading = false;
+    },
+  },
 });
 
 export const requestActions = requestSlice.actions;

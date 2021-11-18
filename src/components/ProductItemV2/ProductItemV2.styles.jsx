@@ -8,6 +8,9 @@ export default makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     boxShadow: '0px 2px 8px rgba(0,0,0,.3)',
   },
+  primary: {
+    background: '#B3CCE8',
+  },
   top: {
     display: 'flex',
     justifyContent: 'space-between',

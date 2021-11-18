@@ -5,19 +5,25 @@ import EditProductModalPanel from '../ModalPanel/EditProductModalPanel/EditProdu
 import RateModalPanel from '../ModalPanel/RateModalPanel/RateModalPanel';
 import { uiActions } from '../../slices/ui.slice';
 import DeleteModalPanel from '../ModalPanel/DeleteModalPanel/DeleteModalPanel';
+import AddCategoryModalPanel from '../ModalPanel/AddCategoryModalPanel/AddCategoryModalPanel';
+import UpdateCategoryModalPanel from '../ModalPanel/UpdateCategoryModalPanel/UpdateCategoryModalPanel';
 
 const CustomModal = () => {
   const dispatch = useDispatch();
   const ui = useSelector((state) => state.ui);
   const isOpen =
+    ui.openUpdateCategory !== false ||
+    ui.openAddCategory !== false ||
     ui.openAdd !== false ||
     ui.openUpdate !== false ||
     ui.openRate !== false ||
     ui.openDelete !== false ||
     ui.openReview !== false;
+
   const closeHandler = () => {
     dispatch(uiActions.closeModal());
   };
+
   return (
     <Modal
       open={isOpen}
@@ -31,6 +37,8 @@ const CustomModal = () => {
         {ui.openRate && <RateModalPanel onClose={closeHandler} />}
         {ui.openReview && <AddProductModalPanel onClose={closeHandler} />}
         {ui.openDelete && <DeleteModalPanel onClose={closeHandler} />}
+        {ui.openAddCategory && <AddCategoryModalPanel onClose={closeHandler} />}
+        {ui.openUpdateCategory && <UpdateCategoryModalPanel onClose={closeHandler} />}
       </>
     </Modal>
   );

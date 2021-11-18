@@ -37,6 +37,20 @@ function CategoryManager() {
   const pageChangeHandler = (event, value) => {
     setPage(value);
   };
+  const openModalAddHandler = () => {
+    dispatch(uiActions.openModal('openAddCategory'));
+  };
+
+  const openModalUpdateHandler = (name, category_id) => {
+    dispatch(
+      uiActions.setCategory({
+        name,
+        category_id,
+      })
+    );
+
+    dispatch(uiActions.openModal('openUpdateCategory'));
+  };
   const openModalDeleteHandler = (id) => {
     dispatch(
       uiActions.setDelete({
@@ -65,7 +79,11 @@ function CategoryManager() {
           </Typography>
         </Box>
         <Box marginBottom={2} marginLeft="auto" textAlign="right">
-          <Button variant="outlined" startIcon={<Add />} className={classes.buttonAdd}>
+          <Button
+            variant="outlined"
+            startIcon={<Add />}
+            className={classes.buttonAdd}
+            onClick={openModalAddHandler}>
             Thêm mới
           </Button>
         </Box>
@@ -89,7 +107,10 @@ function CategoryManager() {
                       <TableCell>{item.name}</TableCell>
                       <TableCell>
                         <Box display="flex" justifyContent="center">
-                          <Edit className={classes.actionIcon} />
+                          <Edit
+                            className={classes.actionIcon}
+                            onClick={() => openModalUpdateHandler(item.name, item.category_id)}
+                          />
                           <Delete
                             className={classes.actionIcon}
                             onClick={() => openModalDeleteHandler(item.category_id)}
