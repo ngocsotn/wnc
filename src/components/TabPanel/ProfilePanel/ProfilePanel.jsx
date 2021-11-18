@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import useStyles from './ProfilePanel.styles';
 import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
@@ -96,6 +96,17 @@ function ProfilePanel() {
     <div className={classes.root}>
       <PanelTitle title="Hồ sơ của tôi" />
       <form className={classes.form} onSubmit={formSubmitHandler}>
+				<div className={classes}>
+					<Typography className={classes.pointArea} variant="p" align="left">
+						Tổng lượt thích: {user?.point_like || 0}
+					</Typography >
+					<Typography className={classes.pointArea} variant="p" align="center">
+						Tổng lượt không thích: {user?.point_dislike || 0}
+					</Typography>
+					<Typography className={classes.pointArea} variant="p" align="right">
+						% điểm bản thân: {user.point_like / (user.point_dislike + user.point_like) *100|| 0}%
+					</Typography>
+				</div>
         <TextField
           className={classes.input}
           variant="outlined"

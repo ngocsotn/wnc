@@ -9,4 +9,8 @@ export default makeStyles((theme) => ({
     maxWidth: '40rem',
     display: 'block',
   },
+	pointArea: {
+		padding: theme.spacing(4, 4),
+		fontWeight: 700
+	}
 }));
