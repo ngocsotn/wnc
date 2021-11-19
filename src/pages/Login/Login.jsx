@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import {
   Typography,
   FormControl,
@@ -18,6 +18,7 @@ import { useInput } from '../../hooks/use-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../slices/auth.slice';
 import { emailSchema } from '../../schemas/common.schema';
+import { uiActions } from '../../slices/ui.slice';
 
 function Login() {
   const classes = useStyles();
@@ -77,6 +78,10 @@ function Login() {
       setError(error);
     }
   };
+
+  useLayoutEffect(() => {
+    dispatch(uiActions.closeModal());
+  }, [dispatch]);
 
   if (isAuthenticated) {
     if (user?.banned) {

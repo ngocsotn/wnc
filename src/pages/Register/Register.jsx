@@ -19,9 +19,11 @@ import { postReCaptcha } from '../../slices/recatpcha.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { emailSchema, text } from '../../schemas/common.schema';
+import { toast } from 'react-toastify';
 
 function Register() {
   const reCaptchaRef = useRef(null);
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -127,41 +129,40 @@ function Register() {
   };
 
   const formSubmitHandler = async (e) => {
+    e.preventDefault();
+
     setError(null);
 
-    // const captchaToken = await reCaptchaRef.current.executeAsync();
-    // reCaptchaRef.current.reset();
-    // console.log('captchaToken', captchaToken);
-    // // Pass this token response to your server for validation...
-    // try {
-    //   await dispatch(
-    //     postReCaptcha({
-    //       response: captchaToken,
-    //     })
-    //   ).unwrap();
-    // } catch (error) {
-    //   setError(error);
-    // }
-
-    e.preventDefault();
     if (!formIsValid) {
       return;
     }
+    const captchaToken = await reCaptchaRef.current.executeAsync();
+    reCaptchaRef.current.reset();
 
     try {
-      await dispatch(
-        register({
-          email,
-          name: fullName,
-          password,
-          address,
+      const response = await dispatch(
+        postReCaptcha({
+          response: captchaToken,
         })
       ).unwrap();
-      emailReset();
-      passwordReset();
-      fullNameReset();
-      confirmpasswordReset();
-      addressReset();
+
+      if (response?.success) {
+        await dispatch(
+          register({
+            email,
+            name: fullName,
+            password,
+            address,
+          })
+        ).unwrap();
+        emailReset();
+        passwordReset();
+        fullNameReset();
+        confirmpasswordReset();
+        addressReset();
+      } else {
+        toast.error('Bạn là người máy');
+      }
     } catch (error) {
       setError(error);
     }
@@ -338,8 +339,8 @@ function Register() {
           <div className={classes.reCaptchaV2}>
             <ReCAPTCHA
               ref={reCaptchaRef}
-              sitekey={'6LdINR8dAAAAAC5zCvW9XwgHBAjDFej4_dIPe8bb'}
-              size="normal"
+              sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
+              size="invisible"
             />
           </div>
 

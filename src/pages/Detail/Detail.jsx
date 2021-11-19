@@ -24,7 +24,7 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import Section from '../../components/Section/Section';
 import { getCreatedTime } from '../../utils/getCreatedTime';
-import { useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { productGetById, productGetByPage } from '../../slices/product.slice';
 import { toast } from 'react-toastify';
@@ -54,6 +54,8 @@ function Detail() {
   const [addedFavorite, setAddedFavorite] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const history = useHistory();
+  const location = useLocation();
 
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -109,6 +111,15 @@ function Detail() {
   );
 
   const openConfirmModal = async () => {
+    if (!isAuthenticated) {
+      history.push({
+        pathname: '/login',
+        state: {
+          from: location.pathname,
+        },
+      });
+      return;
+    }
     dispatch(
       uiActions.setConfirm({
         type: 'bid',
@@ -120,6 +131,16 @@ function Detail() {
     dispatch(uiActions.openModal('openConfirm'));
   };
   const openBuyPriceConfirmModal = async () => {
+    if (!isAuthenticated) {
+      history.push({
+        pathname: '/login',
+        state: {
+          from: location.pathname,
+        },
+      });
+      return;
+    }
+
     dispatch(
       uiActions.setConfirm({
         type: 'buy',
@@ -145,6 +166,16 @@ function Detail() {
   };
 
   const addToFavoriteHandler = async (id) => {
+    if (!isAuthenticated) {
+      history.push({
+        pathname: '/login',
+        state: {
+          from: location.pathname,
+        },
+      });
+      return;
+    }
+
     try {
       await dispatch(
         favoriteCreateNew({
@@ -344,8 +375,8 @@ function Detail() {
                                 <TableCell>
                                   <Link to={`/rate/${item.user_id}`} style={{ color: '#3f51b5' }}>
                                     ({item.like - item.dislike || 0} ,
-                                    {parseInt((item.like / (item.dislike + item.like)) * 100) || 0}%
-                                    )
+                                    {parseInt((item.like / (item.dislike + item.like)) * 100) || 0}
+                                    %)
                                   </Link>
                                 </TableCell>
 
@@ -455,7 +486,7 @@ function Detail() {
                         (productDetail.bidder?.point_dislike + productDetail.bidder?.point_like)) *
                         100
                     ) || 0}
-                    % )
+                    %)
                   </Link>
                 </b>
               </Typography>

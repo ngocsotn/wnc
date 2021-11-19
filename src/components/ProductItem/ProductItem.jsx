@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+
 function ProductItem({
   productId,
   title,
@@ -30,8 +32,20 @@ function ProductItem({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const addToFavoriteHandler = async () => {
+    if (!isAuthenticated) {
+      history.push({
+        pathname: '/login',
+        state: {
+          from: location.pathname,
+        },
+      });
+      return;
+    }
+
     try {
       await dispatch(
         favoriteCreateNew({

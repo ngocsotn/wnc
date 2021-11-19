@@ -48,7 +48,7 @@ function UserManager() {
       try {
         await dispatch(
           adminGetAllUser({
-            page,
+            page: page + 1,
             limit,
           })
         ).unwrap();

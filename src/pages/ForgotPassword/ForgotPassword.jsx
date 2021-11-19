@@ -13,6 +13,7 @@ import { forgotPassword } from '../../slices/auth.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { emailSchema } from '../../schemas/common.schema';
+import { toast } from 'react-toastify';
 
 function ForgotPassword() {
   const classes = useStyles();
@@ -45,8 +46,10 @@ function ForgotPassword() {
         })
       ).unwrap();
       emailReset();
+      toast.success('Vui lòng kiểm tra email, để lấy lại mật khẩu');
     } catch (error) {
       setError(error);
+      toast.error(error);
     }
   };
 

@@ -19,6 +19,8 @@ import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { recovery } from '../../slices/auth.slice';
+import { text } from '../../schemas/common.schema';
 function ResetPassword() {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +30,7 @@ function ResetPassword() {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { id, code } = queryString.parse(location.search);
+  const { code } = queryString.parse(location.search);
 
   const {
     enteredInput: password,
@@ -38,7 +40,7 @@ function ResetPassword() {
     inputIsValid: passwordIsvalid,
     hasError: passwordHasError,
     errorMsg: passwordErrorMessage,
-  } = useInput();
+  } = useInput(text);
 
   const {
     enteredInput: confirmpassword,
@@ -49,7 +51,7 @@ function ResetPassword() {
     hasError: confirmpasswordHasError,
     errorMsg: confirmpasswordErrorMessage,
     isTouched,
-  } = useInput();
+  } = useInput(text);
 
   const confirmPasswordOnChangeHandler = (e) => {
     confirmpasswordChangeHandler(e);
@@ -65,7 +67,7 @@ function ResetPassword() {
   const mouseDownRetypePasswordHandler = (event) => {
     event.preventDefault();
   };
-  const formIsValid = passwordIsvalid && confirmpasswordIsvalid;
+  const formIsValid = passwordIsvalid && confirmpasswordIsvalid && !isNotMatch;
 
   const toggleShowPasswordHandler = () => {
     setShowPassword((prevState) => !prevState);
@@ -80,11 +82,17 @@ function ResetPassword() {
       return;
     }
     try {
-      await dispatch().unwrap();
+      await dispatch(
+        recovery({
+          code,
+          password,
+        })
+      ).unwrap();
       passwordReset();
       confirmpasswordReset();
 
-      history.push('/');
+      history.push('/login');
+      toast.success('Đổi mật khẩu thành công');
     } catch (error) {
       toast.error(error);
     }
@@ -141,14 +149,14 @@ function ResetPassword() {
               className={classes.textField}
               variant="filled"
               fullWidth>
-              <InputLabel htmlFor="confirmpassword" className={classes.inputLabel}>
+              <InputLabel htmlFor="confirmPassword" className={classes.inputLabel}>
                 Nhập lại mật khẩu mới
               </InputLabel>
               <FilledInput
                 value={confirmpassword}
                 onBlur={confirmpasswordBlurHandler}
                 onChange={confirmPasswordOnChangeHandler}
-                id="password"
+                id="confirmPassword"
                 type={showRetypePassword ? 'text' : 'password'}
                 className={classes.inputField}
                 endAdornment={

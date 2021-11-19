@@ -72,7 +72,7 @@ export default makeStyles((theme) => ({
     minWidth: 600,
     position: 'absolute',
     top: 0,
-    right: 0,
+    right: 1,
     transform: 'translateX(100%)',
     background: '#fff',
     zIndex: 9999,
