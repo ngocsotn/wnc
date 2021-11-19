@@ -60,7 +60,9 @@ function ProductHasBidderPanel() {
               currentPrice={item.product?.hidden_price}
               currentBidder={item.product?.bidder?.name}
               currentBidderPoint={item.product?.bidder?.point}
+              currentBidderId={item.product?.bidder?.id}
               sell_status="hasBidder"
+              sellerRateStatus={item.status}
             />
           ))) || <Typography>Không có sản phẩm nào</Typography>
       )}

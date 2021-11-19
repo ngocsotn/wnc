@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import Request from '../pages/AUTH/Request/Request';
+import ViewRate from '../pages/ViewRate/ViewRate';
 
 const Home = lazy(() => import('../pages/Home/Home'));
 const Register = lazy(() => import('../pages/Register/Register'));
@@ -74,6 +75,13 @@ export const routes = [
     protected: false,
     exact: true,
     component: Detail,
+    roles: [],
+  },
+  {
+    path: '/rate/:id',
+    protected: false,
+    exact: true,
+    component: ViewRate,
     roles: [],
   },
 

@@ -1,25 +1,24 @@
 import { Box, IconButton, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import ModalTitle from '../../ModalTitle/ModalTitle';
-import useStyles from './RateModalPanel.styles';
+import useStyles from './SellerAcceptModalPanel.styles';
 import 'react-quill/dist/quill.snow.css';
 import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
 import { ThumbDownAlt, ThumbUpAlt } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { rateCreateNew } from '../../../slices/rate.slice';
 import { toast } from 'react-toastify';
 import { useInput } from '../../../hooks/use-input';
 import { text } from '../../../schemas/common.schema';
+import { tradeAcceptOrDeny } from '../../../slices/trade.slice';
 
-function ReviewModalPanel({ onClose }) {
+function SellerAcceptModalPanel({ onClose }) {
   const classes = useStyles();
-  const [isLike, setIsLike] = useState(true);
   const dispatch = useDispatch();
-  const type = useSelector((state) => state.ui.rate.type);
-  const product_id = useSelector((state) => state.ui.rate.product_id);
-  const user_id_2 = useSelector((state) => state.ui.rate.user_id_2);
-
+  const type = useSelector((state) => state.ui.seller.type);
+  const product_id = useSelector((state) => state.ui.seller.product_id);
+  const bidder_id = useSelector((state) => state.ui.seller.bidder_id);
+  const [loading, setLoading] = useState(false);
   const {
     enteredInput: comment,
     inputBlurHandler: commentBlurHandler,
@@ -28,29 +27,32 @@ function ReviewModalPanel({ onClose }) {
     inputIsValid: commentIsvalid,
     hasError: commentHasError,
     errorMsg: commentErrorMessage,
-  } = useInput(text, 'Không bình luận');
+  } = useInput(text, 'Người mua thanh toán đầy đủ.');
 
-  const rateSellerHandler = async () => {
+  const tradeAcceptOrDenyHandler = async () => {
+    setLoading(true);
     try {
       await dispatch(
-        rateCreateNew({
+        tradeAcceptOrDeny({
+          bidder_id,
           product_id,
-          user_id_2,
-          comment: comment,
-          point: isLike ? 1 : -1,
+          status: 'accepted',
+          comment,
         })
       ).unwrap();
-      toast.success('Đánh giá thành công');
+      toast.success('Hoàn tất giao dịch');
       commentReset();
       onClose();
+      setLoading(false);
     } catch (error) {
       toast.error(error);
+      setLoading(false);
     }
   };
 
   const rateHandler = async () => {
-    if (type === 'auction-won') {
-      rateSellerHandler();
+    if (type === 'accept') {
+      tradeAcceptOrDenyHandler();
     }
   };
 
@@ -60,11 +62,8 @@ function ReviewModalPanel({ onClose }) {
         <ModalTitle title="Đánh giá" onClose={onClose} />
         <div>
           <Box textAlign="center" marginBottom={3}>
-            <IconButton onClick={() => setIsLike(true)}>
-              <ThumbUpAlt color={isLike ? 'primary' : 'inherit'} />
-            </IconButton>
-            <IconButton onClick={() => setIsLike(false)}>
-              <ThumbDownAlt color={!isLike ? 'primary' : 'inherit'} />
+            <IconButton>
+              <ThumbUpAlt color="primary" />
             </IconButton>
           </Box>
 
@@ -74,7 +73,7 @@ function ReviewModalPanel({ onClose }) {
               multiline
               rows={3}
               fullWidth
-              label="Mô tả trải nghiệm của bạn "
+              label="Mô tả trải nghiệm của bạn"
               value={comment}
               error={commentHasError}
               onBlur={commentBlurHandler}
@@ -88,12 +87,13 @@ function ReviewModalPanel({ onClose }) {
           fullWidth={false}
           style={{ margin: '10px auto' }}
           onClick={rateHandler}
-          disabled={!commentIsvalid}>
-          Đánh giá
+          disabled={!commentIsvalid}
+          isLoading={loading}>
+          Chấp nhận giao dịch
         </ButtonLoading>
       </form>
     </div>
   );
 }
 
-export default ReviewModalPanel;
+export default SellerAcceptModalPanel;

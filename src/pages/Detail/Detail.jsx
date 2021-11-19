@@ -42,6 +42,7 @@ import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { formatMoney } from '../../utils/formatMoney';
 import socketIOClient from 'socket.io-client';
 import { uiActions } from '../../slices/ui.slice';
+import { Link } from 'react-router-dom';
 
 function Detail() {
   const { id } = useParams();
@@ -330,6 +331,7 @@ function Detail() {
                               <TableCell> Đã đấu giá (đ) </TableCell>
                               <TableCell> Ngày đấu giá </TableCell>
                               <TableCell> Trạng thái</TableCell>
+                              <TableCell> Điểm đánh giá</TableCell>
                               {seller === user.id && <TableCell> Tùy chọn </TableCell>}
                             </TableRow>
                           </TableHead>
@@ -346,6 +348,14 @@ function Detail() {
                                   }>
                                   {item.status}
                                 </TableCell>
+                                <TableCell>
+                                  <Link to={`/rate/${item.user_id}`} style={{ color: '#3f51b5' }}>
+                                    ({item.dislike - item.like || 0} ,
+                                    {parseInt((item.like / (item.dislike + item.like)) * 100) || 0}%
+                                    )
+                                  </Link>
+                                </TableCell>
+
                                 <TableCell>
                                   {seller === user.id && item.status === 'accepted' && (
                                     <IconButton onClick={() => blockBidderHandler(item)}>
@@ -444,7 +454,16 @@ function Detail() {
               <Typography variant="h6">
                 Ra giá cao nhất:{' '}
                 <b>
-                  {productDetail.bidder?.name} ({productDetail.bidder?.point})
+                  {productDetail.bidder?.name}
+                  <Link to={`/rate/${productDetail.bidder?.id}`} style={{ color: '#3f51b5' }}>
+                    ({productDetail.bidder?.point_like - productDetail.bidder?.point_dislike} ,
+                    {parseInt(
+                      (productDetail.bidder?.point_like /
+                        (productDetail.bidder?.point_dislike + productDetail.bidder?.point_like)) *
+                        100
+                    ) || 0}
+                    % )
+                  </Link>
                 </b>
               </Typography>
             )}

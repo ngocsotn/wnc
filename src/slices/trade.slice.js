@@ -49,14 +49,14 @@ export const tradeAcceptOrDeny = createAsyncThunk(
   'trade/update',
   async ({ bidder_id, product_id, status, comment }, { rejectWithValue }) => {
     try {
-      return (
-        await axiosInstance.put(`/trade/seller`, {
-          bidder_id,
-          product_id,
-          status,
-          comment,
-        })
-      ).data;
+      await axiosInstance.put(`/trade/seller`, {
+        bidder_id,
+        product_id,
+        status,
+        comment,
+      });
+
+      return { bidder_id, product_id, status };
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -84,6 +84,12 @@ const tradeSlice = createSlice({
       state.page = page;
       state.total_page = total_page;
       state.loading = false;
+    },
+    [tradeAcceptOrDeny.fulfilled]: (state, action) => {
+      const { bidder_id, product_id, status } = action.payload;
+      state.data = state.data.map((item) =>
+        item.product_id === product_id && item.bidder_id === bidder_id ? { ...item, status } : item
+      );
     },
   },
 });

@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const uiSlice = createSlice({
   name: 'uiSlice',
   initialState: {
+    openSellerAccept: false,
+    openSellerDeny: false,
     openConfirm: false,
     openAddCategory: false,
     openUpdateCategory: false,
@@ -36,10 +38,19 @@ const uiSlice = createSlice({
       type: null,
       product_id: null,
     },
+
+    seller: {
+      type: null,
+      product_id: null,
+      bidder_id: null,
+    },
   },
   reducers: {
     openModal: (state, action) => {
+      state.openSellerAccept = false;
+      state.openSellerDeny = false;
       state.openConfirm = false;
+
       state.openAddCategory = false;
       state.openUpdateCategory = false;
       state.openAdd = false;
@@ -50,6 +61,8 @@ const uiSlice = createSlice({
       state[action.payload] = true;
     },
     closeModal: (state) => {
+      state.openSellerAccept = false;
+      state.openSellerDeny = false;
       state.openConfirm = false;
       state.openAddCategory = false;
       state.openUpdateCategory = false;
@@ -89,6 +102,9 @@ const uiSlice = createSlice({
     },
     setUpdateProduct: (state, action) => {
       state.product = action.payload;
+    },
+    setSeller: (state, action) => {
+      state.seller = action.payload;
     },
   },
 });

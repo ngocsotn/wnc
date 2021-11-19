@@ -9,7 +9,6 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import { searchActions, searchProductByPage } from '../../slices/search.slice';
 import useStyles from './Search.styles';
 import Section from '../../components/Section/Section';
-import { toast } from 'react-toastify';
 import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
 function Search(props) {
   const classes = useStyles();
@@ -80,8 +79,8 @@ function Search(props) {
     dispatch(
       searchProductByPage({
         sub_category_id: urlSubCategoryId,
-        order_by,
-        order_type,
+        order_by: urlOrderBy,
+        order_type: urlOrderType,
         keyword: urlType === 'name' ? urlQuery : '',
         limit,
         page,
@@ -90,7 +89,17 @@ function Search(props) {
         status: urlStatus,
       })
     ).unwrap();
-  }, [urlQuery, urlType, urlOrderBy, urlOrderType, urlStatus, urlSubCategoryId, dispatch]);
+  }, [
+    urlQuery,
+    urlType,
+    urlOrderBy,
+    urlOrderType,
+    urlStatus,
+    urlSubCategoryId,
+    dispatch,
+    page,
+    limit,
+  ]);
 
   const pageChangeHandler = (event, value) => {
     setPage(value);
@@ -168,6 +177,7 @@ function Search(props) {
                 currentBidder={product.bidder?.name || null}
                 currentBidderPoint={product.bidder?.point || 0}
                 buyPrice={product.buy_price}
+                showFavorite={true}
               />
             </Grid>
           ))}

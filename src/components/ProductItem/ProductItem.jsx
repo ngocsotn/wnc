@@ -25,6 +25,7 @@ function ProductItem({
   currentBidder,
   currentBidderPoint,
   buyPrice,
+  showFavorite = false,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -64,12 +65,14 @@ function ProductItem({
   );
 
   useEffect(() => {
-    hasInMyListHandler({ productId });
-  }, [productId, hasInMyListHandler]);
+    if (showFavorite) {
+      hasInMyListHandler({ productId });
+    }
+  }, [showFavorite, productId, hasInMyListHandler]);
 
   return (
     <div className={classes.root}>
-      {!addedFavorite && (
+      {!addedFavorite && showFavorite && (
         <div className={classes.hoverTop}>
           <IconButton className={classes.addToWashList} onClick={addToFavoriteHandler}>
             <Add />

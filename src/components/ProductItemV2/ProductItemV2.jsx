@@ -30,6 +30,8 @@ function ProductItemV2({
   isRate = false,
   primary = false,
   sell_status = 'processing',
+  currentBidderId,
+  sellerRateStatus,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -44,6 +46,26 @@ function ProductItemV2({
         product_id: +productId,
         user_id_2: +sellerId,
         type,
+      })
+    );
+  };
+  const openSellerAcceptModal = () => {
+    dispatch(uiActions.openModal('openSellerAccept'));
+    dispatch(
+      uiActions.setSeller({
+        type: 'accept',
+        product_id: +productId,
+        bidder_id: +currentBidderId,
+      })
+    );
+  };
+  const openSellerDenyModal = () => {
+    dispatch(uiActions.openModal('openSellerDeny'));
+    dispatch(
+      uiActions.setSeller({
+        type: 'deny',
+        product_id: +productId,
+        bidder_id: +currentBidderId,
       })
     );
   };
@@ -154,21 +176,34 @@ function ProductItemV2({
             )}
             {sell_status === 'hasBidder' && (
               <Box>
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={openModalEditHandler}
-                  startIcon={<Block />}>
-                  Từ chối
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={openModalEditHandler}
-                  startIcon={<Check />}>
-                  Chấp thuận
-                </Button>
+                {sellerRateStatus === 'pending' ? (
+                  <>
+                    {' '}
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={openSellerDenyModal}
+                      startIcon={<Block />}>
+                      Từ chối
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      onClick={openSellerAcceptModal}
+                      startIcon={<Check />}>
+                      Chấp nhận
+                    </Button>
+                  </>
+                ) : sellerRateStatus === 'accepted' ? (
+                  <Typography color="primary" variant="caption">
+                    Đã hoàn tất
+                  </Typography>
+                ) : (
+                  <Typography color="secondary" variant="caption">
+                    Đã từ chối
+                  </Typography>
+                )}
               </Box>
             )}
           </div>
