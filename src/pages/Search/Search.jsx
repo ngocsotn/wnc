@@ -3,12 +3,11 @@ import Pagination from '@material-ui/lab/Pagination';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 import ProductItem from '../../components/ProductItem/ProductItem';
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import { searchActions, searchProductByPage } from '../../slices/search.slice';
 import useStyles from './Search.styles';
-import queryString from 'query-string';
 import Section from '../../components/Section/Section';
 import { toast } from 'react-toastify';
 import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
@@ -77,31 +76,26 @@ function Search(props) {
         status: urlStatus,
       })
     );
+
+    dispatch(
+      searchProductByPage({
+        sub_category_id: urlSubCategoryId,
+        order_by,
+        order_type,
+        keyword: urlType === 'name' ? urlQuery : '',
+        limit,
+        page,
+        is_self: 0,
+        is_expire: '',
+        status: urlStatus,
+      })
+    ).unwrap();
   }, [urlQuery, urlType, urlOrderBy, urlOrderType, urlStatus, urlSubCategoryId, dispatch]);
 
   const pageChangeHandler = (event, value) => {
     setPage(value);
   };
 
-  useEffect(() => {
-    try {
-      dispatch(
-        searchProductByPage({
-          sub_category_id: sub_category_id,
-          order_by,
-          order_type,
-          keyword: type === 'name' ? query : '',
-          limit,
-          page,
-          is_self: 0,
-          is_expire: '',
-          status: status,
-        })
-      ).unwrap();
-    } catch (error) {
-      toast.error(error);
-    }
-  }, [limit, page, order_type, order_by, type, query, dispatch, status, sub_category_id]);
   return (
     <Section>
       <SectionTitle title="Xem sản phẩm theo danh mục/Từ khóa" />

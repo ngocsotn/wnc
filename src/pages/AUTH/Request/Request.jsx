@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Typography } from '@material-ui/core';
+import { Box, TextField, Typography } from '@material-ui/core';
 import { Check } from '@material-ui/icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ function Request() {
     enteredInput: message,
     inputBlurHandler: messageBlurHandler,
     inputChangeHandler: messageChangeHandler,
-    inputReset: messageReset,
+    // inputReset: messageReset,
     inputIsValid: messageIsvalid,
     hasError: messageHasError,
     errorMsg: messageErrorMessage,
@@ -50,7 +50,7 @@ function Request() {
     } catch (error) {
       setSent(false);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     requestGetSelfStatusHandler();

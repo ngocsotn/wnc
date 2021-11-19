@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useStyles from './RequestManager.style';
 import {
   Box,
@@ -51,21 +51,24 @@ function RequestManager() {
       toast.error(error);
     }
   };
-  const requestAdminGetAllHandler = async ({ limit, page }) => {
-    try {
-      await dispatch(
-        requestAdminGetAll({
-          page,
-          limit,
-          order_by: 'create_at',
-          order_type: 'DESC',
-          status: '',
-        })
-      ).unwrap();
-    } catch (error) {
-      toast.error(error);
-    }
-  };
+  const requestAdminGetAllHandler = useCallback(
+    async ({ limit, page }) => {
+      try {
+        await dispatch(
+          requestAdminGetAll({
+            page,
+            limit,
+            order_by: 'create_at',
+            order_type: 'DESC',
+            status: '',
+          })
+        ).unwrap();
+      } catch (error) {
+        toast.error(error);
+      }
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     requestAdminGetAllHandler({ limit, page: page + 1 });

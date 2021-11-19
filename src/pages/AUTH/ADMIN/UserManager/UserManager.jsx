@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useStyles from './UserManager.styles';
 import {
   Box,
@@ -43,18 +43,21 @@ function UserManager() {
     setPage(value);
   };
 
-  const adminGetAllUserHandler = async ({ page, limit }) => {
-    try {
-      await dispatch(
-        adminGetAllUser({
-          page,
-          limit,
-        })
-      ).unwrap();
-    } catch (error) {
-      toast.error(error);
-    }
-  };
+  const adminGetAllUserHandler = useCallback(
+    async ({ page, limit }) => {
+      try {
+        await dispatch(
+          adminGetAllUser({
+            page,
+            limit,
+          })
+        ).unwrap();
+      } catch (error) {
+        toast.error(error);
+      }
+    },
+    [dispatch]
+  );
   const adminResetPasswordUserHandler = async (user_id) => {
     try {
       await dispatch(
@@ -87,8 +90,8 @@ function UserManager() {
   };
 
   useEffect(() => {
-    adminGetAllUserHandler({ limit, page: page + 1 });
-  }, [limit, page, adminGetAllUserHandler]);
+    adminGetAllUserHandler({ page, limit });
+  }, [adminGetAllUserHandler, page, limit]);
   return (
     <div className={classes.root}>
       <Container>

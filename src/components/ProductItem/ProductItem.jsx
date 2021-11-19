@@ -45,24 +45,27 @@ function ProductItem({
   };
 
   const [addedFavorite, setAddedFavorite] = useState(false);
-  const hasInMyListHandler = useCallback(async () => {
-    try {
-      const response = await dispatch(
-        favoriteCheck({
-          product_id: +productId,
-        })
-      ).unwrap();
-      if (response?.id) {
-        setAddedFavorite(true);
+  const hasInMyListHandler = useCallback(
+    async ({ productId }) => {
+      try {
+        const response = await dispatch(
+          favoriteCheck({
+            product_id: +productId,
+          })
+        ).unwrap();
+        if (response?.id) {
+          setAddedFavorite(true);
+        }
+      } catch (error) {
+        setAddedFavorite(false);
       }
-    } catch (error) {
-      setAddedFavorite(false);
-    }
-  }, [dispatch]);
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    hasInMyListHandler();
-  }, [hasInMyListHandler]);
+    hasInMyListHandler({ productId });
+  }, [productId, hasInMyListHandler]);
 
   return (
     <div className={classes.root}>
