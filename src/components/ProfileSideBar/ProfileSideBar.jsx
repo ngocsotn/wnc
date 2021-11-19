@@ -48,7 +48,13 @@ function ProfileSideBar() {
       <li>
         <NavLink exact to="/account/rate" className={classes.link} activeClassName={classes.active}>
           <img src={userIcon} alt="" />
-          Lịch sử đánh giá
+          Lịch sử được đánh giá
+        </NavLink>
+      </li>
+			<li>
+        <NavLink exact to="/account/rate-active" className={classes.link} activeClassName={classes.active}>
+          <img src={userIcon} alt="" />
+          Lịch sử đánh giá người khác
         </NavLink>
       </li>
 
