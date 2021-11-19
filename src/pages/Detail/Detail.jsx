@@ -452,6 +452,12 @@ function Detail() {
             <Typography variant="h6">
               Giá hiện tại: {formatMoney(productDetail.hidden_price)}đ
             </Typography>
+						<Typography variant="h6">
+              Bước giá: {formatMoney(productDetail.step_price)}đ
+            </Typography>
+						<Typography variant="h5" className = {classes.detailTitle}>
+              Mô tả sản phẩm
+            </Typography>
 
             {productDetail.buy_price !== 0 && productDetail.hidden_price < productDetail.buy_price && (
               <div className={classes.buyNow}>
