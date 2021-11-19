@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import useStyles from './RequestManager.style';
-import moment from 'moment';
 import {
   Box,
   Container,
@@ -70,7 +69,7 @@ function RequestManager() {
 
   useEffect(() => {
     requestAdminGetAllHandler({ limit, page: page + 1 });
-  }, [limit, page, dispatch]);
+  }, [limit, page, requestAdminGetAllHandler]);
   return (
     <div className={classes.root}>
       <Container>

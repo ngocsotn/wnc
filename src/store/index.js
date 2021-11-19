@@ -14,6 +14,7 @@ import requestSlice from '../slices/requests.slice';
 import adminSlice from '../slices/admin.slice';
 import sellerSlice from '../slices/seller.slice';
 import tradeSlice from '../slices/trade.slice';
+import searchSlice from '../slices/search.slice';
 export default configureStore({
   reducer: {
     ui: uiSlice.reducer,
@@ -31,5 +32,6 @@ export default configureStore({
     admin: adminSlice.reducer,
     seller: sellerSlice.reducer,
     trade: tradeSlice.reducer,
+    search: searchSlice.reducer,
   },
 });

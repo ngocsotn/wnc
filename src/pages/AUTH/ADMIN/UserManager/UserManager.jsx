@@ -88,7 +88,7 @@ function UserManager() {
 
   useEffect(() => {
     adminGetAllUserHandler({ limit, page: page + 1 });
-  }, [limit, page, dispatch]);
+  }, [limit, page, adminGetAllUserHandler]);
   return (
     <div className={classes.root}>
       <Container>

@@ -77,6 +77,7 @@ export default makeStyles((theme) => ({
     right: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
+    zIndex: 10,
   },
   total: {
     color: theme.palette.primary.main,

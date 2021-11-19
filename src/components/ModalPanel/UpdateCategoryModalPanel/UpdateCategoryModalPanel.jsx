@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { uiActions } from '../../../slices/ui.slice';
 import { useInput } from '../../../hooks/use-input';
 import { text } from '../../../schemas/common.schema';
-import { categoryAddNew, categoryUpdate } from '../../../slices/category.slice';
+import { categoryUpdate } from '../../../slices/category.slice';
 import { useSelector } from 'react-redux';
 
 function UpdateCategoryModalPanel({ onClose }) {

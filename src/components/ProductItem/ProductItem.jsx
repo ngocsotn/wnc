@@ -1,11 +1,14 @@
 import { Box, IconButton, Typography } from '@material-ui/core';
-import { AccessTime, Gavel, PermIdentityRounded } from '@material-ui/icons';
-import React from 'react';
+import { AccessTime, Add, Gavel, PermIdentityRounded } from '@material-ui/icons';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getCreatedTime } from '../../utils/getCreatedTime';
 import TimeLeft from '../TimeLeft/TimeLeft';
 import useStyles from './ProductItem.styles';
 import { formatMoney } from '../../utils/formatMoney';
+import { useDispatch } from 'react-redux';
+import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
+import { toast } from 'react-toastify';
 function ProductItem({
   productId,
   title,
@@ -24,8 +27,56 @@ function ProductItem({
   buyPrice,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const addToFavoriteHandler = async () => {
+    try {
+      await dispatch(
+        favoriteCreateNew({
+          product_id: +productId,
+        })
+      ).unwrap();
+      toast.success('Thêm vào danh sách yêu thích thành công');
+      setAddedFavorite(true);
+    } catch (error) {
+      toast.error(error);
+      setAddedFavorite(false);
+    }
+  };
+
+  const [addedFavorite, setAddedFavorite] = useState(false);
+  const hasInMyListHandler = useCallback(async () => {
+    try {
+      const response = await dispatch(
+        favoriteCheck({
+          product_id: +productId,
+        })
+      ).unwrap();
+      if (response?.id) {
+        setAddedFavorite(true);
+      }
+    } catch (error) {
+      setAddedFavorite(false);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    hasInMyListHandler();
+  }, [hasInMyListHandler]);
+
   return (
     <div className={classes.root}>
+      {!addedFavorite && (
+        <div className={classes.hoverTop}>
+          <IconButton className={classes.addToWashList} onClick={addToFavoriteHandler}>
+            <Add />
+            <Typography variant="caption" component="p">
+              Thêm ưu thích
+            </Typography>
+          </IconButton>
+        </div>
+      )}
+
       {categoryName ? (
         <Link to={`/category/${categoryId}`} className={classes.category}>
           {categoryName}
@@ -72,16 +123,10 @@ function ProductItem({
           )}
 
           <div className={classes.actions}>
-            {currentBidder ? (
-              <Typography variant="subtitle2" className={classes.max}>
-                Cao nhất:{' '}
-                <b>
-                  @{currentBidder} ({currentBidderPoint})
-                </b>
-              </Typography>
-            ) : (
-              <div></div>
-            )}
+            <Typography variant="subtitle2" className={classes.max}>
+              Cao nhất:{' '}
+              <b>{currentBidder ? `@${currentBidder} (${currentBidderPoint})` : 'Chưa có'}</b>
+            </Typography>
             <div style={{ alignSelf: 'flex-end' }}>
               <IconButton color="primary" className={classes.bid}>
                 <Gavel color="primary" />

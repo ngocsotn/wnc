@@ -1,10 +1,9 @@
-import { Button, Tabs, Tab, Box, Typography } from '@material-ui/core';
+import { Button, Tabs, Tab, Box } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { uiActions } from '../../../slices/ui.slice';
 import PanelTitle from '../../PanelTitle/PanelTitle';
-import ProductItemV2 from '../../ProductItemV2/ProductItemV2';
 import ProductExpiredPanel from '../ProductExpiredPanel/ProductExpiredPanel';
 import ProductHasBidderPanel from '../ProductHasBidderPanel/ProductHasBidderPanel';
 import ProductProcessingPanel from '../ProductProcessingPanel/ProductProcessingPanel';

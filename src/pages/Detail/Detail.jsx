@@ -315,61 +315,76 @@ function Detail() {
               </div>
               <TimeLeft timeEnd={productDetail.expire_at} />
               <Box marginTop={4}>
-                <Typography variant="h5" align="center">
-                  Danh sách người đã đấu giá
-                </Typography>
-                <Box boxShadow={6} marginTop={2}>
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow className={classes.tableHead}>
-                          <TableCell style={{ fontWeight: 'bold' }}>STT</TableCell>
-                          <TableCell> Tên người đấu giá </TableCell>
-                          <TableCell> Đã đấu giá (đ) </TableCell>
-                          <TableCell> Ngày đấu giá </TableCell>
-                          <TableCell> Trạng thái</TableCell>
-                          {seller === user.id && <TableCell> Tùy chọn </TableCell>}
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {data?.length > 0 &&
-                          data.map((item, index) => (
-                            <TableRow key={index}>
-                              <TableCell>{page * limit + index + 1}</TableCell>
-                              <TableCell>{item.name}</TableCell>
-                              <TableCell>{formatMoney(item.price)}đ</TableCell>
-                              <TableCell>{item.bid_at}</TableCell>
-                              <TableCell
-                                className={
-                                  item.status === 'accepted' ? classes.accept : classes.block
-                                }>
-                                {item.status}
-                              </TableCell>
-                              <TableCell>
-                                {seller === user.id && item.status === 'accepted' && (
-                                  <IconButton onClick={() => blockBidderHandler(item)}>
-                                    <Block color="secondary" />
-                                  </IconButton>
-                                )}
-                              </TableCell>
+                {data?.length > 0 ? (
+                  <>
+                    <Typography variant="h5" align="center">
+                      Danh sách người đã đấu giá
+                    </Typography>
+                    <Box boxShadow={6} marginTop={2}>
+                      <TableContainer>
+                        <Table>
+                          <TableHead>
+                            <TableRow className={classes.tableHead}>
+                              <TableCell style={{ fontWeight: 'bold' }}>STT</TableCell>
+                              <TableCell> Tên người đấu giá </TableCell>
+                              <TableCell> Đã đấu giá (đ) </TableCell>
+                              <TableCell> Ngày đấu giá </TableCell>
+                              <TableCell> Trạng thái</TableCell>
+                              {seller === user.id && <TableCell> Tùy chọn </TableCell>}
                             </TableRow>
-                          ))}
-                      </TableBody>
-                      <TableFooter>
-                        <TableRow>
-                          <TablePagination
-                            rowsPerPageOptions={[5, 10, 15, 50, 100]}
-                            count={count}
-                            rowsPerPage={limit}
-                            page={page}
-                            onPageChange={pageChangeHandler}
-                            onRowsPerPageChange={rowsPerPageChangeHandler}
-                          />
-                        </TableRow>
-                      </TableFooter>
-                    </Table>
-                  </TableContainer>
-                </Box>
+                          </TableHead>
+                          <TableBody>
+                            {data.map((item, index) => (
+                              <TableRow key={index}>
+                                <TableCell>{page * limit + index + 1}</TableCell>
+                                <TableCell>{item.name}</TableCell>
+                                <TableCell>{formatMoney(item.price)}đ</TableCell>
+                                <TableCell>{item.bid_at}</TableCell>
+                                <TableCell
+                                  className={
+                                    item.status === 'accepted' ? classes.accept : classes.block
+                                  }>
+                                  {item.status}
+                                </TableCell>
+                                <TableCell>
+                                  {seller === user.id && item.status === 'accepted' && (
+                                    <IconButton onClick={() => blockBidderHandler(item)}>
+                                      <Block color="secondary" />
+                                    </IconButton>
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                          <TableFooter>
+                            <TableRow>
+                              <TablePagination
+                                rowsPerPageOptions={[5, 10, 15, 50, 100]}
+                                count={count}
+                                rowsPerPage={limit}
+                                page={page}
+                                onPageChange={pageChangeHandler}
+                                onRowsPerPageChange={rowsPerPageChangeHandler}
+                              />
+                            </TableRow>
+                          </TableFooter>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </>
+                ) : (
+                  <Box
+                    maxWidth="40rem"
+                    margin="0 auto"
+                    textAlign="center"
+                    padding={2}
+                    borderRadius={3}
+                    boxShadow={3}>
+                    <Typography color="primary" variant="caption">
+                      Hiện tại chưa có ai đấu giá sản phẩm này
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             </div>
           </Section>

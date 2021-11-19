@@ -28,7 +28,7 @@ function HeaderBottom() {
               </li>
               <li>
                 <NavLink to="/account/mylist" activeClassName={classes.active}>
-                  Xem sau
+                  Danh sách yêu thích
                 </NavLink>
               </li>
               {user?.role === 'bidder' && (

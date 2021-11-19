@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { categoryActions, categoryDelete } from '../../../slices/category.slice';
 import { productActions, productDelete } from '../../../slices/product.slice';
-import { uiActions } from '../../../slices/ui.slice';
 import useStyles from './DeleteModalPanel.styles';
 
 function DeleteModalPanel({ onClose }) {

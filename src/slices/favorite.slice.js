@@ -41,7 +41,8 @@ export const favoriteDelete = createAsyncThunk(
   'favorite/delete',
   async ({ product_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.delete(`/favorite/${product_id}`)).data;
+      await axiosInstance.delete(`/favorite/${product_id}`).data;
+      return { product_id };
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -89,6 +90,9 @@ const favoriteSlice = createSlice({
       state.data = data;
       state.page = page;
       state.total_page = total_page;
+    },
+    [favoriteDelete.fulfilled]: (state, action) => {
+      state.data = state.data.filter((item) => item.product_id !== action.payload.product_id);
     },
   },
 });
