@@ -232,9 +232,9 @@ function Detail() {
             sub_category_id: +productDetail.sub_category_id,
             limit: 5,
             page: 1,
-            order_by: null,
-            order_type: null,
-            keyword: null,
+            order_by: '',
+            order_type: '',
+            keyword: '',
             is_self: 0,
             is_expire: 0, // chưa hết hạn
             status: 'on', // còn mở
@@ -345,7 +345,7 @@ function Detail() {
                                 </TableCell>
                                 <TableCell>
                                   <Link to={`/rate/${item.user_id}`} style={{ color: '#3f51b5' }}>
-                                    ({item.dislike - item.like || 0} ,
+                                    ({item.like - item.dislike || 0} ,
                                     {parseInt((item.like / (item.dislike + item.like)) * 100) || 0}%
                                     )
                                   </Link>

@@ -29,6 +29,7 @@ const viewRate = createSlice({
     page: 1,
     total_page: 0,
     loading: false,
+    user: {},
   },
   reducers: {},
   extraReducers: {
@@ -40,11 +41,12 @@ const viewRate = createSlice({
     },
     [viewRateUserPaging.fulfilled]: (state, action) => {
       state.loading = false;
-      const { count, data, page, total_page } = action.payload;
+      const { count, data, page, total_page, user } = action.payload;
       state.count = count;
       state.data = data;
       state.page = page;
       state.total_page = total_page;
+      state.user = user;
     },
   },
 });

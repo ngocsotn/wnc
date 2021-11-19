@@ -61,8 +61,7 @@ function ViewRate() {
           Tên: <b>{user?.name} </b>
         </Typography>
         <Typography>
-          Điểm đánh giá:{' '}
-          <b> {user?.like / (user?.like + user?.dislike) || 'Chưa được đánh giá'} %</b>
+          Điểm đánh giá: <b> {user?.like - user?.dislike || 0}</b>
         </Typography>
       </Box>
       <Box boxShadow={6} marginBottom={3}>
