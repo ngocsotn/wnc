@@ -9,6 +9,7 @@ import { formatMoney } from '../../utils/formatMoney';
 import { useDispatch } from 'react-redux';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 function ProductItem({
   productId,
   title,
@@ -29,7 +30,7 @@ function ProductItem({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const addToFavoriteHandler = async () => {
     try {
       await dispatch(
@@ -65,10 +66,10 @@ function ProductItem({
   );
 
   useEffect(() => {
-    if (showFavorite) {
+    if (showFavorite && isAuthenticated) {
       hasInMyListHandler({ productId });
     }
-  }, [showFavorite, productId, hasInMyListHandler]);
+  }, [showFavorite, productId, isAuthenticated, hasInMyListHandler]);
 
   return (
     <div className={classes.root}>
