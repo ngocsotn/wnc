@@ -10,11 +10,15 @@ import UpdateCategoryModalPanel from '../ModalPanel/UpdateCategoryModalPanel/Upd
 import ConfirmModalPanel from '../ModalPanel/ConfirmModalPanel/ConfirmModalPanel';
 import SellerAcceptModalPanel from '../ModalPanel/SellerAcceptModalPanel/SellerAcceptModalPanel';
 import SellerDenyModalPanel from '../ModalPanel/SellerDenyModalPanel/SellerDenyModalPanel';
+import AddSubCategoryModalPanel from '../ModalPanel/AddSubCategoryModalPanel/AddSubCategoryModalPanel';
+import UpdateSubCategoryModalPanel from '../ModalPanel/UpdateSubCategoryModalPanel/UpdateSubCategoryModalPanel';
 
 const CustomModal = () => {
   const dispatch = useDispatch();
   const ui = useSelector((state) => state.ui);
   const isOpen =
+    ui.openAddSubCategory !== false ||
+    ui.openUpdateSubCategory !== false ||
     ui.openSellerAccept !== false ||
     ui.openSellerDeny !== false ||
     ui.openConfirm !== false ||
@@ -48,6 +52,8 @@ const CustomModal = () => {
         {ui.openConfirm && <ConfirmModalPanel onClose={closeHandler} />}
         {ui.openSellerAccept && <SellerAcceptModalPanel onClose={closeHandler} />}
         {ui.openSellerDeny && <SellerDenyModalPanel onClose={closeHandler} />}
+        {ui.openAddSubCategory && <AddSubCategoryModalPanel onClose={closeHandler} />}
+        {ui.openUpdateSubCategory && <UpdateSubCategoryModalPanel onClose={closeHandler} />}
       </>
     </Modal>
   );

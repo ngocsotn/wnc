@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import { Delete, Edit, Add } from '@material-ui/icons';
 
 import { categoryGetByPage, subCategoryGetByPage } from '../../../../slices/subCategory.slice';
+import { uiActions } from '../../../../slices/ui.slice';
 
 function SubCategoryManager() {
   const rowsPerPageChangeHandler = (event) => {
@@ -40,6 +41,32 @@ function SubCategoryManager() {
   const count = useSelector((state) => state.subCategory.count);
   const data = useSelector((state) => state.subCategory.data);
   const listSubCategory = useSelector((state) => state.subCategory.allData);
+
+  const openModalAddHandler = () => {
+    dispatch(uiActions.openModal('openAddSubCategory'));
+  };
+
+  const openModalDeleteHandler = (id) => {
+    dispatch(
+      uiActions.setDelete({
+        type: 'sub-category',
+        id: +id,
+      })
+    );
+    dispatch(uiActions.openModal('openDelete'));
+  };
+
+  const openModalUpdateHandler = (name, category_id, sub_category_id) => {
+    dispatch(
+      uiActions.setSubCategory({
+        name,
+        category_id,
+        sub_category_id,
+      })
+    );
+
+    dispatch(uiActions.openModal('openUpdateSubCategory'));
+  };
 
   const categoryGetAllHandler = useCallback(async () => {
     try {
@@ -77,7 +104,7 @@ function SubCategoryManager() {
           </Typography>
         </Box>
 
-        <Box marginBottom={2} marginLeft="auto" >
+        <Box marginBottom={2} marginLeft="auto">
           <FormControl variant="outlined" size="small" style={{ minWidth: 250 }}>
             <InputLabel id="category">Chọn danh mục</InputLabel>
             <Select
@@ -87,7 +114,8 @@ function SubCategoryManager() {
               labelId="category"
               id="demo-simple-select-outlined"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}>
+              onChange={(e) => setCategory(e.target.value)}
+              labelWidth={120}>
               <option value=""></option>
               {listSubCategory?.length > 0 &&
                 listSubCategory.map((item, index) => (
@@ -96,9 +124,13 @@ function SubCategoryManager() {
                   </option>
                 ))}
             </Select>
-          </FormControl >
-          <FormControl variant="outlined" size="small" style={{float: 'right'}}>
-            <Button variant="outlined" startIcon={<Add />} className={classes.buttonAdd}>
+          </FormControl>
+          <FormControl variant="outlined" size="small" style={{ float: 'right' }}>
+            <Button
+              variant="outlined"
+              startIcon={<Add />}
+              className={classes.buttonAdd}
+              onClick={openModalAddHandler}>
               Thêm mới
             </Button>
           </FormControl>
@@ -126,8 +158,22 @@ function SubCategoryManager() {
                       <TableCell>{item.category_id}</TableCell>
                       <TableCell>
                         <Box display="flex" justifyContent="center">
-                          <Edit className={classes.actionIcon} />
-                          <Delete className={classes.actionIcon} />
+                          <Edit
+                            className={classes.actionIcon}
+                            color="primary"
+                            onClick={() =>
+                              openModalUpdateHandler(
+                                item.name,
+                                item.category_id,
+                                item.sub_category_id
+                              )
+                            }
+                          />
+                          <Delete
+                            className={classes.actionIcon}
+                            color="secondary"
+                            onClick={() => openModalDeleteHandler(item.sub_category_id)}
+                          />
                         </Box>
                       </TableCell>
                     </TableRow>

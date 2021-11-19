@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from '@material-ui/core';
 import { Close, Check } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { bidBidProduct } from '../../../slices/bid.slice';
-import { uiActions } from '../../../slices/ui.slice';
+import { bidBidProduct, bidBuyProduct } from '../../../slices/bid.slice';
+import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
 import useStyles from './ConfirmModalPanel.styles';
 
 function ConfirmModalPanel({ onClose }) {
@@ -12,9 +12,29 @@ function ConfirmModalPanel({ onClose }) {
   const product_id = useSelector((state) => state.ui.confirm.product_id);
   const price = useSelector((state) => state.ui.confirm.price);
   const type = useSelector((state) => state.ui.confirm.type);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const buyNowHandler = async () => {
+    setLoading(true);
+    try {
+      await dispatch(
+        bidBuyProduct({
+          product_id: +product_id,
+        })
+      ).unwrap();
+      toast.success('Mua thành công');
+      onClose();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error(error);
+    }
+  };
+
   const bidHandler = async () => {
+    setLoading(true);
+
     try {
       await dispatch(
         bidBidProduct({
@@ -24,8 +44,11 @@ function ConfirmModalPanel({ onClose }) {
       ).unwrap();
 
       toast.success('Đấu giá thành công');
+      onClose();
+      setLoading(false);
     } catch (error) {
       toast.error(error);
+      setLoading(false);
     }
   };
 
@@ -39,7 +62,10 @@ function ConfirmModalPanel({ onClose }) {
     if (type === 'bid') {
       bidHandler();
     }
-    dispatch(uiActions.closeModal());
+
+    if (type === 'buy') {
+      buyNowHandler();
+    }
   };
   return (
     <div className={classes.root}>
@@ -52,13 +78,23 @@ function ConfirmModalPanel({ onClose }) {
         </Typography>
       </Box>
       <Box className={classes.actions}>
-        <Button
-          color="primary"
-          startIcon={<Check style={{ color: '#fff' }} />}
-          variant="contained"
-          onClick={confirmHandler}>
-          Đồng ý
-        </Button>
+        {loading ? (
+          <ButtonLoading
+            fullWidth={false}
+            style={{ margin: '10px auto' }}
+            type="submit"
+            isLoading={loading}>
+            Đồng ý
+          </ButtonLoading>
+        ) : (
+          <Button
+            color="primary"
+            startIcon={<Check style={{ color: '#fff' }} />}
+            variant="contained"
+            onClick={confirmHandler}>
+            Đồng ý
+          </Button>
+        )}
         <Button
           onClick={onClose}
           startIcon={<Close color="primary" />}

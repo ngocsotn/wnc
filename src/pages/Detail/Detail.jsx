@@ -32,7 +32,7 @@ import { useSelector } from 'react-redux';
 import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
 import { useInput } from '../../hooks/use-input';
 import { number } from '../../schemas/common.schema';
-import { bidHistoryPaging, bidBuyProduct, bidBlockUser } from '../../slices/bid.slice';
+import { bidHistoryPaging, bidBlockUser } from '../../slices/bid.slice';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { formatMoney } from '../../utils/formatMoney';
 import socketIOClient from 'socket.io-client';
@@ -118,18 +118,15 @@ function Detail() {
 
     dispatch(uiActions.openModal('openConfirm'));
   };
+  const openBuyPriceConfirmModal = async () => {
+    dispatch(
+      uiActions.setConfirm({
+        type: 'buy',
+        product_id: +id,
+      })
+    );
 
-  const buyNowHandler = async () => {
-    try {
-      await dispatch(
-        bidBuyProduct({
-          product_id: +id,
-        })
-      ).unwrap();
-      toast.success('Mua ngay thành công');
-    } catch (error) {
-      toast.error(error);
-    }
+    dispatch(uiActions.openModal('openConfirm'));
   };
 
   const blockBidderHandler = async (bidder) => {
@@ -467,9 +464,6 @@ function Detail() {
               Giá hiện tại: {formatMoney(productDetail.hidden_price)}đ
             </Typography>
             <Typography variant="h6">Bước giá: {formatMoney(productDetail.step_price)}đ</Typography>
-            <Typography variant="h5" className={classes.detailTitle}>
-              Mô tả sản phẩm
-            </Typography>
 
             {productDetail.buy_price !== 0 && productDetail.hidden_price < productDetail.buy_price && (
               <div className={classes.buyNow}>
@@ -480,12 +474,14 @@ function Detail() {
                   variant="contained"
                   color="primary"
                   className={classes.btnBuy}
-                  onClick={buyNowHandler}>
+                  onClick={openBuyPriceConfirmModal}>
                   Mua ngay
                 </Button>
               </div>
             )}
-
+            <Typography variant="h5" className={classes.detailTitle}>
+              Mô tả sản phẩm
+            </Typography>
             <div className={classes.description}>
               <div dangerouslySetInnerHTML={{ __html: productDetail.detail }} />
             </div>

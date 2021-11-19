@@ -37,8 +37,9 @@ export const categoryUpdateSub = createAsyncThunk(
   'category/categoryUpdateSub',
   async ({ name, sub_category_id, category_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.put(`/sub-category`, { name, sub_category_id, category_id }))
-        .data;
+      await axiosInstance.put(`/sub-category`, { name, sub_category_id, category_id });
+
+      return { name, sub_category_id, category_id };
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -52,7 +53,8 @@ export const categoryDeleteSub = createAsyncThunk(
   'category/categoryDeleteSub',
   async ({ sub_category_id }, { rejectWithValue }) => {
     try {
-      return (await axiosInstance.delete(`/sub-category/${sub_category_id}`)).data;
+      await axiosInstance.delete(`/sub-category/${sub_category_id}`);
+      return { sub_category_id };
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -84,6 +86,7 @@ const subCategorySlice = createSlice({
     data: [],
     page: 0,
     total_page: 0,
+    requesting: false,
   },
   reducers: {
     removeCategoryById: (state, action) => {
@@ -98,9 +101,47 @@ const subCategorySlice = createSlice({
       state.page = page;
       state.total_page = total_page;
     },
-		[categoryGetByPage.pending]: (state) => {},
-		[categoryGetByPage.fulfilled] :(state, action) => {
+    [categoryGetByPage.pending]: (state) => {},
+    [categoryGetByPage.fulfilled]: (state, action) => {
       state.allData = action.payload.data;
+    },
+
+    [categoryAddSub.pending]: (state) => {
+      state.requesting = true;
+    },
+    [categoryDeleteSub.pending]: (state) => {
+      state.requesting = true;
+    },
+    [categoryUpdateSub.pending]: (state) => {
+      state.requesting = true;
+    },
+    [categoryAddSub.rejected]: (state) => {
+      state.requesting = false;
+    },
+    [categoryDeleteSub.rejected]: (state) => {
+      state.requesting = false;
+    },
+    [categoryUpdateSub.rejected]: (state) => {
+      state.requesting = false;
+    },
+
+    [categoryAddSub.fulfilled]: (state, action) => {
+      state.requesting = false;
+    },
+    [categoryDeleteSub.fulfilled]: (state, action) => {
+      state.requesting = false;
+      const { sub_category_id } = action.payload;
+      state.data = state.data.filter((item) => item.sub_category_id !== sub_category_id);
+    },
+
+    [categoryUpdateSub.fulfilled]: (state, action) => {
+      state.requesting = false;
+      const { name, sub_category_id, category_id } = action.payload;
+      state.data = state.data.map((item) =>
+        item.category_id === category_id && item.sub_category_id === sub_category_id
+          ? { ...item, name: name }
+          : item
+      );
     },
   },
 });

@@ -4,6 +4,8 @@ const uiSlice = createSlice({
   name: 'uiSlice',
 
   initialState: {
+    openAddSubCategory: false,
+    openUpdateSubCategory: false,
     openCategory: false,
     openSellerAccept: false,
     openSellerDeny: false,
@@ -30,6 +32,13 @@ const uiSlice = createSlice({
       name: null,
       category_id: null,
     },
+
+    subCategory: {
+      name: null,
+      category_id: null,
+      sub_category_id: null,
+    },
+
     confirm: {
       type: null,
       price: null,
@@ -52,6 +61,8 @@ const uiSlice = createSlice({
       state.openCategory = action.payload;
     },
     openModal: (state, action) => {
+      state.openAddSubCategory = false;
+      state.openUpdateSubCategory = false;
       state.openSellerAccept = false;
       state.openSellerDeny = false;
       state.openConfirm = false;
@@ -66,6 +77,8 @@ const uiSlice = createSlice({
       state[action.payload] = true;
     },
     closeModal: (state) => {
+      state.openAddSubCategory = false;
+      state.openUpdateSubCategory = false;
       state.openCategory = false;
       state.openSellerAccept = false;
       state.openSellerDeny = false;
@@ -102,6 +115,12 @@ const uiSlice = createSlice({
       const { name, category_id } = action.payload;
       state.category.category_id = category_id;
       state.category.name = name;
+    },
+    setSubCategory: (state, action) => {
+      const { name, category_id, sub_category_id } = action.payload;
+      state.subCategory.category_id = category_id;
+      state.subCategory.name = name;
+      state.subCategory.sub_category_id = sub_category_id;
     },
     setConfirm: (state, action) => {
       state.confirm = action.payload;
