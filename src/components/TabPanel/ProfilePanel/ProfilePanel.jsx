@@ -103,7 +103,7 @@ function ProfilePanel() {
             Tổng lượt không thích: {user?.point_dislike || 0}
           </Typography>
           <Typography className={classes.pointArea} component="span" align="right">
-            % điểm bản thân: {(user.point_like / (user.point_dislike + user.point_like)) * 100 || 0}
+            Tỷ lệ đánh giá tốt: {parseInt((user.point_like / (user.point_dislike + user.point_like)) * 100 || 0)}
             %
           </Typography>
         </div>

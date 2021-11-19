@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import { Close, Delete } from '@material-ui/icons';
+import { Close, Check } from '@material-ui/icons';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -54,7 +54,7 @@ function ConfirmModalPanel({ onClose }) {
       <Box className={classes.actions}>
         <Button
           color="primary"
-          startIcon={<Delete style={{ color: '#fff' }} />}
+          startIcon={<Check style={{ color: '#fff' }} />}
           variant="contained"
           onClick={confirmHandler}>
           Đồng ý

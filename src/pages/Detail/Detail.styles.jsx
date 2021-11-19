@@ -143,4 +143,8 @@ export default makeStyles((theme) => ({
   block: {
     color: theme.palette.secondary.main,
   },
+	detailTitle : {
+		paddingTop: theme.spacing(4),
+		fontWeight: 600
+	}
 }));
