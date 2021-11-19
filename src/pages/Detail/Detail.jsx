@@ -32,12 +32,7 @@ import { useSelector } from 'react-redux';
 import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
 import { useInput } from '../../hooks/use-input';
 import { number } from '../../schemas/common.schema';
-import {
-  bidBidProduct,
-  bidHistoryPaging,
-  bidBuyProduct,
-  bidBlockUser,
-} from '../../slices/bid.slice';
+import { bidHistoryPaging, bidBuyProduct, bidBlockUser } from '../../slices/bid.slice';
 import { favoriteCheck, favoriteCreateNew } from '../../slices/favorite.slice';
 import { formatMoney } from '../../utils/formatMoney';
 import socketIOClient from 'socket.io-client';
@@ -456,7 +451,7 @@ function Detail() {
                 <b>
                   {productDetail.bidder?.name}
                   <Link to={`/rate/${productDetail.bidder?.id}`} style={{ color: '#3f51b5' }}>
-                    ({productDetail.bidder?.point_like - productDetail.bidder?.point_dislike} ,
+                    ({productDetail.bidder?.point_like - productDetail.bidder?.point_dislike || 0} ,
                     {parseInt(
                       (productDetail.bidder?.point_like /
                         (productDetail.bidder?.point_dislike + productDetail.bidder?.point_like)) *
@@ -471,10 +466,8 @@ function Detail() {
             <Typography variant="h6">
               Giá hiện tại: {formatMoney(productDetail.hidden_price)}đ
             </Typography>
-						<Typography variant="h6">
-              Bước giá: {formatMoney(productDetail.step_price)}đ
-            </Typography>
-						<Typography variant="h5" className = {classes.detailTitle}>
+            <Typography variant="h6">Bước giá: {formatMoney(productDetail.step_price)}đ</Typography>
+            <Typography variant="h5" className={classes.detailTitle}>
               Mô tả sản phẩm
             </Typography>
 

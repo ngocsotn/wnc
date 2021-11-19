@@ -12,7 +12,7 @@ import moment from 'moment';
 function MyList() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10);
+  const limit = 10;
   const [page, setPage] = useState(0);
   const data = useSelector((state) => state.favorite.data);
   const total_page = useSelector((state) => state.favorite.total_page);
@@ -60,7 +60,11 @@ function MyList() {
                 ? 'continue'
                 : 'expired'
             }
-            imgSrc={item.product?.images?.length > 0 ? item.product.images[0].url : process.env.REACT_APP_BASE_IMAGE}
+            imgSrc={
+              item.product?.images?.length > 0
+                ? item.product.images[0].url
+                : process.env.REACT_APP_BASE_IMAGE
+            }
             totalBid={item.product?.bid_count}
             dateCreated={item.product?.create_at}
             dateEnd={item.product?.expire_at}

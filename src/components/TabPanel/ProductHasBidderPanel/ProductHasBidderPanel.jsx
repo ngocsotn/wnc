@@ -3,7 +3,6 @@ import { Pagination } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { sellerGetProductGetByPage } from '../../../slices/seller.slice';
 import { tradeSelSellerPaging } from '../../../slices/trade.slice';
 import ProductItemV2 from '../../ProductItemV2/ProductItemV2';
 import RequestLoading from '../../UI/RequestLoading/RequestLoading';
@@ -12,7 +11,7 @@ import RequestLoading from '../../UI/RequestLoading/RequestLoading';
 function ProductHasBidderPanel() {
   // const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10);
+  const limit = 10;
   const [page, setPage] = useState(1);
   const data = useSelector((state) => state.trade.data);
   const total_page = useSelector((state) => state.trade.total_page);

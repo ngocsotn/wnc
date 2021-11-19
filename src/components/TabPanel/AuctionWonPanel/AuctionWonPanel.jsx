@@ -11,7 +11,7 @@ import useStyles from './AuctionWonPanel.styles';
 function AuctionWonPanel() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10);
+  const limit = 10;
   const [page, setPage] = useState(1);
   const data = useSelector((state) => state.auctionWon.data);
   const total_page = useSelector((state) => state.auctionWon.total_page);

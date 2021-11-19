@@ -1,16 +1,21 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { categoryGetAll } from '../../slices/category.slice';
+import { uiActions } from '../../slices/ui.slice';
 import useStyles from './Category.styles';
 function Category() {
   const classes = useStyles();
-  const [openCategory, setOpenCategory] = useState(false);
   const category = useSelector((state) => state.category.allData);
-
+  const currentType = useSelector((state) => state.search.type);
+  const order_type = useSelector((state) => state.search.order_type);
+  const order_by = useSelector((state) => state.search.order_by);
+  const status = useSelector((state) => state.search.status);
   const dispatch = useDispatch();
+
+  const openCategory = useSelector((state) => state.ui.openCategory);
 
   const categoryGetAllHandler = useCallback(async () => {
     try {
@@ -21,7 +26,7 @@ function Category() {
   }, [dispatch]);
 
   const openCategoryHandler = () => {
-    setOpenCategory((prevState) => !prevState);
+    dispatch(uiActions.setCategoryModal(!openCategory));
   };
 
   useEffect(() => {
@@ -46,7 +51,10 @@ function Category() {
                     {cat.data?.length > 0 &&
                       cat.data.map((subCat, index) => (
                         <Grid item xs={4} className={classes.cateItem} key={index}>
-                          <Link to={`/category/${subCat.sub_category_id}`}>{subCat.name}</Link>
+                          <Link
+                            to={`/search?q=""&type=${currentType}&order_type=${order_type}&order_by=${order_by}&sub_category_id=${subCat.sub_category_id}&status=${status}`}>
+                            {subCat.name}
+                          </Link>
                         </Grid>
                       ))}
                   </Grid>

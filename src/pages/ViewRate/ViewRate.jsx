@@ -22,7 +22,6 @@ import { viewRateUserPaging } from '../../slices/view-rate.slice';
 
 function ViewRate() {
   const loading = useSelector((state) => state.viewRate.loading);
-  const [category, setCategory] = useState('');
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const count = useSelector((state) => state.viewRate.count);
@@ -52,7 +51,7 @@ function ViewRate() {
       toast.error(error);
       console.log(error);
     }
-  }, [limit, page, category, dispatch, id]);
+  }, [limit, page, dispatch, id]);
 
   return (
     <Section>

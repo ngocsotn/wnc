@@ -8,11 +8,13 @@ import RateItem from '../../RateItem/RateItem';
 import RequestLoading from '../../UI/RequestLoading/RequestLoading';
 import useStyles from './RatePanel.styles';
 function RatePanel() {
+  const limit = 10;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10000);
+
   const [page, setPage] = useState(0);
   const data = useSelector((state) => state.rate.data);
+  const count = useSelector((state) => state.rate.count);
   const total_page = useSelector((state) => state.rate.total_page);
   const loading = useSelector((state) => state.rate.loading);
 
@@ -48,7 +50,11 @@ function RatePanel() {
               seller={item.product.seller.name}
               sellerPoint={item.product.seller.point}
               status={item.product.status === 'off' ? 'done' : 'no'} //on hoặc off
-              imgSrc={item.product.images.length > 0 ? item.product.images[0].url : process.env.REACT_APP_BASE_IMAGE}
+              imgSrc={
+                item.product.images.length > 0
+                  ? item.product.images[0].url
+                  : process.env.REACT_APP_BASE_IMAGE
+              }
               totalBid={item.product.bid_count}
               dateCreated={item.product.create_at}
               dateEnd={item.product.expire_at}
@@ -63,7 +69,7 @@ function RatePanel() {
           ))
         )}
       </div>
-      {total_page > 1 && (
+      {count > 0 && (
         <Pagination
           count={total_page}
           variant="outlined"

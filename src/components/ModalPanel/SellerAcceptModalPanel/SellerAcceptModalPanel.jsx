@@ -4,7 +4,7 @@ import ModalTitle from '../../ModalTitle/ModalTitle';
 import useStyles from './SellerAcceptModalPanel.styles';
 import 'react-quill/dist/quill.snow.css';
 import ButtonLoading from '../../UI/ButtonLoading/ButtonLoading';
-import { ThumbDownAlt, ThumbUpAlt } from '@material-ui/icons';
+import { ThumbUpAlt } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';

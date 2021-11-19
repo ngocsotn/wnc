@@ -10,7 +10,9 @@ import { searchActions, searchProductByPage } from '../../slices/search.slice';
 import useStyles from './Search.styles';
 import Section from '../../components/Section/Section';
 import RequestLoading from '../../components/UI/RequestLoading/RequestLoading';
+import { uiActions } from '../../slices/ui.slice';
 function Search(props) {
+  const limit = 10;
   const classes = useStyles();
   const history = useHistory();
   let search = window.location.search;
@@ -30,8 +32,6 @@ function Search(props) {
   const order_by = useSelector((state) => state.search.order_by);
   const sub_category_id = useSelector((state) => state.search.sub_category_id);
   const status = useSelector((state) => state.search.status);
-
-  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const data = useSelector((state) => state.search.data);
   const total_page = useSelector((state) => state.search.total_page);
@@ -85,7 +85,7 @@ function Search(props) {
         limit,
         page,
         is_self: 0,
-        is_expire: '',
+        is_expire: '""',
         status: urlStatus,
       })
     ).unwrap();
@@ -105,13 +105,19 @@ function Search(props) {
     setPage(value);
   };
 
+  useEffect(() => {
+    dispatch(uiActions.setCategoryModal(false));
+  }, [dispatch, urlSubCategoryId]);
   return (
     <Section>
       <SectionTitle title="Xem sản phẩm theo danh mục/Từ khóa" />
 
-      <Typography align="center" style={{ marginBottom: 10 }}>
-        Kết quả tìm kiếm cho: <b>{query}</b>
-      </Typography>
+      {query !== '""' && query !== "''" && (
+        <Typography align="center" style={{ marginBottom: 10 }}>
+          Kết quả tìm kiếm cho: <b>{query}</b>
+        </Typography>
+      )}
+
       <div className={classes.filter_warp}>
         <div className={classes.filter_item}>
           <Typography component="span">Loại:</Typography>
