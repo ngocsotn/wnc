@@ -89,10 +89,11 @@ function Detail() {
     enteredInput: price,
     inputChangeHandler: priceChangeHandler,
     inputBlurHandler: priceBlurHandler,
-    // inputReset: priceReset,
-    inputIsValid: priceIsValid,
-    hasError: priceHasError,
-  } = useInput(number, 2000);
+    isTouched: priceIsTouched,
+  } = useInput(number, productDetail.hidden_price + productDetail.step_price || 2000);
+
+  const csPriceIsValid = +price >= productDetail.hidden_price + productDetail.step_price;
+  const csPriceHasError = priceIsTouched && !csPriceIsValid;
 
   const getProductByIdHandler = useCallback(
     async (id) => {
@@ -434,9 +435,9 @@ function Detail() {
                     onChange={priceChangeHandler}
                     onBlur={priceBlurHandler}
                     value={price}
-                    error={priceHasError}
+                    error={csPriceHasError}
                   />
-                  <IconButton color="primary" onClick={openConfirmModal} disabled={!priceIsValid}>
+                  <IconButton color="primary" onClick={openConfirmModal} disabled={!csPriceIsValid}>
                     <Gavel />
                   </IconButton>
                 </div>
