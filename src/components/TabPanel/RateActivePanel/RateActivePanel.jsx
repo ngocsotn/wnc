@@ -2,21 +2,21 @@ import { Pagination } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { rateSelfPaging } from '../../../slices/rate.slice';
+import { rateSelfActivePaging } from '../../../slices/rate-active.slice';
 import PanelTitle from '../../PanelTitle/PanelTitle';
 import RateItem from '../../RateItem/RateItem';
 import RequestLoading from '../../UI/RequestLoading/RequestLoading';
-import useStyles from './RatePanel.styles';
-function RatePanel() {
+import useStyles from './RateActivePanel.styles';
+function RateActivePanel() {
   const limit = 10;
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(0);
-  const data = useSelector((state) => state.rate.data);
-  const count = useSelector((state) => state.rate.count);
-  const total_page = useSelector((state) => state.rate.total_page);
-  const loading = useSelector((state) => state.rate.loading);
+  const data = useSelector((state) => state.rateAction.data);
+  const count = useSelector((state) => state.rateAction.count);
+  const total_page = useSelector((state) => state.rateAction.total_page);
+  const loading = useSelector((state) => state.rateAction.loading);
 
   const pageChangeHandler = (event, value) => {
     setPage(value);
@@ -25,10 +25,9 @@ function RatePanel() {
   useEffect(() => {
     try {
       dispatch(
-        rateSelfPaging({
+        rateSelfActivePaging({
           limit,
           page: page + 1,
-          order_by: null,
           oder_type: null,
         })
       ).unwrap();
@@ -38,7 +37,7 @@ function RatePanel() {
   }, [limit, page, dispatch]);
   return (
     <div className={classes.root}>
-      <PanelTitle title="Lịch sử được đánh giá" />
+      <PanelTitle title="Lịch sử đánh giá người khác" />
       <div>
         {loading && data.length === 0 ? (
           <RequestLoading />
@@ -81,4 +80,4 @@ function RatePanel() {
   );
 }
 
-export default RatePanel;
+export default RateActivePanel;

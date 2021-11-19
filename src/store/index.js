@@ -8,6 +8,7 @@ import productSlice from '../slices/product.slice';
 import homeSlice from '../slices/home.slice';
 import favoriteSlice from '../slices/favorite.slice';
 import rateSlice from '../slices/rate.slice';
+import rateActiveSlice from '../slices/rate-active.slice';
 import bidSlice from '../slices/bid.slice';
 import auctionWonSlice from '../slices/auction-won.slice';
 import requestSlice from '../slices/requests.slice';
@@ -27,6 +28,7 @@ export default configureStore({
     home: homeSlice.reducer,
     favorite: favoriteSlice.reducer,
     rate: rateSlice.reducer,
+    rateAction: rateActiveSlice.reducer,
     bid: bidSlice.reducer,
     auctionWon: auctionWonSlice.reducer,
     request: requestSlice.reducer,

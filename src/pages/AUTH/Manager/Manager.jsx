@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, useParams } from 'react-router';
 import RatePanel from '../../../components/TabPanel/RatePanel/RatePanel';
+import RateActivePanel from '../../../components/TabPanel/RateActivePanel/RateActivePanel';
 import ProfileSideBar from '../../../components/ProfileSideBar/ProfileSideBar';
 import Section from '../../../components/Section/Section';
 import AuctionPanel from '../../../components/TabPanel/AuctionPanel/AuctionPanel';
@@ -19,6 +20,7 @@ function Manager() {
     'product',
     'mylist',
     'rate',
+		'rate-active',
     'auction-won',
   ];
   const classes = useStyles();
@@ -42,6 +44,7 @@ function Manager() {
           {slug === 'product' && <ProductPanel />}
           {slug === 'mylist' && <MyList />}
           {slug === 'rate' && <RatePanel />}
+          {slug === 'rate-active' && <RateActivePanel />}
         </div>
       </div>
     </Section>
