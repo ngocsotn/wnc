@@ -71,6 +71,8 @@ function Detail() {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 5000,
       nextArrow: <CustomArrowNext />,
       prevArrow: <CustomArrowPrev />,
     }),
@@ -83,6 +85,8 @@ function Detail() {
       speed: 500,
       arrows: false,
       slidesToShow: 5,
+
+      slidesToScroll: 1,
     }),
     [productDetail]
   );
@@ -432,7 +436,19 @@ function Detail() {
                 <Typography variant="subtitle2" className={classes.seller}>
                   Người bán:{' '}
                   <b>
-                    {productDetail.seller?.name} ({productDetail.seller?.point})
+                    {productDetail.seller?.name}
+
+                    <Link to={`/rate/${productDetail.seller?.id}`} style={{ color: '#3f51b5' }}>
+                      ({productDetail.seller?.point_like - productDetail.seller?.point_dislike || 0}{' '}
+                      ,
+                      {parseInt(
+                        (productDetail.seller?.point_like /
+                          (productDetail.seller?.point_dislike +
+                            productDetail.seller?.point_like)) *
+                          100
+                      ) || 0}
+                      %)
+                    </Link>
                   </b>
                 </Typography>
                 <div className={classes.created}>

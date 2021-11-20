@@ -39,7 +39,7 @@ function VerifyEmail() {
     async (code) => {
       try {
         await dispatch(confirmEmail({ code })).unwrap();
-        toast.success('Verify successfully!!!');
+        toast.success('Xác nhận email thành công');
         history.push(location.state?.from || '/');
       } catch (error) {
         toast.error(error);

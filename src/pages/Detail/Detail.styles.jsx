@@ -10,8 +10,7 @@ export default makeStyles((theme) => ({
     overflow: 'hidden',
     margin: '0 auto',
     marginBottom: theme.spacing(1),
-
-    width: 370,
+    width: '500px',
     maxWidth: '100%',
     '& .slick-slide ': {
       padding: `0  35px`,
@@ -65,13 +64,21 @@ export default makeStyles((theme) => ({
       width: '100%',
       height: '100%',
     },
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2, 1),
+      height: 90,
+    },
   },
   sliderMainImage: {
-    height: 350,
+    height: 300,
+    border: '1px solid #ddd',
+    padding: theme.spacing(1),
+    borderRadius: theme.shape.borderRadius,
     '& img': {
       width: '100%',
       height: '100%',
       objectFit: 'cover',
+      borderRadius: theme.shape.borderRadius,
     },
   },
   section: {
@@ -143,8 +150,8 @@ export default makeStyles((theme) => ({
   block: {
     color: theme.palette.secondary.main,
   },
-	detailTitle : {
-		paddingTop: theme.spacing(4),
-		fontWeight: 600
-	}
+  detailTitle: {
+    paddingTop: theme.spacing(4),
+    fontWeight: 600,
+  },
 }));

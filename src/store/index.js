@@ -17,6 +17,7 @@ import sellerSlice from '../slices/seller.slice';
 import tradeSlice from '../slices/trade.slice';
 import searchSlice from '../slices/search.slice';
 import viewRate from '../slices/view-rate.slice';
+
 export default configureStore({
   reducer: {
     ui: uiSlice.reducer,

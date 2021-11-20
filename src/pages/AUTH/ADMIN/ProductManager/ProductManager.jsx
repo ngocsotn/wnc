@@ -24,16 +24,17 @@ import { categoryGetAll } from '../../../../slices/category.slice';
 import { uiActions } from '../../../../slices/ui.slice';
 import RequestLoading from '../../../../components/UI/RequestLoading/RequestLoading';
 import { formatMoney } from '../../../../utils/formatMoney';
+
 function ProductManager() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listCategory = useSelector((state) => state.category.allData);
   const loading = useSelector((state) => state.product.loading);
+  const count = useSelector((state) => state.product.count);
+  const data = useSelector((state) => state.product.data);
   const [category, setCategory] = useState('');
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const count = useSelector((state) => state.product.count);
-  const data = useSelector((state) => state.product.data);
 
   const rowsPerPageChangeHandler = (event) => {
     setLimit(+event.target.value);
