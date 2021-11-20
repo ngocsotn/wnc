@@ -149,7 +149,7 @@ function Search(props) {
           <Typography component="span">Sắp theo:</Typography>
           <select value={order_by} onChange={changeOrderByHandler}>
             <option value="expire_at">Thời gian kết thúc</option>
-            <option value="price">Giá cả</option>
+            <option value="hidden_price">Giá cả</option>
           </select>
         </div>
 

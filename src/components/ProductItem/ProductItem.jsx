@@ -35,6 +35,11 @@ function ProductItem({
   const history = useHistory();
   const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const currentType = useSelector((state) => state.search.type);
+  const order_type = useSelector((state) => state.search.order_type);
+  const order_by = useSelector((state) => state.search.order_by);
+  const status_search = useSelector((state) => state.search.status);
+
   const addToFavoriteHandler = async () => {
     if (!isAuthenticated) {
       history.push({
@@ -99,12 +104,15 @@ function ProductItem({
       )}
 
       {categoryName ? (
-        <Link to={`/category/${categoryId}`} className={classes.category}>
+        <Link
+          to={`/search?q=""&type=${currentType}&order_type=${order_type}&order_by=${order_by}&sub_category_id=${categoryId}&status=${status_search}`}
+          className={classes.category}>
           {categoryName}
         </Link>
       ) : (
         <></>
       )}
+
       <Link to={`/detail/${productId}`}>
         <div className={classes.top}>
           <div className={classes.image}>
